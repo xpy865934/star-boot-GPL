@@ -1,0 +1,170 @@
+server:
+    port: 8002
+    servlet:
+      context-path: /star/api   #项目的访问路径
+
+spring:
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 100MB
+      max-request-size: 50MB
+  profiles:
+    active: dev
+  aop:
+    proxy-target-class: true
+    auto: true
+
+  datasource:
+    druid:
+      driver-class-name: com.mysql.jdbc.Driver
+      initial-size: 1
+      max-active: 20
+      min-idle: 1
+      max-wait: 60000
+      validation-query: select 'x'
+      validation-query-timeout: 5
+      test-on-borrow: false
+      test-on-return: false
+      test-while-idle: true
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      filter:
+        stat:
+          enabled: true
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: true
+          #db-type: sqlserver
+        slf4j:
+          enabled: true
+          connection-log-enabled: true
+          connection-close-after-log-enabled: true
+          connection-commit-after-log-enabled: true
+          connection-connect-after-log-enabled: true
+          connection-connect-before-log-enabled: true
+          connection-log-error-enabled: true
+          data-source-log-enabled: true
+          result-set-log-enabled: true
+          statement-log-enabled: true
+        wall:
+          enabled: true
+          config:
+            alter-table-allow: false
+            truncate-allow: false
+            drop-table-allow: false
+            #是否允许非以上基本语句的其他语句，缺省关闭，通过这个选项就能够屏蔽DDL
+            none-base-statement-allow: false
+            #检查UPDATE语句是否无where条件，这是有风险的，但不是SQL注入类型的风险
+            update-where-none-check: true
+            #SELECT ... INTO OUTFILE 是否允许，这个是mysql注入攻击的常见手段，缺省是禁止的
+            select-into-outfile-allow: false
+            #是否允许调用Connection.getMetadata方法，这个方法调用会暴露数据库的表信息
+            metadata-allow: true
+            #允许多条sql一起执行
+            multiStatementAllow: true
+            #对被认为是攻击的SQL进行LOG.error输出
+            log-violation: true
+            #对被认为是攻击的SQL抛出SQLExcepton
+            throw-exception: true
+          #db-type: mysql
+      web-stat-filter:
+        enabled: true
+        url-pattern: /*
+        exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*'
+        #你可以配置principalSessionName，使得druid能够知道当前的cookie的用户是谁
+        #principal-cookie-name: admin
+        #你可以配置principalSessionName，使得druid能够知道当前的session的用户是谁
+        #principal-session-name: admin
+        #设置profileEnable能够监控单个url调用的sql列表。
+        profile-enable: true
+        #session统计功能
+        session-stat-enable: false
+        #最大session数
+        session-stat-max-count: 100000
+      stat-view-servlet:
+        #allow: ${GATEWAY_HOST:172.26.114.241}
+        enabled: true
+        login-username: admin
+        login-password: 123654
+        url-pattern: /druid/*
+        #允许清除记录
+        reset-enable: false
+      aop-patterns: com.star.starboot.*.service.*
+  thymeleaf:
+    suffix: .html
+    prefix:  classpath:/templates/
+    cache: false
+file:
+  # 文件上传绝对路径
+  upload-physical-path: /Users/xpy/.Trash
+  #accessKey
+  qiniu-access-key: HKWoHPux-FxGlMmP56fYjfSZMJ9h0sQXuXsOs2du
+  #secretKey
+  qiniu-secret-key: 9s4APD7tshQL24ki13TZaTjMzO1RmbiO60HjmYFK
+  # 空间名称
+  qiniu-bucket-key: qcnt
+
+
+#mybatis
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**Mapper.xml,classpath*:/mapper/**/**Mapper.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: com.star.starboot.*.entity
+  global-config:
+    #主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
+    id-type: 2
+    #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
+    field-strategy: 2
+    #驼峰下划线转换
+    db-column-underline: true
+    #刷新mapper 调试神器
+    refresh-mapper: true
+    #数据库大写下划线转换
+    #capital-mode: true
+    #序列接口实现类配置
+    #key-generator: com.baomidou.springboot.xxx
+    #逻辑删除配置（下面3个配置）
+    logic-delete-value: 0
+    logic-not-delete-value: 1
+    #自定义SQL注入器
+    #sql-injector: com.baomidou.mybatisplus.mapper.LogicSqlInjector
+    #自定义填充策略接口实现
+    #meta-object-handler: com.baomidou.springboot.xxx
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#配置日志
+logging:
+  config: classpath:logback.xml
+  #配置日志文件路径
+#  level:
+#    com.qcnt.qcnt: debug #不同目录下的日志可配置不同级别
+#  path: ./logs
+
+xxl:
+  job:
+    admin:
+      #调度中心部署跟地址：如调度中心集群部署存在多个地址则用逗号分隔。
+      #执行器将会使用该地址进行"执行器心跳注册"和"任务结果回调"。
+      addresses: http://127.0.0.1:8003/xxl-job-admin
+      #分别配置执行器的名称、ip地址、端口号
+      #注意：如果配置多个执行器时，防止端口冲突
+    executor:
+      appname: executorQcnt
+      ip: 127.0.0.1
+      port: 8004
+
+      #执行器运行日志文件存储的磁盘位置，需要对该路径拥有读写权限
+#      logpath: /Users/xpy/Files/projects/qcnt/qcnt_system/data/applogs/xxl-job/jobhandler
+      #执行器Log文件定期清理功能，指定日志保存天数，日志文件过期自动删除。限制至少保持3天，否则功能不生效；
+      #-1表示永不删除
+      logretentiondays: -1
+    accessToken:
+
+getui:
+  appid: iH7B5qjquN9QXr9RVHgJg
+  appKey: CamhrEl0f67Gx3K9Jh2Pi3
+  masterSecret: fXexg4WCxGAqV7hEGVvHf2
+  url: http://sdk.open.api.igexin.com/apiex.htm

@@ -1,0 +1,71 @@
+spring:
+  datasource:
+    druid:
+      url: jdbc:mysql://localhost:13306/star?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=Asia/Shanghai
+      username: root
+      password: xpy778899
+  mail:
+    #邮件服务器地址
+    host:
+    #用户名
+    username:
+    #密码（授权码）
+    password:
+    #默认编码UTF-8
+    default-encoding: utf-8
+    #端口
+    port: 587
+  redis:
+    # Redis数据库索引（默认为0）
+    database: 0
+    # Redis服务器地址
+    host: localhost
+    # Redis服务器连接端口
+    port: 16379
+    # Redis服务器连接密码（默认为空）
+    password:
+    # 连接池最大连接数（使用负值表示没有限制）
+    jedis:
+      pool:
+        max-active: 8
+        # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: -1s
+        # 连接池中的最大空闲连接
+        max-idle: 8
+        # 连接池中的最小空闲连接
+        min-idle: 0
+    # 连接超时时间（毫秒）
+    timeout: 5s
+file:
+  # 文件上传绝对路径
+  upload-physical-path: /home/qcnt_upload
+#fastdfs
+fdfs:
+  soTimeout: 1500
+  connectTimeout: 600
+  thumbImage:             #缩略图生成参数
+    width: 150
+    height: 150
+  trackerList:            #TrackerList参数,支持多个
+    - 10.1.1.240:22122
+    # - 10.1.1.200:22122
+  webServerUrl: http://10.1.1.240:82/
+  httpAntiStealToken: true
+  httpSecretKey: FastDFS20180801
+
+sms:
+  accessId:
+  accessKey:
+  signName:
+  product: Dysmsapi
+  domain: dysmsapi.aliyuncs.com
+
+ureport:
+  fileStoreDir: /home/qcnt_service/Files/ureport
+  datasourceName: qcnt
+
+xxl:
+  job:
+    executor:
+      #执行器运行日志文件存储的磁盘位置，需要对该路径拥有读写权限
+      logpath: /home/qcnt_system/data/applogs/xxl-job/jobhandler

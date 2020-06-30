@@ -2,7 +2,6 @@ package com.star.starboot.common.entity;
 
 import com.baomidou.mybatisplus.annotations.TableField;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
