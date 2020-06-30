@@ -1,3 +1,5 @@
+package com.star.starboot;
+
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
@@ -43,7 +45,7 @@ import java.util.*;
 public class MyCodeGenerate {
     private static String packageName = "com.star.starboot.system";    //文件路径
     private static String authorName = "xpy";     //作者
-    private static String[] table = {"t_company","t_department"};                  //table名字
+    private static String[] table = {"t_dictionary","t_first_dict","t_second_dict","t_roles","t_users"};                  //table名字
     private static String prefix = "t_";                     //table前缀
     private static File file = new File("");
     private static String path = file.getAbsolutePath();
@@ -58,7 +60,7 @@ public class MyCodeGenerate {
                 new GlobalConfig()
                         .setOutputDir(path + "/src/main/java")//输出目录
                         .setFileOverride(true)// 是否覆盖文件
-                        .setActiveRecord(true)// 开启 activeRecord 模式
+                        .setActiveRecord(false)// 开启 activeRecord 模式
                         .setEnableCache(false)// XML 二级缓存
                         .setBaseResultMap(true)// XML ResultMap
                         .setBaseColumnList(true)// XML columList
