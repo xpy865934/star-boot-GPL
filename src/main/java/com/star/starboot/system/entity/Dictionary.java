@@ -52,6 +52,11 @@ public class Dictionary extends AbstractEntity {
      */
     @TableField("DICT_NUM")
     private Integer dictNum;
+    /**
+     * 公司ID
+     */
+    @TableField("COMPANY_ID")
+    private String companyId;
 
 
 }

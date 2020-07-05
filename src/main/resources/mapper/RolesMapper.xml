@@ -30,5 +30,8 @@
         DELETED_CODE,
         ROLE_ID, ROLE_CODE, ROLE_NAME, COMPANY_ID
     </sql>
+    <select id="findByUserIdAndCompany" resultType="com.star.starboot.system.entity.Roles">
+        select re.ROLE_ID,re.ROLE_CODE,re.ROLE_NAME,re.COMPANY_ID from users_roles_department_company re where re.USER_ID = #{userId} and re.COMPANY_ID = #{companyId}
+    </select>
 
 </mapper>

@@ -41,8 +41,8 @@ public class Users extends AbstractEntity {
     /**
      * 用户姓名
      */
-    @TableField("USRE_NAME")
-    private String usreName;
+    @TableField("USER_NAME")
+    private String userName;
     /**
      * 用户性别
      */
@@ -110,6 +110,34 @@ public class Users extends AbstractEntity {
      */
     @TableField("SALT")
     private String salt;
-
-
+    /**
+     * 最后一次的登录时间
+     */
+    @TableField("LAST_LOGIN_DATE")
+    private Date lastLoginDate;
+    /**
+     * 最后一次登录的ip地址
+     */
+    @TableField("LAST_LOGIN_IP")
+    private String lastLoginIp;
+    /**
+     * Uni push 客户端ID
+     */
+    @TableField("CLIENT_ID")
+    private String clientId;
+    /**
+     * uni push appID
+     */
+    @TableField("APP_ID")
+    private String appId;
+    /**
+     * uni push appkey
+     */
+    @TableField("APP_KEY")
+    private String appKey;
+    /**
+     * 是否是注册用户 1 注册用户 0 非注册用户
+     */
+    @TableField("REGISTER")
+    private Integer register;
 }

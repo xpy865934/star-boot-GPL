@@ -37,7 +37,7 @@ import java.util.*;
  * All rights Reserved, Designed By www.xpyvip.top
  *
  * @version V1.0
- * @Package com.qcnt.qcnt
+ * @Package com.star.starboot
  * @Description: 代码生成器
  * @Author: xpy
  * @Date: Created in 2019年06月10日 下午8:12
@@ -45,7 +45,7 @@ import java.util.*;
 public class MyCodeGenerate {
     private static String packageName = "com.star.starboot.system";    //文件路径
     private static String authorName = "xpy";     //作者
-    private static String[] table = {"t_dictionary","t_first_dict","t_second_dict","t_roles","t_users"};                  //table名字
+    private static String[] table = {"t_users_re_roles"};                  //table名字
     private static String prefix = "t_";                     //table前缀
     private static File file = new File("");
     private static String path = file.getAbsolutePath();
