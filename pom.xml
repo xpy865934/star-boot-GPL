@@ -121,26 +121,38 @@
         <!--shiro-->
         <dependency>
             <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-spring-boot-starter</artifactId>
-            <version>1.4.0</version>
+            <artifactId>shiro-spring</artifactId>
+            <version>1.4.1</version>
         </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.apache.shiro</groupId>-->
+            <!--<artifactId>shiro-spring-boot-starter</artifactId>-->
+            <!--<version>1.4.0</version>-->
+        <!--</dependency>-->
         <!-- shiro-redis -->
         <dependency>
             <groupId>org.crazycake</groupId>
             <artifactId>shiro-redis</artifactId>
             <version>3.1.0</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.shiro</groupId>
-                    <artifactId>shiro-core</artifactId>
-                </exclusion>
-            </exclusions>
+            <!--<exclusions>-->
+                <!--<exclusion>-->
+                    <!--<groupId>org.apache.shiro</groupId>-->
+                    <!--<artifactId>shiro-core</artifactId>-->
+                <!--</exclusion>-->
+            <!--</exclusions>-->
         </dependency>
 
         <!-- Redis -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+
+        <!-- Redis-Jedis -->
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>2.9.0</version>
         </dependency>
 
         <!-- Swagger API文档 -->
@@ -220,6 +232,33 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
+        </dependency>
+
+        <!-- aspectj -->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>1.9.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.9.4</version>
+        </dependency>
+
+        <!-- joda-time -->
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>2.10.2</version>
+        </dependency>
+
+        <!-- Gson -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.5</version>
         </dependency>
     </dependencies>
 

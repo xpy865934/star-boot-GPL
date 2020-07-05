@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotations.TableField;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.util.Date;
+
 /**
  * All rights Reserved, Designed By www.xpyvip.top
  *
@@ -31,7 +33,7 @@ public class AbstractEntity {
      * 创建时间
      */
     @TableField("CREATE_AT")
-    private String createAt;
+    private Date createAt;
     /**
      * 更新人
      */
@@ -41,12 +43,12 @@ public class AbstractEntity {
      * 更新时间
      */
     @TableField("UPDATE_AT")
-    private String updateAt;
+    private Date updateAt;
     /**
      * 删除时间
      */
     @TableField("DELETED_AT")
-    private String deletedAt;
+    private Date deletedAt;
     /**
      * 删除人
      */
