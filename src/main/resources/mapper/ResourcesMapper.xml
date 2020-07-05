@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.star.starboot.system.dao.ResourcesMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.star.starboot.system.entity.Resources">
+        <id column="RESOURCES_ID" property="resourcesId" />
+    <result column="PROCESS_STATE" property="processState" />
+    <result column="CREATE_BY" property="createBy" />
+    <result column="CREATE_AT" property="createAt" />
+    <result column="UPDATE_BY" property="updateBy" />
+    <result column="UPDATE_AT" property="updateAt" />
+    <result column="DELETED_AT" property="deletedAt" />
+    <result column="DELETED_BY" property="deletedBy" />
+    <result column="DELETED_CODE" property="deletedCode" />
+        <result column="RESOURCES_NUM" property="resourcesNum" />
+        <result column="RESOURCES_NAME" property="resourcesName" />
+        <result column="RESOURCES_TYPE" property="resourcesType" />
+        <result column="RESOURCES_IMG" property="resourcesImg" />
+        <result column="RESOURCES_DS" property="resourcesDs" />
+        <result column="RESOURCES_MANA" property="resourcesMana" />
+        <result column="PARENT_RESOURCES_NUM" property="parentResourcesNum" />
+        <result column="COMPANY_ID" property="companyId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        PROCESS_STATE,
+        CREATE_BY,
+        CREATE_AT,
+        UPDATE_BY,
+        UPDATE_AT,
+        DELETED_AT,
+        DELETED_BY,
+        DELETED_CODE,
+        RESOURCES_ID, RESOURCES_NUM, RESOURCES_NAME, RESOURCES_TYPE, RESOURCES_IMG, RESOURCES_DS, RESOURCES_MANA, PARENT_RESOURCES_NUM, COMPANY_ID
+    </sql>
+
+</mapper>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.star.starboot.system.dao.UsersMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.star.starboot.system.entity.Users">
+        <id column="USER_ID" property="userId" />
+    <result column="PROCESS_STATE" property="processState" />
+    <result column="CREATE_BY" property="createBy" />
+    <result column="CREATE_AT" property="createAt" />
+    <result column="UPDATE_BY" property="updateBy" />
+    <result column="UPDATE_AT" property="updateAt" />
+    <result column="DELETED_AT" property="deletedAt" />
+    <result column="DELETED_BY" property="deletedBy" />
+    <result column="DELETED_CODE" property="deletedCode" />
+        <result column="USER_CODE" property="userCode" />
+        <result column="USRE_NAME" property="usreName" />
+        <result column="USRE_SEX" property="usreSex" />
+        <result column="DEPARTMENT_ID" property="departmentId" />
+        <result column="COMPANY_POSITION" property="companyPosition" />
+        <result column="BIRTHDAY" property="birthday" />
+        <result column="CREDENTIALS" property="credentials" />
+        <result column="CREDENTIALS_CODE" property="credentialsCode" />
+        <result column="EMAIL" property="email" />
+        <result column="QQ" property="qq" />
+        <result column="WX" property="wx" />
+        <result column="TEL" property="tel" />
+        <result column="PASSWORD" property="password" />
+        <result column="PASSWORD_CHANGE" property="passwordChange" />
+        <result column="WORKING" property="working" />
+        <result column="SALT" property="salt" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        PROCESS_STATE,
+        CREATE_BY,
+        CREATE_AT,
+        UPDATE_BY,
+        UPDATE_AT,
+        DELETED_AT,
+        DELETED_BY,
+        DELETED_CODE,
+        USER_ID, USER_CODE, USRE_NAME, USRE_SEX, DEPARTMENT_ID, COMPANY_POSITION, BIRTHDAY, CREDENTIALS, CREDENTIALS_CODE, EMAIL, QQ, WX, TEL, PASSWORD, PASSWORD_CHANGE, WORKING, SALT
+    </sql>
+    <select id="getUserByUserCodeAndCompanyCode" resultType="com.star.starboot.system.dto.UsersDto">
+        select users.* from t_users users
+        left join t_department department on users.DEPARTMENT_ID = department.DEPARTMENT_ID
+        left join t_company company on department.COMPANY_ID = company.COMPANY_ID
+        where users.DELETED_CODE = 0 and department.DELETED_CODE = 0 and company.DELETED_CODE = 0
+        and users.USER_CODE = #{userCode} and company.COMPANY_CODE = #{companyCode}
+    </select>
+
+</mapper>

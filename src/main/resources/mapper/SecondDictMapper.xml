@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.star.starboot.system.dao.SecondDictMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.star.starboot.system.entity.SecondDict">
+    <result column="PROCESS_STATE" property="processState" />
+    <result column="CREATE_BY" property="createBy" />
+    <result column="CREATE_AT" property="createAt" />
+    <result column="UPDATE_BY" property="updateBy" />
+    <result column="UPDATE_AT" property="updateAt" />
+    <result column="DELETED_AT" property="deletedAt" />
+    <result column="DELETED_BY" property="deletedBy" />
+    <result column="DELETED_CODE" property="deletedCode" />
+        <result column="SECOND_DICT_ID" property="secondDictId" />
+        <result column="DICT_ID" property="dictId" />
+        <result column="FIRST_DICT_ID" property="firstDictId" />
+        <result column="SECOND_CODE" property="secondCode" />
+        <result column="SECOND_NAME" property="secondName" />
+        <result column="SECOND_DS" property="secondDs" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        PROCESS_STATE,
+        CREATE_BY,
+        CREATE_AT,
+        UPDATE_BY,
+        UPDATE_AT,
+        DELETED_AT,
+        DELETED_BY,
+        DELETED_CODE,
+        SECOND_DICT_ID, DICT_ID, FIRST_DICT_ID, SECOND_CODE, SECOND_NAME, SECOND_DS
+    </sql>
+
+</mapper>
