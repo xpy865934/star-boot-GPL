@@ -1,5 +1,6 @@
 package com.star.starboot.system.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -29,7 +30,7 @@ public class Users extends AbstractEntity {
     /**
      * 用户ID
      */
-    @TableId("USER_ID")
+    @TableId(value = "USER_ID", type = IdType.UUID)
     private String userId;
     /**
      * 用户工号

@@ -91,6 +91,11 @@ service.interceptors.response.use(
       return Promise.reject('error')
     }
     if (res.code === 200) {
+      Message({
+        type: 'success',
+        message: res.msg,
+        duration: config.messageDuration
+      })
       return res
     } else {
       // 用户无权限  10004

@@ -32,8 +32,9 @@ const dialogClick = false
 // message 关闭时间
 const messageDuration = 1500
 
-// 默认一家公司时的公司代码
-const defaultCompanyCode = '0001'
+// 默认一家公司时的公司代码和部门代码
+const defaultCompanyCode = '1000'
+const defaultDepartmentCode = '1000-1'
 
 // 分页默认属性
 const pager = { page: '1', rows: 20, total: 0 }
@@ -55,6 +56,7 @@ export default {
   dialogClick,
   messageDuration,
   UREPORT_BASE_API,
-  defaultCompanyCode
+  defaultCompanyCode,
+  defaultDepartmentCode
 }
 </script>

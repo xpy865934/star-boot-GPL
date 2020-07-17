@@ -23,11 +23,16 @@ public class SystemConstant {
 
     public static final String DATE_MONTH_PATTERN = "yyyy-MM";
 
-
     /**
      * 用户禁用
      */
     public static final String USERFORBID = "1";
+
+    /**
+     * 在职
+     */
+    public static final Integer WORKING =1;
+
 
     /**
      * 数据删除标记

@@ -34,6 +34,10 @@ public class Result {
         return Result.create(ResultCode.OK,null);
     }
 
+    public static Result success(String msg) {
+        return Result.create(ResultCode.OK.getCode(),msg,null);
+    }
+
     public static Result success(Object data) {
         return success().setData(data);
     }
