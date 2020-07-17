@@ -18,3 +18,12 @@ export function logout() {
     method: 'post'
   })
 }
+
+/**
+ * 注册
+ * @param params
+ * @returns {*}
+ */
+export function register(params) {
+  return request.post('/common/register', params, true)
+}

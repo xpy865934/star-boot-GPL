@@ -2,23 +2,23 @@
   <div class="app-container">
     <el-collapse v-model="activeNames">
       <el-collapse-item title="机构配置信息" name="1">
-        <el-form ref="form_jgpz" :model="form_jgpz" label-width="400px" size="mini">
+        <el-form ref="form_jgpz" :model="form" label-width="400px" size="mini">
           <el-form-item label="全日制ICU专科医师数">
-            <el-input v-model="form_jgpz.desc" />
+            <el-input v-model="form.icuPhysicianNum" />
           </el-form-item>
           <el-form-item label="ICU床位数">
-            <el-input v-model="form_jgpz.desc" />
+            <el-input v-model="form.icuBedNum" />
           </el-form-item>
           <el-form-item label="ICU护士总数">
-            <el-input v-model="form_jgpz.desc" />
+            <el-input v-model="form.icuNurseNum" />
           </el-form-item>
           <el-form-item label="医院总床位数">
-            <el-input v-model="form_jgpz.desc" />
+            <el-input v-model="form.totalBedNum" />
           </el-form-item>
           <el-form-item>
-            <span><span class="span_label">ICU床位率</span><span class="span_data">12%</span><span class="bank15" /></span>
-            <span><span class="span_label">ICU医师床位比</span><span class="span_data">12%</span><span class="bank15" /></span>
-            <span><span class="span_label">ICU护士床位比</span><span class="span_data">12%</span><span class="bank15" /></span>
+            <span><span class="span_label">ICU床位率</span><span class="span_data">{{ icuBedRate }}</span><span class="bank15" /></span>
+            <span><span class="span_label">ICU医师床位比</span><span class="span_data">{{ form.icuPhysicianBedRate }}</span><span class="bank15" /></span>
+            <span><span class="span_label">ICU护士床位比</span><span class="span_data">{{ form.icuNurseBedRate }}</span><span class="bank15" /></span>
           </el-form-item>
         </el-form>
       </el-collapse-item>
@@ -224,6 +224,11 @@ export default {
         resource: '',
         desc: ''
       }
+    }
+  },
+  computed: {
+    icuBedRate: function() {
+      return ''
     }
   },
   methods: {

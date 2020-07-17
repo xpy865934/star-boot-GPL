@@ -1,12 +1,21 @@
 package com.star.starboot.system.service.impl;
 
-import com.star.starboot.system.dto.UsersDto;
-import com.star.starboot.system.entity.Users;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.star.starboot.common.utils.CommonUtils;
+import com.star.starboot.constant.SystemConstant;
+import com.star.starboot.exception.BusinessException;
+import com.star.starboot.system.dao.DepartmentMapper;
 import com.star.starboot.system.dao.UsersMapper;
+import com.star.starboot.system.dto.UsersDto;
+import com.star.starboot.system.entity.Department;
+import com.star.starboot.system.entity.Users;
+import com.star.starboot.system.service.DepartmentService;
 import com.star.starboot.system.service.UsersService;
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 /**
  * <p>
@@ -22,8 +31,32 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
     @Autowired
     private UsersMapper usersMapper;
 
+    @Autowired
+    private DepartmentMapper departmentMapper;
+
     @Override
     public UsersDto getUserByUserCodeAndCompanyCode(String userCode, String companyCode) {
         return usersMapper.getUserByUserCodeAndCompanyCode(userCode, companyCode);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void register(UsersDto usersDto) {
+        // 生成秘钥和密文
+        String[] encrpty = CommonUtils.encryptPassword(usersDto.getPassword());
+        usersDto.setSalt(encrpty[0]);
+        usersDto.setPassword(encrpty[1]);
+
+        // 判断用户工号是否已经存在
+        UsersDto user = usersMapper.getUserByUserCodeAndCompanyCode(usersDto.getUserCode(), usersDto.getCompanyCode());
+        if(!StringUtils.isEmpty(user)){
+            throw  new BusinessException("用户名已经存在");
+        }
+        usersDto.setWorking(SystemConstant.WORKING);
+
+        // 查询该部门代码的部门id 前端默认部门和组织时使用
+        Department department = departmentMapper.getByCodeAndCompanyCode(usersDto.getDepartmentCode(),usersDto.getCompanyCode());
+        usersDto.setDepartmentId(department.getDepartmentId());
+        usersMapper.insert(usersDto);
     }
 }

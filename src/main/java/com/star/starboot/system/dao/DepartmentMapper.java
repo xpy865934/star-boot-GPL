@@ -1,7 +1,8 @@
 package com.star.starboot.system.dao;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.star.starboot.system.entity.Department;
-import com.baomidou.mybatisplus.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -13,4 +14,11 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  */
 public interface DepartmentMapper extends BaseMapper<Department> {
 
+    /**
+     * 根据部门代码和公司代码获取部门信息
+     * @param departmentCode
+     * @param companyCode
+     * @return
+     */
+    Department getByCodeAndCompanyCode(@Param("departmentCode") String departmentCode, @Param("companyCode") String companyCode);
 }
