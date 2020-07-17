@@ -151,6 +151,6 @@ public class CommonController extends  AbstractController{
     public Result register(@RequestBody UsersDto usersDto){
         usersDto.setRegister(SystemConstant.REGISTER);
         usersService.register(usersDto);
-        return Result.success();
+        return Result.success("注册成功");
     }
 }
