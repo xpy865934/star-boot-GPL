@@ -1,16 +1,15 @@
 package com.star.starboot.system.entity;
 
-import java.util.Date;
-import com.baomidou.mybatisplus.annotations.TableId;
-import com.baomidou.mybatisplus.annotations.TableField;
-import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.star.starboot.common.entity.AbstractEntity;
-
-import com.baomidou.mybatisplus.annotations.Version;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.util.Date;
 
 /**
  * <p>
@@ -31,7 +30,7 @@ public class Users extends AbstractEntity {
     /**
      * 用户ID
      */
-    @TableId("USER_ID")
+    @TableId(value = "USER_ID", type = IdType.UUID)
     private String userId;
     /**
      * 用户工号

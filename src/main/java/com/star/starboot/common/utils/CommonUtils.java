@@ -1,6 +1,10 @@
 package com.star.starboot.common.utils;
 
 import ch.qos.logback.classic.gaffer.PropertyUtil;
+import org.apache.shiro.crypto.SecureRandomNumberGenerator;
+import org.apache.shiro.crypto.hash.DefaultHashService;
+import org.apache.shiro.crypto.hash.HashRequest;
+import org.apache.shiro.util.ByteSource;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -56,5 +60,33 @@ public class CommonUtils {
      */
     public static String getResourcesPath(){
         return Thread.currentThread().getContextClassLoader().getResource("").getPath()+"/";
+    }
+
+
+
+    /**
+     * 根据密码生成随机的盐和密文
+     * @param password
+     * @return
+     */
+    public static String[] encryptPassword(Object password){
+        //生成盐值
+        String salt = new SecureRandomNumberGenerator().nextBytes().toHex();
+        String cipherText = encryptPassword(password, salt);
+        return new String[]{salt, cipherText};
+    }
+
+    /**
+     * 根据密码和盐生成密文
+     * @param password
+     * @return
+     */
+    public static String encryptPassword(Object password, String salt){
+        // 默认算法是SHA-512
+        DefaultHashService hashService = new DefaultHashService();
+        HashRequest request = new HashRequest.Builder().setAlgorithmName("MD5")
+                .setSource(ByteSource.Util.bytes(password)).setSalt(ByteSource.Util.bytes(salt))
+                .setIterations(2).build();
+        return hashService.computeHash(request).toHex();
     }
 }

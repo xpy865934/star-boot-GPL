@@ -2,7 +2,7 @@ package com.star.starboot.system.service;
 
 import com.star.starboot.system.entity.Resources;
 import com.star.starboot.system.entity.RolesReResources;
-import com.baomidou.mybatisplus.service.IService;
+import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
 

@@ -1,9 +1,9 @@
 package com.star.starboot.system.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.star.starboot.system.entity.Resources;
 import com.star.starboot.system.dao.ResourcesMapper;
 import com.star.starboot.system.service.ResourcesService;
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**

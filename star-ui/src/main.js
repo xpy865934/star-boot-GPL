@@ -3,6 +3,7 @@ import Vue from 'vue'
 import 'normalize.css/normalize.css' // A modern alternative to CSS resets
 
 import ElementUI from 'element-ui'
+import { Message } from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import locale from 'element-ui/lib/locale/lang/en' // lang i18n
 
@@ -14,6 +15,22 @@ import router from './router'
 
 import '@/icons' // icon
 import '@/permission' // permission control
+
+import config from '@/config' // config
+
+/**
+ * 注册全局变量
+ */
+Vue.prototype.$config = config
+
+// 重写$messgae
+Vue.prototype.$message = function(data) {
+  Message({
+    type: data.type,
+    message: data.message,
+    duration: config.messageDuration
+  })
+}
 
 /**
  * If you don't want to use mock-server

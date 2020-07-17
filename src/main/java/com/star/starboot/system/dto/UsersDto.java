@@ -22,4 +22,14 @@ public class UsersDto extends Users {
      * 公司ID
      */
     private String companyId;
+
+    /**
+     * 公司代码
+     */
+    private String companyCode;
+
+    /**
+     * 部门代码
+     */
+    private String departmentCode;
 }

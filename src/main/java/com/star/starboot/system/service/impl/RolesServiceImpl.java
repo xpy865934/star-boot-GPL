@@ -1,9 +1,9 @@
 package com.star.starboot.system.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.star.starboot.system.entity.Roles;
 import com.star.starboot.system.dao.RolesMapper;
 import com.star.starboot.system.service.RolesService;
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
