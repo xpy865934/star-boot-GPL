@@ -1,6 +1,6 @@
 <template>
   <div class="login-container">
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
+    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left" :size="$config.formSize">
 
       <div class="title-container">
         <h3 class="title">重症质控上报中心</h3>
@@ -41,7 +41,12 @@
         </span>
       </el-form-item>
 
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
+      <el-row type="flex" justify="center">
+        <el-col :span="6"><el-button :loading="loading" type="primary" :size="$config.buttonSize" @click.native.prevent="handleLogin">登录</el-button></el-col>
+        <el-col :span="6" />
+        <el-col :span="6"><el-button type="primary" plain :size="$config.buttonSize" @click.native.prevent="handleRegister">注册</el-button></el-col>
+      </el-row>
+
     </el-form>
   </div>
 </template>
@@ -101,6 +106,7 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
+          this.loginForm.companyCode = this.$config.defaultCompanyCode
           this.$store.dispatch('user/login', this.loginForm).then(() => {
             this.$router.push({ path: this.redirect || '/' })
             this.loading = false
@@ -112,6 +118,9 @@ export default {
           return false
         }
       })
+    },
+    handleRegister() {
+      this.$router.push({ path: '/register' })
     }
   }
 }
@@ -219,7 +228,7 @@ $light_gray:#eee;
   .show-pwd {
     position: absolute;
     right: 10px;
-    top: 7px;
+    top: 14px;
     font-size: 16px;
     color: $dark_gray;
     cursor: pointer;

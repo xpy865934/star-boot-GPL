@@ -1,5 +1,6 @@
 package com.star.starboot.config.shiro;
 
+import com.star.starboot.common.utils.CommonUtils;
 import com.star.starboot.system.dto.UsersDto;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -36,14 +37,7 @@ public class CredentialsMatcher extends SimpleCredentialsMatcher {
         // 获得数据库中的密码
         Object accountCredentials = getCredentials(info);
 
-        // 默认算法是SHA-512
-        DefaultHashService hashService = new DefaultHashService();
-
-        // 设置加密方式、加密对象、盐值
-        HashRequest request = new HashRequest.Builder().setAlgorithmName("MD5")
-                .setSource(ByteSource.Util.bytes(tokenCredentials)).setSalt(ByteSource.Util.bytes(usersDto.getSalt()))
-                .setIterations(2).build();
-        String tokenPassword = hashService.computeHash(request).toHex();
+        String tokenPassword = CommonUtils.encryptPassword(tokenCredentials,usersDto.getSalt());
 
         // 进行密码的比对
         return super.equals(tokenPassword, accountCredentials);

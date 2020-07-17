@@ -15,6 +15,13 @@ import router from './router'
 import '@/icons' // icon
 import '@/permission' // permission control
 
+import config from '@/config' // config
+
+/**
+ * 注册全局变量
+ */
+Vue.prototype.$config = config
+
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api

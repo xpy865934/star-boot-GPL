@@ -1,7 +1,7 @@
 package com.star.starboot.system.service;
 
 import com.star.starboot.system.entity.FirstDict;
-import com.baomidou.mybatisplus.service.IService;
+import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
  * <p>
