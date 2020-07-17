@@ -31,5 +31,10 @@
         DELETED_CODE,
         DEPARTMENT_ID, DEPARTMENT_CODE, DEPARTMENT_NAME, PARENT_DEPARTMENT_ID, COMPANY_ID
     </sql>
+    <select id="getByCodeAndCompanyCode" resultType="com.star.starboot.system.entity.Department">
+       select dept.* from t_department dept left join t_company company on dept.COMPANY_ID = dept.COMPANY_ID
+        where dept.DELETED_CODE = 0 and company.DELETED_CODE = 0 and dept.DEPARTMENT_CODE = #{departmentCode}
+        and company.COMPANY_CODE = #{companyCode}
+    </select>
 
 </mapper>
