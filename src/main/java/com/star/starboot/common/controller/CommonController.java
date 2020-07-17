@@ -111,7 +111,7 @@ public class CommonController extends  AbstractController{
                 usersService.updateById(users);
 
                 // 获取用户信息，返回该用户是否注册用户  判断需要：IOS
-                Users user = usersService.selectById(userId);
+                Users user = usersService.getById(userId);
                 ((JSONObject) json).put("register", user.getRegister());
 
                 return Result.create(ResultCode.OK, json);
@@ -149,14 +149,8 @@ public class CommonController extends  AbstractController{
     @PostMapping("/register")
     @SysLog(description = "注册用户")
     public Result register(@RequestBody UsersDto usersDto){
-        try {
-            usersDto.setRegister(SystemConstant.REGISTER);
-
-//            sysUserService.save(sysUser);
-            return Result.success();
-        } catch (RuntimeException e){
-            log.error(e.getMessage(),e);
-            return Result.create(ResultCode.ERROR_SAVE_FAILED);
-        }
+        usersDto.setRegister(SystemConstant.REGISTER);
+        usersService.register(usersDto);
+        return Result.success();
     }
 }

@@ -91,7 +91,7 @@ public class SysLogAspect {
                 sysLog.setClient(client);
                 sysLog.setOs(os);
                 //保存数据库
-                sysLogService.insert(sysLog);
+                sysLogService.save(sysLog);
             } catch (Exception e) {
                 //记录本地异常日志
                 log.error("==前置通知异常==");
@@ -130,7 +130,7 @@ public class SysLogAspect {
                 sysLog.setClient(client);
                 sysLog.setOs(os);
                 //保存数据库
-                sysLogService.insert(sysLog);
+                sysLogService.save(sysLog);
             } catch (Exception e) {
                 //记录本地异常日志
                 log.error("==前置通知异常==");

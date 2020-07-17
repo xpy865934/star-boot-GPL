@@ -1,7 +1,7 @@
 package com.star.starboot.system.service;
 
 import com.star.starboot.system.entity.Roles;
-import com.baomidou.mybatisplus.service.IService;
+import com.baomidou.mybatisplus.extension.service.IService;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

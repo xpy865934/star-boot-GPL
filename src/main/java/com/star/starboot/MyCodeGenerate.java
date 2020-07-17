@@ -1,5 +1,8 @@
 package com.star.starboot;
 
+
+
+import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
@@ -7,7 +10,6 @@ import com.baomidou.mybatisplus.generator.config.converts.MySqlTypeConvert;
 import com.baomidou.mybatisplus.generator.config.po.TableFill;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.DbColumnType;
-import com.baomidou.mybatisplus.generator.config.rules.DbType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 
 import java.io.File;
@@ -76,17 +78,17 @@ public class MyCodeGenerate {
                 // 数据源配置
                 new DataSourceConfig()
                         .setDbType(DbType.MYSQL)// 数据库类型
-                        .setTypeConvert(new MySqlTypeConvert() {
-                            // 自定义数据库表字段类型转换【可选】
-                            @Override
-                            public DbColumnType processTypeConvert(String fieldType) {
-                                System.out.println("转换类型：" + fieldType);
-                                // if ( fieldType.toLowerCase().contains( "tinyint" ) ) {
-                                //    return DbColumnType.BOOLEAN;
-                                // }
-                                return super.processTypeConvert(fieldType);
-                            }
-                        })
+//                        .setTypeConvert(new MySqlTypeConvert() {
+//                            // 自定义数据库表字段类型转换【可选】
+//                            @Override
+//                            public DbColumnType processTypeConvert(String fieldType) {
+//                                System.out.println("转换类型：" + fieldType);
+//                                // if ( fieldType.toLowerCase().contains( "tinyint" ) ) {
+//                                //    return DbColumnType.BOOLEAN;
+//                                // }
+//                                return super.processTypeConvert(fieldType);
+//                            }
+//                        })
                         .setDriverName("com.mysql.jdbc.Driver")
                         .setUsername("root")
                         .setPassword("xpy778899")

@@ -1,9 +1,9 @@
 package com.star.starboot.system.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.star.starboot.system.entity.Dictionary;
 import com.star.starboot.system.dao.DictionaryMapper;
 import com.star.starboot.system.service.DictionaryService;
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**

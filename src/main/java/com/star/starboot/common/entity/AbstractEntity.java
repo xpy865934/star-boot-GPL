@@ -1,6 +1,9 @@
 package com.star.starboot.common.entity;
 
-import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.star.starboot.constant.SystemConstant;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -33,6 +36,7 @@ public class AbstractEntity {
      * 创建时间
      */
     @TableField("CREATE_AT")
+    @JsonFormat(pattern = SystemConstant.FULL_DATE_PATTERN)
     private Date createAt;
     /**
      * 更新人
@@ -43,11 +47,13 @@ public class AbstractEntity {
      * 更新时间
      */
     @TableField("UPDATE_AT")
+    @JsonFormat(pattern = SystemConstant.FULL_DATE_PATTERN)
     private Date updateAt;
     /**
      * 删除时间
      */
     @TableField("DELETED_AT")
+    @JsonFormat(pattern = SystemConstant.FULL_DATE_PATTERN)
     private Date deletedAt;
     /**
      * 删除人
@@ -57,6 +63,7 @@ public class AbstractEntity {
     /**
      * 删除标记
      */
+    @TableLogic
     @TableField("DELETED_CODE")
     private String deletedCode;
 }

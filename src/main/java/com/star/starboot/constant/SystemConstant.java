@@ -10,6 +10,19 @@ package com.star.starboot.constant;
  * @Date: Created in 2019年06月11日 下午7:48
  */
 public class SystemConstant {
+    /**
+     * 年月日格式化
+     */
+    public static final String FULL_DATE_PATTERN = "yyyy-MM-dd HH:mm:ss";
+
+    public static final String DATE_PATTERN = "yyyy-MM-dd";
+
+    public static final String DATE_GAPLESS_PATTERN = "yyyyMMdd";
+
+    public static final String DATE_YEAR_PATTERN = "yyyy";
+
+    public static final String DATE_MONTH_PATTERN = "yyyy-MM";
+
 
     /**
      * 用户禁用

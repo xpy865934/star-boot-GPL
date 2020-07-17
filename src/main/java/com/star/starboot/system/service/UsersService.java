@@ -1,9 +1,8 @@
 package com.star.starboot.system.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.star.starboot.system.dto.UsersDto;
 import com.star.starboot.system.entity.Users;
-import com.baomidou.mybatisplus.service.IService;
-import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -22,4 +21,10 @@ public interface UsersService extends IService<Users> {
      * @return
      */
     UsersDto getUserByUserCodeAndCompanyCode(String userCode, String companyCode);
+
+    /**
+     * 注册用户
+     * @param usersDto
+     */
+    void register(UsersDto usersDto);
 }
