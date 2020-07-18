@@ -45,8 +45,8 @@ public class Users extends AbstractEntity {
     /**
      * 用户性别
      */
-    @TableField("USRE_SEX")
-    private String usreSex;
+    @TableField("USER_SEX")
+    private String userSex;
     @TableField("DEPARTMENT_ID")
     private String departmentId;
     /**

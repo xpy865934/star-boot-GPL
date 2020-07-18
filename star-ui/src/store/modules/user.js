@@ -1,12 +1,31 @@
-import { login, logout, getInfo, register } from '@/api/user'
+import { login, register, getUserInfo, loginOut } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
+import { getCurrentBrowser, getOs } from '../../utils/common'
 import { resetRouter } from '@/router'
 
 const getDefaultState = () => {
   return {
+    userCode: '',
+    userName: '',
+    userSex: '',
+    departmentId: '',
+    departmentName: '',
+    companyPosition: '',
+    email: '',
     token: getToken(),
-    name: '',
-    avatar: ''
+    tel: '',
+    departmentCode: '',
+    companyId: '',
+    companyName: '',
+    comapnyCode: '',
+    roles: [],
+    permissions: [],
+    uploadToken: {
+      token: getToken(),
+      client: 'client:' + getCurrentBrowser(),
+      os: 'os:' + getOs()
+    },
+    msgUnReadCount: 0
   }
 }
 
@@ -19,20 +38,57 @@ const mutations = {
   SET_TOKEN: (state, token) => {
     state.token = token
   },
-  SET_NAME: (state, name) => {
-    state.name = name
-  },
-  SET_AVATAR: (state, avatar) => {
-    state.avatar = avatar
+  SET_USER: (state, user) => {
+    if (user.userCode) {
+      state.userCode = user.userCode
+    }
+    if (user.userName) {
+      state.userName = user.userName
+    }
+    if (user.userSex) {
+      state.userSex = user.userSex
+    }
+    if (user.departmentId) {
+      state.departmentId = user.departmentId
+    }
+    if (user.departmentName) {
+      state.departmentName = user.departmentName
+    }
+    if (user.companyPosition) {
+      state.companyPosition = user.companyPosition
+    }
+    if (user.email) {
+      state.email = user.email
+    }
+    if (user.tel) {
+      state.tel = user.tel
+    }
+    if (user.departmentCode) {
+      state.departmentCode = user.departmentCode
+    }
+    if (user.companyId) {
+      state.companyId = user.companyId
+    }
+    if (user.companyName) {
+      state.companyName = user.companyName
+    }
+    if (user.comapnyCode) {
+      state.comapnyCode = user.comapnyCode
+    }
+    if (user.roles) {
+      state.roles = user.roles
+    }
+    if (user.permissions) {
+      state.permissions = user.permissions
+    }
   }
 }
 
 const actions = {
   // user login
   login({ commit }, userInfo) {
-    const { username, password } = userInfo
     return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password })
+      login(userInfo)
         .then(response => {
           const { data } = response
           commit('SET_TOKEN', data.token)
@@ -56,21 +112,18 @@ const actions = {
         })
     })
   },
-  // get user info
-  getInfo({ commit, state }) {
+
+  /**
+   * 根据token获取用户信息
+   * @param {*} param0
+   * @param {*} token
+   */
+  getUserInfo({ commit }) {
     return new Promise((resolve, reject) => {
-      getInfo(state.token)
+      getUserInfo()
         .then(response => {
-          const { data } = response
-
-          if (!data) {
-            reject('Verification failed, please Login again.')
-          }
-
-          const { name, avatar } = data
-
-          commit('SET_NAME', name)
-          commit('SET_AVATAR', avatar)
+          const data = response.data
+          commit('SET_USER', data)
           resolve(data)
         })
         .catch(error => {
@@ -79,28 +132,23 @@ const actions = {
     })
   },
 
-  // user logout
-  logout({ commit, state }) {
+  /**
+   * 登出
+   * @param {*} param0
+   */
+  loginOut({ commit }) {
     return new Promise((resolve, reject) => {
-      logout(state.token)
-        .then(() => {
-          removeToken() // must remove  token  first
-          resetRouter()
-          commit('RESET_STATE')
-          resolve()
-        })
-        .catch(error => {
-          reject(error)
-        })
-    })
-  },
-
-  // remove token
-  resetToken({ commit }) {
-    return new Promise(resolve => {
-      removeToken() // must remove  token  first
-      commit('RESET_STATE')
-      resolve()
+      loginOut().then(response => {
+        removeToken()
+        commit('RESET_STATE')
+        resetRouter()
+        resolve()
+      }).catch(error => {
+        removeToken()
+        commit('RESET_STATE')
+        resetRouter()
+        reject(error)
+      })
     })
   }
 }

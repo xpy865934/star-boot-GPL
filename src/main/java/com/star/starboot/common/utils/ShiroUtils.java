@@ -73,7 +73,6 @@ public class ShiroUtils {
      */
     public UsersDto getUserInfo(){
         String sessionId = request.getHeader("token");
-        boolean status = false;
         SessionKey key = new WebSessionKey(sessionId,request,response);
         try{
             Session se = SecurityUtils.getSecurityManager().getSession(key);

@@ -2,7 +2,6 @@ package com.star.starboot.system.dto;
 
 import com.star.starboot.system.entity.Users;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
@@ -32,4 +31,19 @@ public class UsersDto extends Users {
      * 部门代码
      */
     private String departmentCode;
+
+    /**
+     * 角色
+     */
+    private Object[] roles;
+
+    /**
+     * 权限
+     */
+    private Object[] permissions;
+
+    /**
+     * 用户工号-公司代码   作为主键唯一
+     */
+    private String userCompanyCode;
 }
