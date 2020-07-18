@@ -6,15 +6,15 @@
         <h3 class="title">重症质控上报中心</h3>
       </div>
 
-      <el-form-item prop="username">
+      <el-form-item prop="userCode">
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
         <el-input
-          ref="username"
-          v-model="loginForm.username"
+          ref="userCode"
+          v-model="loginForm.userCode"
           placeholder="用户名"
-          name="username"
+          name="userCode"
           type="text"
           tabindex="1"
           auto-complete="on"
@@ -75,7 +75,7 @@ export default {
         password: ''
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
+        userCode: [{ required: true, trigger: 'blur', validator: validateUsername }],
         password: [{ required: true, trigger: 'blur', validator: validatePassword }]
       },
       loading: false,

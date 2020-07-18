@@ -215,8 +215,8 @@ public class ShiroConfig {
      */
     public RedisManager redisManager() {
         RedisManager redisManager = new RedisManager();
-        redisManager.setHost(redisHost);
-        redisManager.setPort(redisPort);
+        redisManager.setHost(redisHost + ":" + redisPort);
+//        redisManager.setPort(redisPort);
         redisManager.setTimeout(43200); //设置过期时间
         // 如果密码为空，不需要设置，设置了会报错ERR Client sent AUTH, but no password is set
         if(!StringUtils.isEmpty(redisPassword)){

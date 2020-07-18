@@ -37,6 +37,9 @@ const actions = {
   },
   toggleDevice({ commit }, device) {
     commit('TOGGLE_DEVICE', device)
+  },
+  initStore() {
+
   }
 }
 

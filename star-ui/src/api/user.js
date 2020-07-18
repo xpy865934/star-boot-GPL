@@ -1,22 +1,7 @@
 import request from '@/utils/request'
 
 export function login(data) {
-  return request.post('/user/login', data, true)
-}
-
-export function getInfo(token) {
-  return request({
-    url: '/vue-admin-template/user/info',
-    method: 'get',
-    params: { token }
-  })
-}
-
-export function logout() {
-  return request({
-    url: '/vue-admin-template/user/logout',
-    method: 'post'
-  })
+  return request.post('/common/login', data, true)
 }
 
 /**
@@ -26,4 +11,21 @@ export function logout() {
  */
 export function register(params) {
   return request.post('/common/register', params, true)
+}
+
+/**
+ * 获取用户登录信息
+ * @param {*} userCode
+ * @param {*} password
+ * @param {*} cCode
+ */
+export function getUserInfo(params) {
+  return request.post('/users/getUserInfo', params, false)
+}
+
+/**
+ * 用户退出
+ */
+export function loginOut() {
+  return request.get('/common/loginOut', {}, false)
 }
