@@ -126,6 +126,7 @@ public class CommonController extends  AbstractController{
         }catch (DisabledAccountException e){
             return Result.create(ResultCode.USER_DISABLED);
         }catch (Exception e){
+            e.printStackTrace();
             log.error(e.getMessage());
             return Result.create(ResultCode.SYSTEM_ERR);
         }
@@ -135,7 +136,7 @@ public class CommonController extends  AbstractController{
      * 退出登录
      * @return
      */
-    @RequestMapping("/logout")
+    @RequestMapping("/loginOut")
     @SysLog(description = "退出登录")
     public Result logout(){
         SecurityUtils.getSubject().logout();

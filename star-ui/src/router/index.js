@@ -61,14 +61,20 @@ export const constantRoutes = [
       }
     ]
   },
+  // 404 page must be placed at the end !!!
+  { path: '*', redirect: '/404', hidden: true }
+]
 
+export const asyncRoutes = [
   {
     path: '/upload_data',
     component: Layout,
+    access: ['customerInformation'],
     children: [
       {
         path: 'index',
         name: 'upload_data',
+        access: ['customerInformation'],
         component: () => import('@/views/upload_data/index'),
         meta: { title: '数据上报', icon: 'form' }
       }
@@ -78,10 +84,12 @@ export const constantRoutes = [
   {
     path: '/count_data',
     component: Layout,
+    access: ['customerInformation'],
     children: [
       {
         path: 'index',
         name: 'count_data',
+        access: ['customerInformation'],
         component: () => import('@/views/count_data/index'),
         meta: { title: '数据汇总', icon: 'el-icon-notebook-2' }
       }
@@ -91,18 +99,17 @@ export const constantRoutes = [
   {
     path: '/person_data',
     component: Layout,
+    access: ['customerInformation'],
     children: [
       {
         path: 'index',
         name: 'person_data',
+        access: ['customerInformation'],
         component: () => import('@/views/person_data/index'),
         meta: { title: '个人信息', icon: 'el-icon-user-solid' }
       }
     ]
-  },
-
-  // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
+  }
 ]
 
 const createRouter = () => new Router({

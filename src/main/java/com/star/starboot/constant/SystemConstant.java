@@ -31,7 +31,7 @@ public class SystemConstant {
     /**
      * 在职
      */
-    public static final Integer WORKING =1;
+    public static final Integer WORKING =0;
 
 
     /**

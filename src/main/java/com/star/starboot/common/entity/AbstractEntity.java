@@ -7,6 +7,7 @@ import com.star.starboot.constant.SystemConstant;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -20,7 +21,7 @@ import java.util.Date;
  */
 @Data
 @Accessors(chain = true)
-public class AbstractEntity {
+public class AbstractEntity implements Serializable {
 
     /**
      * 流程状态

@@ -8,6 +8,12 @@ import getPageTitle from '@/utils/get-page-title'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
+// permission judge function
+function hasPermission(permissions, permission) {
+  if (!permission) return true
+  return permissions.some(perm => permission.indexOf(perm) >= 0)
+}
+
 const whiteList = ['/login', '/register'] // no redirect whitelist
 
 router.beforeEach(async(to, from, next) => {
@@ -26,22 +32,39 @@ router.beforeEach(async(to, from, next) => {
       next({ path: '/' })
       NProgress.done()
     } else {
-      const hasGetUserInfo = store.getters.name
-      if (hasGetUserInfo) {
-        next()
-      } else {
-        try {
-          // get user info
-          await store.dispatch('user/getInfo')
-
+      if (store.getters.userCode) {
+        // 没有动态改变权限的需求可直接next() 删除下方权限判断 ↓
+        if (hasPermission(store.getters.permissions, to.meta.access)) {
           next()
-        } catch (error) {
-          // remove token and go to login page to re-login
-          await store.dispatch('user/resetToken')
-          Message.error(error || 'Has Error')
-          next(`/login?redirect=${to.path}`)
-          NProgress.done()
+        } else {
+          next({ path: '/401', replace: true, query: { noGoBack: true }})
         }
+      } else {
+        // 判断当前用户是否已拉取完user_info信息
+        store.dispatch('user/getUserInfo')
+          .then(data => {
+            // 拉取user_info
+            const roles = data.roles // note: roles must be a object array! such as: [{id: '1', name: 'editor'}, {id: '2', name: 'developer'}]
+            const permissions = data.permissions // note: roles must be a object array! such as: [{id: '1', name: 'editor'}, {id: '2', name: 'developer'}]
+            store
+              .dispatch('permission/generateRoutes', { roles, permissions })
+              .then(accessRoutes => {
+                // 获取系统中需要初始化的store
+                store.dispatch('app/initStore', { roles, permissions })
+
+                // 根据roles权限生成可访问的路由表
+                router.addRoutes(accessRoutes) // 动态添加可访问路由表
+                next({ ...to, replace: true }) // hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history record
+              })
+          })
+          .catch(err => {
+            store.dispatch('user/loginOut').then(() => {
+              console.log(err)
+              Message.error('获取用户权限信息失败')
+              next(`/login?redirect=${to.path}`)
+              NProgress.done()
+            })
+          })
       }
     }
   } else {
