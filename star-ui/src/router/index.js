@@ -97,12 +97,12 @@ export const asyncRoutes = [
   {
     path: '/person_data',
     component: Layout,
-    access: ['customerInformation'],
+    access: ['personData'],
     children: [
       {
         path: 'index',
         name: 'person_data',
-        access: ['customerInformation'],
+        access: ['personData'],
         component: () => import('@/views/person_data/index'),
         meta: { title: '个人信息', icon: 'el-icon-user-solid' }
       }

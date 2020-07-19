@@ -59,7 +59,6 @@ const permission = {
           accessedRoutes = filterAsyncRoutes(asyncRoutes, roles, permissions)
         }
         commit('SET_ROUTES', accessedRoutes)
-        debugger
         resolve(accessedRoutes)
       })
     }
