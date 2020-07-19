@@ -1,6 +1,6 @@
 import router from './router'
 import store from './store'
-import { Message } from 'element-ui'
+// import { Message } from 'element-ui'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 import { getToken } from '@/utils/auth' // get token from cookie
@@ -59,7 +59,7 @@ router.beforeEach(async(to, from, next) => {
           .catch(err => {
             store.dispatch('user/loginOut').then(() => {
               console.log(err)
-              Message.error('获取用户权限信息失败')
+              // Message.error('获取用户权限信息失败')
               next(`/login?redirect=${to.path}`)
               NProgress.done()
             })

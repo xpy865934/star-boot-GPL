@@ -40,52 +40,52 @@
             <el-input v-model="form.level" />
           </el-form-item>
           <el-form-item label="医院总床位数">
-            <el-input v-model="form.bedTotal" />
+            <el-input v-model.number="form.bedTotal" />
           </el-form-item>
           <el-form-item label="ICU床位数">
-            <el-input v-model="form.icuBedTotal" />
+            <el-input v-model.number="form.icuBedTotal" />
           </el-form-item>
           <el-row style="text-align:center">
             <el-col>全日制ICU专科医师数</el-col>
           </el-row>
           <el-form-item label="ICU主任医师人数">
-            <el-input v-model="form.icuZrys" />
+            <el-input v-model.number="form.icuZrys" />
           </el-form-item>
           <el-form-item label="ICU副主任医师人数">
-            <el-input v-model="form.icuFzrys" />
+            <el-input v-model.number="form.icuFzrys" />
           </el-form-item>
           <el-form-item label="ICU主治医师人数">
-            <el-input v-model="form.icuZzys" />
+            <el-input v-model.number="form.icuZzys" />
           </el-form-item>
           <el-form-item label="ICU住院医师人数">
-            <el-input v-model="form.icuZyys" />
+            <el-input v-model.number="form.icuZyys" />
           </el-form-item>
           <el-form-item label="ICU呼吸治疗师人数">
-            <el-input v-model="form.icuHxzls" />
+            <el-input v-model.number="form.icuHxzls" />
           </el-form-item>
           <el-form-item label="ICU临床药师人数">
-            <el-input v-model="form.icuLcys" />
+            <el-input v-model.number="form.icuLcys" />
           </el-form-item>
           <el-form-item label="ICU物理治疗师人数">
-            <el-input v-model="form.icuWlzl" />
+            <el-input v-model.number="form.icuWlzl" />
           </el-form-item>
           <el-row style="text-align:center">
             <el-col>ICU护士数</el-col>
           </el-row>
           <el-form-item label="ICU主任护师人数">
-            <el-input v-model="form.icuZrhs" />
+            <el-input v-model.number="form.icuZrhs" />
           </el-form-item>
           <el-form-item label="ICU副主任护师人数">
-            <el-input v-model="form.icuFZrhs" />
+            <el-input v-model.number="form.icuFzrhs" />
           </el-form-item>
           <el-form-item label="ICU主管护师人数">
-            <el-input v-model="form.icuZghs" />
+            <el-input v-model.number="form.icuZghs" />
           </el-form-item>
           <el-form-item label="ICU护师人数">
-            <el-input v-model="form.icuHsy" />
+            <el-input v-model.number="form.icuHsy" />
           </el-form-item>
           <el-form-item label="ICU护士人数">
-            <el-input v-model="form.icuHs" />
+            <el-input v-model.number="form.icuHs" />
           </el-form-item>
         </el-collapse-item>
         <el-collapse-item title="质控联络信息" name="3">
@@ -105,6 +105,8 @@
         </el-form-item>
       </el-collapse>
     </el-form>
+    <el-input v-model="ysrs" type="hidden" />
+    <el-input v-model="hsrs" type="hidden" />
   </div>
 </template>
 
@@ -130,6 +132,52 @@ export default {
       // }
     }
   },
+  computed: {
+    ysrs: function() {
+      var total = 0
+      if (!this.$isEmpty(this.form.icuZrys) && this.$isIntNum(this.form.icuZrys)) {
+        total = total + this.form.icuZrys
+      }
+      if (!this.$isEmpty(this.form.icuFzrys) && this.$isIntNum(this.form.icuFzrys)) {
+        total = total + this.form.icuFzrys
+      }
+      if (!this.$isEmpty(this.form.icuZzys) && this.$isIntNum(this.form.icuZzys)) {
+        total = total + this.form.icuZzys
+      }
+      if (!this.$isEmpty(this.form.icuZyys) && this.$isIntNum(this.form.icuZyys)) {
+        total = total + this.form.icuZyys
+      }
+      if (!this.$isEmpty(this.form.icuHxzls) && this.$isIntNum(this.form.icuHxzls)) {
+        total = total + this.form.icuHxzls
+      }
+      if (!this.$isEmpty(this.form.icuLcys) && this.$isIntNum(this.form.icuLcys)) {
+        total = total + this.form.icuLcys
+      }
+      if (!this.$isEmpty(this.form.icuWlzl) && this.$isIntNum(this.form.icuWlzl)) {
+        total = total + this.form.icuWlzl
+      }
+      return total
+    },
+    hsrs: function() {
+      var total = 0
+      if (!this.$isEmpty(this.form.icuZrhs) && this.$isIntNum(this.form.icuZrhs)) {
+        total = total + this.form.icuZrhs
+      }
+      if (!this.$isEmpty(this.form.icuFzrhs) && this.$isIntNum(this.form.icuFzrhs)) {
+        total = total + this.form.icuFzrhs
+      }
+      if (!this.$isEmpty(this.form.icuZghs) && this.$isIntNum(this.form.icuZghs)) {
+        total = total + this.form.icuZghs
+      }
+      if (!this.$isEmpty(this.form.icuHsy) && this.$isIntNum(this.form.icuHsy)) {
+        total = total + this.form.icuHsy
+      }
+      if (!this.$isEmpty(this.form.icuHs) && this.$isIntNum(this.form.icuHs)) {
+        total = total + this.form.icuHs
+      }
+      return total
+    }
+  },
   mounted() {
     this.query()
   },
@@ -138,6 +186,8 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.loading = true
+          this.form.ysrs = this.ysrs
+          this.form.hsrs = this.hsrs
           this.$store.dispatch(this.url, this.form).then(() => {
             this.loading = false
             this.query()

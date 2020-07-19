@@ -181,3 +181,103 @@ export function formatNullToStr(obj) {
 export function isEmpty(obj) {
   return obj === null || obj === 'null' || obj === undefined || obj === 'undefined' || obj.length === 0
 }
+
+/**
+* 校验只要是数字（包含正负整数，0以及正负浮点数）就返回true
+**/
+
+export function isNumber(val) {
+  var regPos = /^\d+(\.\d+)?$/ // 非负浮点数
+  var regNeg = /^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$/ // 负浮点数
+  if (regPos.test(val) && regNeg.test(val)) {
+    return true
+  } else {
+    return false
+  }
+}
+
+/**
+* 校验正负正数就返回true
+**/
+
+export function isIntNum(val) {
+  var regPos = /^\d+$/ // 非负整数
+  var regNeg = /^\-[1-9][0-9]*$/ // 负整数
+  if (regPos.test(val) || regNeg.test(val)) {
+    return true
+  } else {
+    return false
+  }
+}
+
+/**
+ * 格式化为百分比
+ * @param {*}} val
+ */
+export function formatPercent(val) {
+  return (Math.round(val * 10000) / 100).toFixed(2) + '%'
+}
+
+/**
+ * 小数转换为分数（或者比例）  会出现1/3 为3333/10000
+ */
+export function decimalConvert(d, intervalChar) {
+  var has_string = d.toString().search(/[a-zA-Z]/)
+
+  if (has_string !== -1) return '不合法的输入'
+  if (d === parseInt(d)) return d + intervalChar + '1'
+
+  var t = d.toString().includes('.') ? d.toString().replace(/\d+[.]/, '') : 0
+  var b = Math.pow(10, t.toString().replace('-', '').length)
+
+  if (d >= 1) t = +t + (Math.floor(d) * b)
+
+  else if (d <= -1) t = +t + (Math.ceil(d) * b)
+
+  var divisor = (function f(a, b) {
+    return b ? f(b, a % b) : a
+  })(t, b)
+
+  var x = Math.abs(divisor)
+  return (t / x) + intervalChar + (b / x)
+}
+
+/**
+ * 小数转换为分数（或者比例）  不会出现小数比的情况
+ */
+export function appointment(a, b) {
+  var e
+  // 约分操作
+  if (a === 0 || b === 1) return // 如果分子是0或分母是1就不用约分了
+  e = gcd(a, b)
+  a /= e
+  b /= e
+  return a + ':' + b
+}
+
+function gcd(a, b) {
+  // 欧几里德算法
+  return b === 0 ? a : gcd(b, a % b)
+}
+
+/**
+ * 小数转换为分数（或者比例）  小数比的情况  取其中最小的数为1，最大的数除以小的数，保留两位
+ */
+export function decimalPercentConvert(a, b) {
+  if (a === 0 || b === 0) {
+    return
+  }
+  if (b === 1) {
+    return a + ':' + b
+  }
+  if (a === b) {
+    return '1:1'
+  }
+  if (a > b) {
+    const c = (a / b).toFixed(1)
+    return c + ':1'
+  } else {
+    const c = (b / a).toFixed(1)
+    return '1:' + c
+  }
+}
