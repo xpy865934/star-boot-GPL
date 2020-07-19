@@ -11,6 +11,7 @@ import com.star.starboot.person.service.UserBasicInfoService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -38,7 +39,7 @@ public class UserBasicInfoController extends AbstractController {
     @SysLog(description = "保存个人信息")
     public Result save(@RequestBody UserBasicInfo userBasicInfoDto){
         userBasicInfoService.save(userBasicInfoDto);
-        return Result.create(ResultCode.OK);
+        return Result.create(ResultCode.SUCCESS_SAVE);
     }
 
     /**
