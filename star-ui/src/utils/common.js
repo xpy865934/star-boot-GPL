@@ -179,5 +179,5 @@ export function formatNullToStr(obj) {
 }
 
 export function isEmpty(obj) {
-  return !obj && obj !== 0 && typeof arg1 !== 'boolean'
+  return obj === null || obj === 'null' || obj === undefined || obj === 'undefined' || obj.length === 0
 }
