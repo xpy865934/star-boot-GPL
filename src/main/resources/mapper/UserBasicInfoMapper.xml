@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.star.starboot.person.dao.UserBasicInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.star.starboot.person.entity.UserBasicInfo">
+        <result column="PROCESS_STATE" property="processState" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="CREATE_AT" property="createAt" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="UPDATE_AT" property="updateAt" />
+        <result column="DELETED_AT" property="deletedAt" />
+        <result column="DELETED_BY" property="deletedBy" />
+        <result column="DELETED_CODE" property="deletedCode" />
+        <result column="USER_BASIC_INFO_ID" property="userBasicInfoId" />
+        <result column="USER_ID" property="userId" />
+        <result column="PROVINCE" property="province" />
+        <result column="PROVINCE_CODE" property="provinceCode" />
+        <result column="CITY" property="city" />
+        <result column="CITY_CODE" property="cityCode" />
+        <result column="AREA" property="area" />
+        <result column="AREA_CODE" property="areaCode" />
+        <result column="ADDRESS" property="address" />
+        <result column="POSTAL_CODE" property="postalCode" />
+        <result column="LEVEL" property="level" />
+        <result column="BED_TOTAL" property="bedTotal" />
+        <result column="ICU_BED_TOTAL" property="icuBedTotal" />
+        <result column="ICU_ZRYS" property="icuZrys" />
+        <result column="ICU_FZRYS" property="icuFzrys" />
+        <result column="ICU_ZZYS" property="icuZzys" />
+        <result column="ICU_ZYYS" property="icuZyys" />
+        <result column="ICU_HXZLS" property="icuHxzls" />
+        <result column="ICU_LCYS" property="icuLcys" />
+        <result column="ICU_WLZL" property="icuWlzl" />
+        <result column="ICU_ZRHS" property="icuZrhs" />
+        <result column="ICU_FZRHS" property="icuFzrhs" />
+        <result column="ICU_ZGHS" property="icuZghs" />
+        <result column="ICU_HSY" property="icuHsy" />
+        <result column="ICU_HS" property="icuHs" />
+        <result column="LXR_NAME" property="lxrName" />
+        <result column="LXR_TEL" property="lxrTel" />
+        <result column="LXR_EMAIL" property="lxrEmail" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        PROCESS_STATE, CREATE_BY, CREATE_AT, UPDATE_BY, UPDATE_AT, DELETED_AT, DELETED_BY, DELETED_CODE, USER_BASIC_INFO_ID, USER_ID, PROVINCE, PROVINCE_CODE, CITY, CITY_CODE, AREA, AREA_CODE, ADDRESS, POSTAL_CODE, LEVEL, BED_TOTAL, ICU_BED_TOTAL, ICU_ZRYS, ICU_FZRYS, ICU_ZZYS, ICU_ZYYS, ICU_HXZLS, ICU_LCYS, ICU_WLZL, ICU_ZRHS, ICU_FZRHS, ICU_ZGHS, ICU_HSY, ICU_HS, LXR_NAME, LXR_TEL, LXR_EMAIL
+    </sql>
+
+</mapper>

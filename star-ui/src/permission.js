@@ -52,7 +52,6 @@ router.beforeEach(async(to, from, next) => {
                 store.dispatch('app/initStore', { roles, permissions })
 
                 // 根据roles权限生成可访问的路由表
-                debugger
                 router.addRoutes(accessRoutes) // 动态添加可访问路由表
                 next({ ...to, replace: true }) // hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history record
               })

@@ -5,6 +5,8 @@ import com.star.starboot.common.enums.ResultCode;
 import com.star.starboot.common.utils.JsonUtils;
 import com.star.starboot.common.vo.Result;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.AuthorizationException;
+import org.apache.shiro.authz.UnauthenticatedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -48,6 +50,8 @@ public class GlobalExceptionHandler {
     public static String getMsg(Throwable e) {
         if (e instanceof BusinessException) {
             return e.getMessage();
+        } else if(e instanceof AuthorizationException) {
+            return ResultCode.UNAUTHO_ERROR.getMsg();
         } else {
             // 其他异常 直接返回空
             return null;
