@@ -5,7 +5,7 @@ import 'normalize.css/normalize.css' // A modern alternative to CSS resets
 import ElementUI from 'element-ui'
 import { Message } from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import locale from 'element-ui/lib/locale/lang/en' // lang i18n
+import locale from 'element-ui/lib/locale/lang/zh-CN' // lang i18n
 
 import '@/styles/index.scss' // global css
 
@@ -19,6 +19,14 @@ import '@/permission' // permission control
 import config from '@/config' // config
 
 import { isEmpty, isIntNum, isNumber, decimalPercentConvert } from '@/utils/common'
+
+// 自定义组件
+// 分页   // 暂时封装到了表格中，没有单独使用
+// import Pager from './xcomponents/Pager'
+// Vue.use(Pager)
+// 表格
+import XTable from './xcomponents/XTable'
+Vue.use(XTable)
 
 /**
  * 注册全局变量

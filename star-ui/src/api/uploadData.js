@@ -15,3 +15,7 @@ export function upload(data) {
 export function queryByDate(data) {
   return request.post('/uploadData/queryByDate', data, true)
 }
+
+export function queryPager(data) {
+  return request.post('/uploadData/queryPager', data, true)
+}

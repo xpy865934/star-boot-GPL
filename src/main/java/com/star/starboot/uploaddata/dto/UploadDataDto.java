@@ -18,4 +18,8 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class UploadDataDto extends UploadData {
 
+    /**
+     * 上报人姓名
+     */
+    private String userName;
 }
