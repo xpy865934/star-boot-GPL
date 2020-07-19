@@ -46,8 +46,7 @@ router.beforeEach(async(to, from, next) => {
             // 拉取user_info
             const roles = data.roles // note: roles must be a object array! such as: [{id: '1', name: 'editor'}, {id: '2', name: 'developer'}]
             const permissions = data.permissions // note: roles must be a object array! such as: [{id: '1', name: 'editor'}, {id: '2', name: 'developer'}]
-            store
-              .dispatch('permission/generateRoutes', { roles, permissions })
+            store.dispatch('permission/generateRoutes', { roles, permissions })
               .then(accessRoutes => {
                 // 获取系统中需要初始化的store
                 store.dispatch('app/initStore', { roles, permissions })

@@ -1,207 +1,103 @@
 <template>
   <div class="app-container">
-    <el-collapse v-model="activeNames">
-      <el-collapse-item title="医院基本信息" name="1">
-        <el-form ref="form_jgpz" :model="form_jgpz" label-width="400px" size="mini">
+    <el-form ref="form" :model="form" label-width="400px" size="mini">
+      <el-collapse v-model="activeNames">
+
+        <el-collapse-item title="医院基本信息" name="1">
           <el-form-item label="医院名称(中文)">
-            <el-input v-model="form_jgpz.desc" />
+            <el-input v-model="form.userName" />
           </el-form-item>
           <el-form-item label="医院名称(英文)">
-            <el-input v-model="form_jgpz.desc" />
+            <el-input v-model="form.userCode" />
           </el-form-item>
           <el-form-item label="省份">
-            <el-input v-model="form_jgpz.desc" />
+            <el-input v-model="form.province" />
           </el-form-item>
           <el-form-item label="城市">
-            <el-input v-model="form_jgpz.desc" />
+            <el-input v-model="form.city" />
           </el-form-item>
           <el-form-item label="地区">
-            <el-input v-model="form_jgpz.desc" />
+            <el-input v-model="form.area" />
           </el-form-item>
-          <el-form-item>
-            <span><span class="span_label">ICU床位率</span><span class="span_data">12%</span><span class="bank15" /></span>
-            <span><span class="span_label">ICU医师床位比</span><span class="span_data">12%</span><span class="bank15" /></span>
-            <span><span class="span_label">ICU护士床位比</span><span class="span_data">12%</span><span class="bank15" /></span>
+          <el-form-item label="详细地址">
+            <el-input v-model="form.address" />
           </el-form-item>
-        </el-form>
-      </el-collapse-item>
-      <el-collapse-item title="患者收治情况" name="2">
-        <el-form ref="form" :model="form" label-width="400px" size="mini">
-          <el-form-item label="ICU原有病人数">
-            <el-input v-model="form.desc" />
+          <el-form-item label="邮编">
+            <el-input v-model="form.postalCode" />
           </el-form-item>
-          <el-form-item label="ICU新收治病人数">
-            <el-input v-model="form.desc" />
+        </el-collapse-item>
+        <el-collapse-item title="医院ICU基本信息" name="2">
+          <el-row style="text-align:center">
+            <el-col>医院等级及床位数</el-col>
+          </el-row>
+          <el-form-item label="医院等级">
+            <el-input v-model="form.level" />
           </el-form-item>
-          <el-form-item label="ICU收治患者总人数">
-            <el-input v-model="form.desc" />
+          <el-form-item label="医院总床位数">
+            <el-input v-model="form.bedTotal" />
           </el-form-item>
-          <el-form-item label="医院原有病人数">
-            <el-input v-model="form.desc" />
+          <el-form-item label="ICU床位数">
+            <el-input v-model="form.icuBedTotal" />
           </el-form-item>
-          <el-form-item label="医院新收治病人数">
-            <el-input v-model="form.desc" />
+          <el-row style="text-align:center">
+            <el-col>全日制ICU专科医师数</el-col>
+          </el-row>
+          <el-form-item label="ICU主任医师人数">
+            <el-input v-model="form.icuZrys" />
           </el-form-item>
-          <el-form-item label="医院收治患者总人数">
-            <el-input v-model="form.desc" />
+          <el-form-item label="ICU副主任医师人数">
+            <el-input v-model="form.icuFzrys" />
           </el-form-item>
-          <el-form-item>
-            <span><span class="span_label">ICU患者收治率</span><span class="span_data">12%</span><span class="bank15" /></span>
+          <el-form-item label="ICU主治医师人数">
+            <el-input v-model="form.icuZzys" />
           </el-form-item>
-          <el-form-item label="入ICU24小时内，APACHE Ⅱ评分 ≥ 15分患者">
-            <el-input v-model="form.desc" />
+          <el-form-item label="ICU住院医师人数">
+            <el-input v-model="form.icuZyys" />
           </el-form-item>
-          <el-form-item>
-            <span><span class="span_label">急性生理与慢性健康评分（APACHE Ⅱ评分）≥ 15分患者收治率（入ICU24小时内）</span><span class="span_data">12%</span><span class="bank15" /></span>
+          <el-form-item label="ICU呼吸治疗师人数">
+            <el-input v-model="form.icuHxzls" />
           </el-form-item>
-          <el-form-item label="ICU患者收治总床日数">
-            <el-input v-model="form.desc" />
+          <el-form-item label="ICU临床药师人数">
+            <el-input v-model="form.icuLcys" />
           </el-form-item>
-          <el-form-item label="医院收治患者总床日数">
-            <el-input v-model="form.desc" />
+          <el-form-item label="ICU物理治疗师人数">
+            <el-input v-model="form.icuWlzl" />
           </el-form-item>
-          <el-form-item label="">
-            <span><span class="span_label">ICU患者收治床日率</span><span class="span_data">12%</span><span class="bank15" /></span>
+          <el-row style="text-align:center">
+            <el-col>ICU护士数</el-col>
+          </el-row>
+          <el-form-item label="ICU主任护师人数">
+            <el-input v-model="form.icuZrhs" />
           </el-form-item>
-        </el-form>
-      </el-collapse-item>
-      <el-collapse-item title="Sepsis" name="3">
-        <el-form ref="form" :model="form" label-width="400px" size="mini">
-          <el-form-item label="入ICU诊断为Sepsis患者总数">
-            <el-input v-model="form.desc" />
+          <el-form-item label="ICU副主任护师人数">
+            <el-input v-model="form.icuFZrhs" />
           </el-form-item>
-          <el-form-item label="全部完成3h bundle的患者数">
-            <el-input v-model="form.desc" />
+          <el-form-item label="ICU主管护师人数">
+            <el-input v-model="form.icuZghs" />
           </el-form-item>
-          <el-form-item label="全部完成6h bundle的患者数">
-            <el-input v-model="form.desc" />
+          <el-form-item label="ICU护师人数">
+            <el-input v-model="form.icuHsy" />
           </el-form-item>
-          <el-form-item>
-            <span><span class="span_label">感染性休克3h集束化治疗（bundle）完成率</span><span class="span_data">12%</span><span class="bank15" /></span>
+          <el-form-item label="ICU护士人数">
+            <el-input v-model="form.icuHs" />
           </el-form-item>
-          <el-form-item>
-            <span><span class="span_label">感染性休克6h集束化治疗（bundle）完成率</span><span class="span_data">12%</span><span class="bank15" /></span>
+        </el-collapse-item>
+        <el-collapse-item title="质控联络信息" name="3">
+          <el-form-item label="联络人">
+            <el-input v-model="form.lxrName" />
           </el-form-item>
-        </el-form>
-      </el-collapse-item>
-      <el-collapse-item title="抗菌药物" name="4">
-        <el-form ref="form" :model="form" label-width="400px" size="mini">
-          <el-form-item label="治疗性抗菌药物病例总数">
-            <el-input v-model="form.desc" />
+          <el-form-item label="联络手机">
+            <el-input v-model="form.lxrTel" />
           </el-form-item>
-          <el-form-item label="使用抗菌药物前病原学检验标本送检例数">
-            <el-input v-model="form.desc" />
+          <el-form-item label="电子邮箱">
+            <el-input v-model="form.lxrEmail" />
           </el-form-item>
-          <el-form-item>
-            <span><span class="span_label">抗菌药物治疗前病原学送检率</span><span class="span_data">12%</span><span class="bank15" /></span>
-          </el-form-item>
-        </el-form>
-      </el-collapse-item>
-      <el-collapse-item title="DVT" name="5">
-        <el-form ref="form" :model="form" label-width="400px" size="mini">
-          <el-form-item label="采取药物预防、非药物预防DVT措施的病例总数">
-            <el-input v-model="form.desc" />
-          </el-form-item>
-          <el-form-item>
-            <span><span class="span_label">深静脉血栓（DVT）预防率</span><span class="span_data">12%</span><span class="bank15" /></span>
-          </el-form-item>
-        </el-form>
-      </el-collapse-item>
-      <el-collapse-item title="患者病死率" name="6">
-        <el-form ref="form" :model="form" label-width="400px" size="mini">
-          <el-form-item label="临床死亡人数">
-            <el-input v-model="form.desc" />
-          </el-form-item>
-          <el-form-item label="自动出院人数">
-            <el-input v-model="form.desc" />
-          </el-form-item>
-          <el-form-item>
-            <span><span class="span_label">ICU总死亡人数</span><span class="span_data">12%</span><span class="bank15" /></span>
-          </el-form-item>
-          <el-form-item label="ICU收治患者入ICU预计病死率之和">
-            <el-input v-model="form_jgpz.desc" />
-          </el-form-item>
-          <el-form-item>
-            <span><span class="span_label">ICU患者实际病死率</span><span class="span_data">12%</span><span class="bank15" /></span>
-            <span><span class="span_label">ICU患者预计病死率</span><span class="span_data">12%</span><span class="bank15" /></span>
-            <span><span class="span_label">ICU重症患者标化病死指数（Standardized Mortality Ratio）</span><span class="span_data">12%</span><span class="bank15" /></span>
-          </el-form-item>
-        </el-form>
-      </el-collapse-item>
-      <el-collapse-item title="非计划转入和重返事件" name="7">
-        <el-form ref="form" :model="form" label-width="400px" size="mini">
-          <el-form-item label="非计划转入ICU患者数（术后）">
-            <el-input v-model="form.desc" />
-          </el-form-item>
-          <el-form-item label="转入ICU患者总数（术后）">
-            <el-input v-model="form.desc" />
-          </el-form-item>
-          <el-form-item label="转出ICU后48h内重返ICU患者数">
-            <el-input v-model="form.desc" />
-          </el-form-item>
-          <el-form-item label="ICU转出患者总数">
-            <el-input v-model="form.desc" />
-          </el-form-item>
-          <el-form-item>
-            <span><span class="span_label">非计划转入ICU率</span><span class="span_data">12%</span><span class="bank15" /></span>
-            <span><span class="span_label">转出ICU后48h内重返率</span><span class="span_data">12%</span><span class="bank15" /></span>
-          </el-form-item>
-        </el-form>
-      </el-collapse-item>
-      <el-collapse-item title="气管插管事件" name="8">
-        <el-form ref="form" :model="form" label-width="400px" size="mini">
-          <el-form-item label="非计划气管插管脱出次数">
-            <el-input v-model="form.desc" />
-          </el-form-item>
-          <el-form-item label="ICU患者气管插管总例数">
-            <el-input v-model="form.desc" />
-          </el-form-item>
-          <el-form-item>
-            <span><span class="span_label">非计划气管插管拔管率</span><span class="span_data">12%</span><span class="bank15" /></span>
-          </el-form-item>
-          <el-form-item label="计划拔管后48h内再插管例数">
-            <el-input v-model="form.desc" />
-          </el-form-item>
-          <el-form-item label="ICU患者气管插管拔管总例数(不包括非计划拔管患者)">
-            <el-input v-model="form.desc" />
-          </el-form-item>
-          <el-form-item>
-            <span><span class="span_label">气管插管拔管后48h内再插管率</span><span class="span_data">12%</span><span class="bank15" /></span>
-          </el-form-item>
-        </el-form>
-      </el-collapse-item>
-      <el-collapse-item title="三管感染率" name="9">
-        <el-form ref="form" :model="form" label-width="400px" size="mini">
-          <el-form-item label="ICU呼吸机相关肺炎病人总例数">
-            <el-input v-model="form.desc" />
-          </el-form-item>
-          <el-form-item label="ICU总机械通气天数">
-            <el-input v-model="form.desc" />
-          </el-form-item>
-          <el-form-item>
-            <span><span class="span_label">ICU呼吸机相关性肺炎（VAP）发病率</span><span class="span_data">12%</span><span class="bank15" /></span>
-          </el-form-item>
-          <el-form-item label="ICU中心静脉导管相关性血流感染总例数">
-            <el-input v-model="form.desc" />
-          </el-form-item>
-          <el-form-item label="ICU中心静脉导管总天数">
-            <el-input v-model="form.desc" />
-          </el-form-item>
-          <el-form-item>
-            <span><span class="span_label">ICU血管内导管相关血流感染（CRBSI）发病率</span><span class="span_data">12%</span><span class="bank15" /></span>
-          </el-form-item>
-          <el-form-item label="ICU导尿管相关泌尿系统感染总例数">
-            <el-input v-model="form.desc" />
-          </el-form-item>
-          <el-form-item label="ICU尿管留置总天数">
-            <el-input v-model="form.desc" />
-          </el-form-item>
-          <el-form-item>
-            <span><span class="span_label">ICU导尿管相关泌尿系感染（CAUTI）发病率</span><span class="span_data">12%</span><span class="bank15" /></span>
-          </el-form-item>
-        </el-form>
-      </el-collapse-item>
-    </el-collapse>
+        </el-collapse-item>
+        <el-form-item style="margin-left:0;text-align:center">
+          <el-button type="primary" :loading="loading" @click="submitForm">保存</el-button>
+        </el-form-item>
+      </el-collapse>
+    </el-form>
   </div>
 </template>
 
@@ -209,26 +105,25 @@
 export default {
   data() {
     return {
-      form: {
-        name: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: ''
-      }
+      activeNames: ['1', '2', '3'],
+      form: {},
+      loading: false
     }
   },
   methods: {
-    onSubmit() {
-      this.$message('submit!')
-    },
-    onCancel() {
-      this.$message({
-        message: 'cancel!',
-        type: 'warning'
+    submitForm() {
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          this.loading = true
+          this.$store.dispatch('person/save', this.form).then(() => {
+            this.loading = false
+          }).catch(() => {
+            this.loading = false
+          })
+        } else {
+          console.log('error submit!!')
+          return false
+        }
       })
     }
   }
@@ -238,6 +133,24 @@ export default {
 <style scoped>
 .line{
   text-align: center;
+}
+span.bank2
+{
+ padding-left:2px;
+}
+span.bank5
+{
+ padding-left:5px;
+}
+span.bank15
+{
+ padding-left:15px;
+}
+.span_label{
+  font-weight: bold;color: blue;
+}
+.span_data{
+  font-style: italic;color: red;font-weight: bold;
 }
 </style>
 

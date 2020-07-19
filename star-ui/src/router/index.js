@@ -60,9 +60,7 @@ export const constantRoutes = [
         meta: { title: '首页', icon: 'dashboard' }
       }
     ]
-  },
-  // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
+  }
 ]
 
 export const asyncRoutes = [
@@ -99,17 +97,19 @@ export const asyncRoutes = [
   {
     path: '/person_data',
     component: Layout,
-    access: ['customerInformation'],
+    access: ['personData'],
     children: [
       {
         path: 'index',
         name: 'person_data',
-        access: ['customerInformation'],
+        access: ['personData'],
         component: () => import('@/views/person_data/index'),
         meta: { title: '个人信息', icon: 'el-icon-user-solid' }
       }
     ]
-  }
+  },
+  // 404 page must be placed at the end !!!
+  { path: '*', redirect: '/404', hidden: true }
 ]
 
 const createRouter = () => new Router({
