@@ -1,7 +1,10 @@
 package com.star.starboot.uploaddata.controller;
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.star.starboot.annotation.SysLog;
 import com.star.starboot.common.controller.AbstractController;
 import com.star.starboot.common.enums.ResultCode;
@@ -72,6 +75,21 @@ public class UploadDataController extends AbstractController {
     }
 
     /**
+     * 分页获取上报信息
+     * @return
+     */
+    @PostMapping("/queryPager")
+    @RequiresPermissions("uploadDataQueryPager")
+    @SysLog(description = "分页获取上报信息")
+    public Result queryPager(@RequestBody JSONObject param){
+            Integer current = param.getInteger("current");
+            Integer size = param.getInteger("size");
+            UploadDataDto uploadDataDto = param.getObject("bean", UploadDataDto.class);
+            IPage<UploadDataDto> list = uploadDataService.queryPager(uploadDataDto,current,size);
+            return Result.success(list);
+    }
+
+    /**
      * 上报ICU信息
      * @return
      */
@@ -82,6 +100,7 @@ public class UploadDataController extends AbstractController {
         UsersDto userInfo = ShiroUtils.build().getUserInfo();
         uploadDataDto.setUpdateAt(new Date());
         uploadDataDto.setUpdateBy(userInfo.getUserId());
+        uploadDataDto.setUserId(userInfo.getUserId());
         uploadDataDto.setSbsj(new Date());
         uploadDataService.saveOrUpdate(uploadDataDto);
         return Result.create(ResultCode.SUCCESS_UPLOAD);
@@ -122,7 +141,7 @@ public class UploadDataController extends AbstractController {
                 }
             }
         }
-        return Result.create(ResultCode.OK,uploadDataDto);
+        return Result.success(uploadDataDto);
     }
 }
 

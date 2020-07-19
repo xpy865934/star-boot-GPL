@@ -1,7 +1,10 @@
 package com.star.starboot.uploaddata.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.star.starboot.uploaddata.dao.UploadDataMapper;
+import com.star.starboot.uploaddata.dto.UploadDataDto;
 import com.star.starboot.uploaddata.entity.UploadData;
 import com.star.starboot.uploaddata.service.UploadDataService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,5 +29,10 @@ public class UploadDataServiceImpl extends ServiceImpl<UploadDataMapper, UploadD
     @Override
     public UploadData queryByDate(Date createAt) {
         return uploadDataMapper.queryByDate(createAt);
+    }
+
+    @Override
+    public IPage<UploadDataDto> queryPager(UploadDataDto uploadDataDto, Integer current, Integer size) {
+        return uploadDataMapper.queryPage(new Page(current, size), uploadDataDto);
     }
 }
