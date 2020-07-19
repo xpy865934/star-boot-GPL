@@ -13,7 +13,10 @@ public enum ResultCode {
     /**
      * OK
      */
-    OK(200, "成功"),
+    OK(200, ""),
+    USER_INFO_LOSE_ERROR(10005, "登录信息失效，请重新登录"),
+    NOT_EXIST_USER_OR_ERROR_PWD(10000, "该用户不存在或密码错误"),
+    SUCCESS_SAVE(200, "保存成功！"),
     SIGN_ERROR(120, "签名错误"),
     TIME_OUT(130, "访问超时"),
     BAD_REQUEST(400, "参数解析失败"),
@@ -21,12 +24,10 @@ public enum ResultCode {
     INVALID_CLIENTID(402, "无效的密钥"),
     METHOD_NOT_ALLOWED(405, "不支持当前请求方法"),
     SYSTEM_ERR(500, "服务器运行异常"),
-    NOT_EXIST_USER_OR_ERROR_PWD(10000, "该用户不存在或密码错误"),
     LOGINED_IN(10001, "该用户已登录"),
     NOT_EXIST_BUSINESS(10002, "该商家不存在"),
     SHIRO_ERROR(10003, "登录异常"),
     UNAUTHO_ERROR(10004, "您没有该权限"),
-    USER_INFO_LOSE_ERROR(10005, "登录信息失效，请重新登录"),
     BIND_PHONE(10010, "请绑定手机号"),
     UPLOAD_ERROR(20000, "上传文件异常"),
     INVALID_CAPTCHA(30005, "无效的验证码"),
