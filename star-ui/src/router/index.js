@@ -67,12 +67,12 @@ export const asyncRoutes = [
   {
     path: '/upload_data',
     component: Layout,
-    access: ['customerInformation'],
+    access: ['uploadData'],
     children: [
       {
         path: 'index',
         name: 'upload_data',
-        access: ['customerInformation'],
+        access: ['uploadData'],
         component: () => import('@/views/upload_data/index'),
         meta: { title: '数据上报', icon: 'form' }
       }

@@ -18,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
+
 /**
  * <p>
  * 用户基本信息 前端控制器
@@ -44,6 +46,7 @@ public class UserBasicInfoController extends AbstractController {
     public Result save(@RequestBody UserBasicInfo userBasicInfoDto){
         UsersDto userInfo = ShiroUtils.build().getUserInfo();
         userBasicInfoDto.setUserId(userInfo.getUserId());
+        userBasicInfoDto.setCreateBy(userInfo.getUserId());
         userBasicInfoService.saveOrUpdate(userBasicInfoDto);
         return Result.create(ResultCode.SUCCESS_SAVE);
     }
@@ -56,8 +59,11 @@ public class UserBasicInfoController extends AbstractController {
     @RequiresPermissions("userBasicInfoUpdate")
     @SysLog(description = "修改个人信息")
     public Result update(@RequestBody UserBasicInfoDto userBasicInfoDto){
+        UsersDto userInfo = ShiroUtils.build().getUserInfo();
+        userBasicInfoDto.setUpdateAt(new Date());
+        userBasicInfoDto.setUpdateBy(userInfo.getUserId());
         userBasicInfoService.saveOrUpdate(userBasicInfoDto);
-        return Result.create(ResultCode.OK);
+        return Result.create(ResultCode.SUCCESS_SAVE);
     }
 
     /**

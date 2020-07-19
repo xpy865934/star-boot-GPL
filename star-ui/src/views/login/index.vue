@@ -141,6 +141,8 @@ export default {
                 }).catch(() => {
                   this.$router.push({ path: this.redirect || '/' })
                 })
+              } else {
+                this.$router.push({ path: this.redirect || '/' })
               }
             })
           }).catch(() => {

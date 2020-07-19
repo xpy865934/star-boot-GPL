@@ -160,5 +160,15 @@ public class UserBasicInfo extends AbstractEntity {
      */
     @TableField("LXR_EMAIL")
     private String lxrEmail;
+    /**
+     * 医师人数
+     */
+    @TableField("YSRS")
+    private Integer ysrs;
+    /**
+     * 护士人数
+     */
+    @TableField("HSRS")
+    private Integer hsrs;
 
 }
