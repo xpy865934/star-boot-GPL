@@ -39,8 +39,9 @@
         re.RESOURCES_DS,
         re.RESOURCES_MANA,
         re.PARENT_RESOURCES_NUM,
+        re.RESOURCES_CODE,
         re.COMPANY_ID
-        from t_roles_re_resources re where re.ROLE_ID = #{roleId}
+        from roles_resources re where re.ROLE_ID = #{roleId}
     </select>
 
 </mapper>
