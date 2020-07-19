@@ -5,19 +5,25 @@
 
         <el-collapse-item title="医院基本信息" name="1">
           <el-form-item label="医院名称(中文)">
-            <el-input v-model="form.userName" />
+            <el-input v-model="form.userName" disabled />
           </el-form-item>
           <el-form-item label="医院名称(英文)">
-            <el-input v-model="form.userCode" />
+            <el-input v-model="form.userCode" disabled />
           </el-form-item>
-          <el-form-item label="省份">
-            <el-input v-model="form.province" />
-          </el-form-item>
-          <el-form-item label="城市">
-            <el-input v-model="form.city" />
-          </el-form-item>
-          <el-form-item label="地区">
-            <el-input v-model="form.area" />
+          <el-form-item
+            label="省市区"
+            prop="proviceSelect"
+          >
+            <el-cascader
+              v-model="form.proviceSelect"
+              :options="areaData"
+              :change-on-select="true"
+              :clearable="true"
+              :filterable="true"
+              placeholder="请选择"
+              :style="{ width: this.$config.formFieldWidth }"
+              @change="handleChange"
+            />
           </el-form-item>
           <el-form-item label="详细地址">
             <el-input v-model="form.address" />
@@ -95,6 +101,7 @@
         </el-collapse-item>
         <el-form-item style="margin-left:0;text-align:center">
           <el-button type="primary" :loading="loading" @click="submitForm">保存</el-button>
+          <el-button type="primary" :loading="loading" @click="reset">取消</el-button>
         </el-form-item>
       </el-collapse>
     </el-form>
@@ -102,21 +109,38 @@
 </template>
 
 <script>
+import { regionData, CodeToText } from 'element-china-area-data'
 export default {
   data() {
     return {
       activeNames: ['1', '2', '3'],
       form: {},
-      loading: false
+      loading: false,
+      areaData: regionData,
+      url: '',
+      urlList: {
+        add: 'person/save',
+        update: 'person/update',
+        query: 'person/query'
+      }
+
+      // loginRules: {
+      //   userCode: [{ required: true, trigger: 'blur', validator: validateUsername }],
+      //   password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+      // }
     }
+  },
+  mounted() {
+    this.query()
   },
   methods: {
     submitForm() {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.loading = true
-          this.$store.dispatch('person/save', this.form).then(() => {
+          this.$store.dispatch(this.url, this.form).then(() => {
             this.loading = false
+            this.query()
           }).catch(() => {
             this.loading = false
           })
@@ -125,6 +149,66 @@ export default {
           return false
         }
       })
+    },
+    reset() {
+      this.loading = true
+      this.$store.dispatch(this.urlList.query, this.form).then((data) => {
+        this.form = data
+        if (data.userBasicInfoId) {
+          this.url = this.urlList.update
+        } else {
+          this.url = this.urlList.add
+        }
+        this.loading = false
+      }).catch(() => {
+        this.loading = false
+      })
+    },
+    query() {
+      this.$store.dispatch(this.urlList.query, this.form).then((data) => {
+        this.form = data
+
+        // 处理省市区
+        const proviceSelect = []
+        if (data.provinceCode) {
+          proviceSelect.push(data.provinceCode)
+        }
+        if (data.cityCode) {
+          proviceSelect.push(data.cityCode)
+        }
+        if (data.areaCode) {
+          proviceSelect.push(data.areaCode)
+        }
+        this.$set(this.form, 'proviceSelect', proviceSelect)
+
+        if (data.userBasicInfoId) {
+          this.url = this.urlList.update
+        } else {
+          this.url = this.urlList.add
+        }
+      }).catch(() => {
+
+      })
+    },
+
+    /**
+     * 处理省市区选择
+     */
+    handleChange(val) {
+      if (val) {
+        if (val[0]) {
+          this.form.province = CodeToText[val[0]]
+          this.form.provinceCode = val[0]
+        }
+        if (val[1]) {
+          this.form.city = CodeToText[val[1]]
+          this.form.cityCode = val[1]
+        }
+        if (val[2]) {
+          this.form.area = CodeToText[val[2]]
+          this.form.areaCode = val[2]
+        }
+      }
     }
   }
 }

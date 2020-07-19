@@ -18,10 +18,13 @@ import '@/permission' // permission control
 
 import config from '@/config' // config
 
+import { isEmpty } from '@/utils/common'
+
 /**
  * 注册全局变量
  */
 Vue.prototype.$config = config
+Vue.prototype.$isEmpty = isEmpty
 
 // 重写$messgae
 Vue.prototype.$message = function(data) {
