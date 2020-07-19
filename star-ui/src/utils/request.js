@@ -4,7 +4,7 @@ import store from '@/store'
 import router from '@/router'
 import config from '@/config' // config
 import { getToken } from '@/utils/auth'
-import { getCurrentBrowser, getOs } from './common'
+import { getCurrentBrowser, getOs, isEmpty } from './common'
 
 const request = {}
 
@@ -91,11 +91,13 @@ service.interceptors.response.use(
       return Promise.reject('error')
     }
     if (res.code === 200) {
-      // Message({
-      //   type: 'success',
-      //   message: res.msg,
-      //   duration: config.messageDuration
-      // })
+      if (!isEmpty(res.msg)) {
+        Message({
+          type: 'success',
+          message: res.msg,
+          duration: config.messageDuration
+        })
+      }
       return res
     } else {
       // 用户无权限  10004
