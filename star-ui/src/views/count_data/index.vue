@@ -40,15 +40,20 @@
       @handleIndexChange="handleIndexChange"
       @handleSelectionChange="handleSelectionChange"
     />
+    <count-data-dialog ref="viewCountDialog" :row="editRow" :add-row-visible="addRowVisible" @update="viewUpdate(arguments)" />
   </div>
 </template>
 
 <script>
+import countDataDialog from './count_data_dialog'
 export default {
+  components: { countDataDialog },
   data() {
     return {
       activeNames: ['1'],
       searchForm: {},
+      editRow: {},
+      addRowVisible: false,
       // 表格数据
       tableData: [],
       // table 的参数
@@ -90,14 +95,17 @@ export default {
           {
             // 查看
             label: '查看',
-            type: 'primary',
+            type: 'text',
             show: true,
-            icon: 'el-icon-view',
+            // icon: 'el-icon-view',
             method: (index, row) => {
               // 查看
-              this.editRow = row
-              this.addRowVisible = true
-              this.addRowDisabled = true
+              this.$store.dispatch('uploadData/queryByDate', { sbsj: row.sbsj }).then((data) => {
+                this.editRow = data
+                this.addRowVisible = true
+              }).catch(() => {
+
+              })
             }
           }
         ]
@@ -173,7 +181,16 @@ export default {
     /**
      * 选中
      */
-    handleSelectionChange(val) {}
+    handleSelectionChange(val) {},
+    viewUpdate(value) {
+      // 将值拷贝一份，否则下方的更新可能会影响值
+      const val = JSON.parse(JSON.stringify(value))
+      // 第一个参数是显不显示对话框
+      this.addRowVisible = val[0]
+      // 清空
+      this.editRow = {} // 需要置空，否则会导致页面清空，但是变量里面的数据还在
+      this.$refs.viewCountDialog.clearFields()
+    }
   }
 }
 </script>

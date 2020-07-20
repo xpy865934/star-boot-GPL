@@ -1,9 +1,6 @@
 <template>
-  <div class="app-container">
+  <el-dialog class="xpy_dialog" :title="title" :visible="addRowVisible" :width="dialogWidth" :close-on-press-escape="dialogEsc" :close-on-click-modal="dialogClick" :before-close="beforClose">
     <el-form ref="form" :model="form" label-width="400px" size="mini">
-      <el-row>
-        <el-col style="text-align:right">本月：<el-tag :type="form.qrbj == 1 ? 'success': 'error' ">{{ form.qrbj == 1 ? '已上报': '未上报' }}</el-tag></el-col>
-      </el-row>
       <el-collapse v-model="activeNames">
         <el-collapse-item title="机构配置信息" name="1">
           <el-form-item label="全日制ICU专科医师数">
@@ -109,7 +106,7 @@
             <span><span class="span_label">ICU总死亡人数</span><span class="span_data">{{ icuzswrs }}</span><span class="bank15" /></span>
           </el-form-item>
           <el-form-item label="ICU收治患者入ICU预计病死率之和">
-            <el-input v-model="form.icuYjbslzh" v-enterNumber :readonly="readonly" />
+            <el-input v-model="form.icuYjbslzh" :readonly="readonly" />
           </el-form-item>
           <el-form-item>
             <span><span class="span_label">ICU患者实际病死率</span><span class="span_data">{{ icuSjbsl }}</span><span class="bank15" /></span>
@@ -185,53 +182,61 @@
           </el-form-item>
         </el-collapse-item>
       </el-collapse>
-      <el-form-item style="text-align:center">
-        <el-button v-if="form.qrbj != 1" type="primary" :loading="loading" @click="submitForm(0)">暂存</el-button><span class="bank15" /><span class="bank15" />
-        <el-button v-if="form.qrbj != 1" type="danger" :loading="loading" @click="submitForm(1)">上报</el-button><span class="bank15" /><span class="bank15" />
-      </el-form-item>
     </el-form>
-  </div>
+    <div v-if="!disabled" slot="footer">
+      <el-button @click="cancle">关闭</el-button>
+    </div>
+  </el-dialog>
 </template>
-
 <script>
 export default {
-  directives: {
-    enterNumber: {
-      inserted(el, binding, vnode, oldVnode) {
-        el.addEventListener('keypress', function(e) {
-          e = e || window.event
-          const charcode = typeof e.charCode === 'number' ? e.charCode : e.keyCode
-          const re = /\d|\.{1}/
-          if (!re.test(String.fromCharCode(charcode)) && charcode > 9 && !e.ctrlKey) {
-            if (e.preventDefault) {
-              e.preventDefault()
-            } else {
-              e.returnValue = false
-            }
-          }
-        })
+  name: 'OrgManagementAdd',
+  props: {
+    row: {
+      type: Object,
+      default: function() {
+        return {}
       }
-
+    },
+    addRowVisible: {
+      type: Boolean,
+      default: function() {
+        return false
+      }
+    },
+    disabled: {
+      type: Boolean,
+      default: function() {
+        return false
+      }
     }
-
   },
   data() {
     return {
+      // 表单form
+      form: {},
+      // 公共配置
+      formSize: this.$config.formSize,
+      buttonSize: this.$config.buttonSize,
+      formFieldWidth: this.$config.formFieldWidth,
+      formLabelWidth: this.$config.formLabelWidth,
+      formLabelPosition: this.$config.formLabelPosition,
+      dialogEsc: this.$config.dialogEsc,
+      dialogClick: this.$config.dialogClick,
+      dialogWidth: this.$config.dialogWidth,
+
       activeNames: ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
       loading: false,
-      form: {},
-      url: '',
-      urlList: {
-        add: 'uploadData/save',
-        update: 'uploadData/update',
-        query: 'uploadData/queryByDate',
-        upload: 'uploadData/upload'
-      },
-      readonly: false
+      readonly: true
     }
   },
   computed: {
-  // ICU床位率     ICU床位数/医院总床位数
+    // 标题
+    title: function() {
+      // 查看
+      return '查看' + this.form.sbsj
+    },
+    // ICU床位率     ICU床位数/医院总床位数
     icuCwl: function() {
       if (!this.$isEmpty(this.form.icuCws) && !this.$isEmpty(this.form.yyzcws) && this.form.yyzcws !== 0) {
         var cwl = (this.form.icuCws / this.form.yyzcws).toFixed(5)
@@ -426,79 +431,37 @@ export default {
       return ''
     }
   },
-  mounted() {
-    this.query()
-  },
-  methods: {
-    submitForm(flag) {
-      this.$refs.form.validate(valid => {
-        if (valid) {
-          this.loading = true
-          this.form.qrbj = flag
-
-          if (flag === 1) {
-            this.url = this.urlList.upload
-          }
-
-          // 设置计算值
-          this.form.icuCwl = this.icuCwl
-          this.form.icuYscwb = this.icuYscwb
-          this.form.icuHscwb = this.icuHscwb
-          this.form.icuSzhzzrs = this.icuSzhzzrs
-          this.form.yySzhzzrs = this.yySzhzzrs
-          this.form.icuHzszl = this.icuHzszl
-          this.form.apache = this.apache
-          this.form.icuHzszcrl = this.icuHzszcrl
-          this.form.tbundleWcl = this.tbundleWcl
-          this.form.sbundleWcl = this.sbundleWcl
-          this.form.kjywsjl = this.kjywsjl
-          this.form.dvtyfl = this.dvtyfl
-          this.form.icuzswrs = this.icuzswrs
-          this.form.icuSjbsl = this.icuSjbsl
-          this.form.icuYjbsl = this.icuYjbsl
-          this.form.icuBszs = this.icuBszs
-          this.form.fjhIcuZrl = this.fjhIcuZrl
-          this.form.cfl = this.cfl
-          this.form.fjhBgl = this.fjhBgl
-          this.form.zcgl = this.zcgl
-          this.form.vapFbl = this.vapFbl
-          this.form.crbsiFbl = this.crbsiFbl
-          this.form.cautiFbl = this.cautiFbl
-
-          this.$store.dispatch(this.url, this.form).then(() => {
-            this.loading = false
-            this.query()
-          }).catch(() => {
-            this.loading = false
-          })
-        } else {
-          console.log('error submit!!')
-          return false
-        }
-      })
+  watch: {
+    $route: {
+      handler: function(route) {
+        this.redirect = route.query && route.query.redirect
+      },
+      immediate: true
     },
-    query() {
-      this.$store.dispatch(this.urlList.query, { createAt: this.$DateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss') }).then((data) => {
-        this.form = data
-
-        if (this.form.qrbj === 1) {
-          this.readonly = true
-        }
-
-        if (data.uploadDataId) {
-          this.url = this.urlList.update
-        } else {
-          this.url = this.urlList.add
-        }
-      }).catch(() => {
-
-      })
+    row(v) {
+      this.form = JSON.parse(JSON.stringify(v))
+    }
+  },
+  mounted() {},
+  created() {},
+  destroyed() {},
+  methods: {
+    clearFields() {
+      this.$refs['form'].resetFields()
+    },
+    cancle() {
+      this.$emit('update', false)
+    },
+    /**
+      * 关闭之前的调用，需要更新父组件，进行关闭模态框
+      */
+    beforClose() {
+      this.$emit('update', false)
     }
   }
 }
 </script>
-
-<style scoped>
+<style lang="less">
 span.bank2
 {
  padding-left:2px;
@@ -517,5 +480,33 @@ span.bank15
 .span_data{
   font-style: italic;color: red;font-weight: bold;
 }
+.xpy_dialog {
+  display: flex;
+  justify-content: center;
+  align-items: Center;
+  overflow: hidden;
+  .el-dialog {
+    margin: 0 auto !important;
+    max-height: 90%;
+    height: 90%;
+    overflow: hidden;
+    .el-dialog__body {
+      position: absolute;
+      left: 0;
+      top: 61px;
+      bottom: 61px;
+      right: 10px;
+      padding: 0;
+      z-index: 1;
+      overflow: hidden;
+      overflow-y: auto;
+    }
+    .el-dialog__footer{
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+  }
+}
 </style>
-

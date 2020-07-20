@@ -116,8 +116,16 @@ public class UploadDataController extends AbstractController {
         UsersDto userInfo = ShiroUtils.build().getUserInfo();
         UploadDataDto uploadDataDto = new UploadDataDto();
 
-        //  填写日期查询，主要用于查询本月填写的数据
-        UploadData uploadData = uploadDataService.queryByDate(data.getCreateAt());
+        //  填写日期查询，主要用于查询本月填写的数据,如果上报日期存在，则优先按照上报时间查询
+        UploadData uploadData = null;
+        if(!StringUtils.isEmpty(data.getSbsj())){
+            uploadData = uploadDataService.queryByDate(data.getSbsj());
+        } else {
+            if(StringUtils.isEmpty(data.getCreateAt())){
+                return Result.create(ResultCode.ERROR_PARAMS);
+            }
+            uploadData = uploadDataService.queryByDate(data.getCreateAt());
+        }
 
         if(!StringUtils.isEmpty(uploadData)){
             BeanUtils.copyProperties(uploadData,uploadDataDto);

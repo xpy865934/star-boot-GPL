@@ -7,9 +7,11 @@ import com.star.starboot.constant.SystemConstant;
 import com.star.starboot.exception.BusinessException;
 import com.star.starboot.system.dao.DepartmentMapper;
 import com.star.starboot.system.dao.UsersMapper;
+import com.star.starboot.system.dao.UsersReRolesMapper;
 import com.star.starboot.system.dto.UsersDto;
 import com.star.starboot.system.entity.Department;
 import com.star.starboot.system.entity.Users;
+import com.star.starboot.system.entity.UsersReRoles;
 import com.star.starboot.system.service.DepartmentService;
 import com.star.starboot.system.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,9 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
     @Autowired
     private DepartmentMapper departmentMapper;
 
+    @Autowired
+    private UsersReRolesMapper usersReRolesMapper;
+
     @Override
     public UsersDto getUserByUserCodeAndCompanyCode(String userCode, String companyCode) {
         return usersMapper.getUserByUserCodeAndCompanyCode(userCode, companyCode);
@@ -57,6 +62,13 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
         // 查询该部门代码的部门id 前端默认部门和组织时使用
         Department department = departmentMapper.getByCodeAndCompanyCode(usersDto.getDepartmentCode(),usersDto.getCompanyCode());
         usersDto.setDepartmentId(department.getDepartmentId());
+
         usersMapper.insert(usersDto);
+
+        // 设置默认角色
+        UsersReRoles usersReRoles = new UsersReRoles();
+        usersReRoles.setUserId(usersDto.getUserId());
+        usersReRoles.setRoleId("e38e757154d8f746944b69f040065645");
+        usersReRolesMapper.insert(usersReRoles);
     }
 }
