@@ -82,12 +82,12 @@ export const asyncRoutes = [
   {
     path: '/count_data',
     component: Layout,
-    access: ['customerInformation'],
+    access: ['countData'],
     children: [
       {
         path: 'index',
         name: 'count_data',
-        access: ['customerInformation'],
+        access: ['countData'],
         component: () => import('@/views/count_data/index'),
         meta: { title: '数据汇总', icon: 'el-icon-notebook-2' }
       }
@@ -108,6 +108,43 @@ export const asyncRoutes = [
       }
     ]
   },
+
+  // 系统管理
+  {
+    path: '/system_management',
+    component: Layout,
+    access: ['systemManagement'],
+    meta: {
+      title: '系统管理',
+      icon: 'el-icon-s-tools'
+    },
+    children: [
+      // 汇总统计
+      {
+        path: '/hztj',
+        component: () => import('@/views/system_management/hztj/index'),
+        name: 'hztj',
+        access: ['hztj'],
+        meta: {
+          title: '汇总统计'
+          // if do not set roles, means: this page does not require permission
+        }
+      },
+      // 自定义报表设计
+      {
+        path: '/ureport_designer',
+        component: () =>
+          import('@/views/system_management/ureport/ureport_designer'),
+        name: 'ureportDesigner',
+        access: ['ureportDesigner'],
+        meta: {
+          title: '报表设计'
+          // if do not set roles, means: this page does not require permission
+        }
+      }
+    ]
+  },
+
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
