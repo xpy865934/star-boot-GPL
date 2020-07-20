@@ -1,7 +1,7 @@
 <script type="text/javascript">
 
 // 自定义报表路径
-const UREPORT_BASE_API = 'http://120.27.241.208:8006/ureport'
+const UREPORT_BASE_API = 'http://119.45.149.192:8006/ureport'
 
 // 表单大小
 const formSize = 'mini'
