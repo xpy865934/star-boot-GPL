@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.star.starboot.uploaddata.dao.UploadDataMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.star.starboot.uploaddata.entity.UploadData">
+        <id column="UPLOAD_DATA_ID" property="uploadDataId" />
+        <result column="PROCESS_STATE" property="processState" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="CREATE_AT" property="createAt" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="UPDATE_AT" property="updateAt" />
+        <result column="DELETED_AT" property="deletedAt" />
+        <result column="DELETED_BY" property="deletedBy" />
+        <result column="DELETED_CODE" property="deletedCode" />
+        <result column="USER_ID" property="userId" />
+        <result column="ICU_ZKYS" property="icuZkys" />
+        <result column="ICU_CWS" property="icuCws" />
+        <result column="ICU_HSZS" property="icuHszs" />
+        <result column="YYZCWS" property="yyzcws" />
+        <result column="ICU_CWL" property="icuCwl" />
+        <result column="ICU_YSCWB" property="icuYscwb" />
+        <result column="ICU_HSCWB" property="icuHscwb" />
+        <result column="ICU_YYBRS" property="icuYybrs" />
+        <result column="ICU_XSZBRS" property="icuXszbrs" />
+        <result column="ICU_SZHZZRS" property="icuSzhzzrs" />
+        <result column="YY_YSBRS" property="yyYsbrs" />
+        <result column="YY_XSZBRS" property="yyXszbrs" />
+        <result column="YY_SZHZZRS" property="yySzhzzrs" />
+        <result column="ICU_HZSZL" property="icuHzszl" />
+        <result column="APACHE_HZS" property="apacheHzs" />
+        <result column="APACHE" property="apache" />
+        <result column="ICU_HZSZZCRS" property="icuHzszzcrs" />
+        <result column="YY_SZZCRS" property="yySzzcrs" />
+        <result column="ICU_HZSZCRL" property="icuHzszcrl" />
+        <result column="SEPSIS_HZZS" property="sepsisHzzs" />
+        <result column="TBUNDLE_HZS" property="tbundleHzs" />
+        <result column="SBUNDLE_HZS" property="sbundleHzs" />
+        <result column="TBUNDLE_WCL" property="tbundleWcl" />
+        <result column="SBUNDLE_WCL" property="sbundleWcl" />
+        <result column="KJYSBLZS" property="kjysblzs" />
+        <result column="KJYWSJLS" property="kjywsjls" />
+        <result column="KJYWSJL" property="kjywsjl" />
+        <result column="DVTBLZS" property="dvtblzs" />
+        <result column="DVTYFL" property="dvtyfl" />
+        <result column="LCSWRS" property="lcswrs" />
+        <result column="ZDCYRS" property="zdcyrs" />
+        <result column="ICUZSWRS" property="icuzswrs" />
+        <result column="ICU_YJBSLZH" property="icuYjbslzh" />
+        <result column="ICU_SJBSL" property="icuSjbsl" />
+        <result column="ICU_YJBSL" property="icuYjbsl" />
+        <result column="ICU_BSZS" property="icuBszs" />
+        <result column="FJH_ICU_HZS" property="fjhIcuHzs" />
+        <result column="ZR_ICU_HZS" property="zrIcuHzs" />
+        <result column="CF_ICU_HZS" property="cfIcuHzs" />
+        <result column="ZC_ICU_HZS" property="zcIcuHzs" />
+        <result column="FJH_ICU_ZRL" property="fjhIcuZrl" />
+        <result column="CFL" property="cfl" />
+        <result column="FJH_TCCS" property="fjhTccs" />
+        <result column="ICU_CGZLS" property="icuCgzls" />
+        <result column="FJH_BGL" property="fjhBgl" />
+        <result column="ZCGLS" property="zcgls" />
+        <result column="ICU_BGZLS" property="icuBgzls" />
+        <result column="ZCGL" property="zcgl" />
+        <result column="ICU_FYBRZLS" property="icuFybrzls" />
+        <result column="ICU_TQTS" property="icuTqts" />
+        <result column="VAP_FBL" property="vapFbl" />
+        <result column="ICU_XLGLZLS" property="icuXlglzls" />
+        <result column="ICU_JMDGZTS" property="icuJmdgzts" />
+        <result column="CRBSI_FBL" property="crbsiFbl" />
+        <result column="ICU_MNGLZLS" property="icuMnglzls" />
+        <result column="ICU_NGLZZTS" property="icuNglzzts" />
+        <result column="CAUTI_FBL" property="cautiFbl" />
+        <result column="SBSJ" property="sbsj" />
+        <result column="QRBJ" property="qrbj" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        PROCESS_STATE, CREATE_BY, CREATE_AT, UPDATE_BY, UPDATE_AT, DELETED_AT, DELETED_BY, DELETED_CODE, USER_ID, UPLOAD_DATA_ID, ICU_ZKYS, ICU_CWS, ICU_HSZS, YYZCWS, ICU_CWL, ICU_YSCWB, ICU_HSCWB, ICU_YYBRS, ICU_XSZBRS, ICU_SZHZZRS, YY_YSBRS, YY_XSZBRS, YY_SZHZZRS, ICU_HZSZL, APACHE_HZS, APACHE, ICU_HZSZZCRS, YY_SZZCRS, ICU_HZSZCRL, SEPSIS_HZZS, TBUNDLE_HZS, SBUNDLE_HZS, TBUNDLE_WCL, SBUNDLE_WCL, KJYSBLZS, KJYWSJLS, KJYWSJL, DVTBLZS, DVTYFL, LCSWRS, ZDCYRS, ICUZSWRS, ICU_YJBSLZH, ICU_SJBSL, ICU_YJBSL, ICU_BSZS, FJH_ICU_HZS, ZR_ICU_HZS, CF_ICU_HZS, ZC_ICU_HZS, FJH_ICU_ZRL, CFL, FJH_TCCS, ICU_CGZLS, FJH_BGL, ZCGLS, ICU_BGZLS, ZCGL, ICU_FYBRZLS, ICU_TQTS, VAP_FBL, ICU_XLGLZLS, ICU_JMDGZTS, CRBSI_FBL, ICU_MNGLZLS, ICU_NGLZZTS, CAUTI_FBL, SBSJ, QRBJ
+    </sql>
+    <select id="queryByDate" resultType="com.star.starboot.uploaddata.entity.UploadData">
+        select * from t_upload_data where DELETED_CODE = 0 and USER_ID = #{usersDto.userId}
+        <choose>
+            <when test="uploadDataDto.sbsj != null">
+                and date_format(SBSJ,'%Y-%m') = date_format(#{uploadDataDto.sbsj},'%Y-%m')
+            </when>
+            <otherwise>
+                and date_format(CREATE_AT,'%Y-%m') = date_format(#{uploadDataDto.createAt},'%Y-%m')
+            </otherwise>
+        </choose>
+    </select>
+    <select id="queryPage" resultType="com.star.starboot.uploaddata.dto.UploadDataDto">
+        select uploadData.*,users.USER_NAME from t_upload_data uploadData
+        left join t_users users on uploadData.USER_ID = users.USER_ID
+        where uploadData.DELETED_CODE = 0 and uploadData.USER_ID = #{uploadDataDto.userId}
+    </select>
+
+</mapper>

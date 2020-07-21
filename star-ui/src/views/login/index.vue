@@ -102,14 +102,49 @@ export default {
         this.$refs.password.focus()
       })
     },
+    query(callback) {
+      this.$store.dispatch('person/query', this.form).then((data) => {
+        callback(data)
+      }).catch(() => {
+
+      })
+    },
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
           this.loginForm.companyCode = this.$config.defaultCompanyCode
           this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$router.push({ path: this.redirect || '/' })
             this.loading = false
+
+            // 判断个人信息是否需要完善
+            this.query((data) => {
+              var whiteList = ['createAt', 'createBy', 'deletedAt', 'deletedBy', 'deletedCode', 'processState', 'updateAt', 'updateBy']
+
+              var flag = false
+              for (const key of Object.keys(data)) {
+                if (whiteList.indexOf(key) !== -1) {
+                  continue
+                }
+                if (this.$isEmpty(data[key])) {
+                  flag = true
+                  break
+                }
+              }
+              if (flag) {
+                this.$confirm('个人信息未完善，是否立即去完善？', {
+                  confirmButtonText: '去完善',
+                  cancelButtonText: '取消',
+                  type: 'error'
+                }).then(() => {
+                  this.$router.push({ path: '/person_data/index' })
+                }).catch(() => {
+                  this.$router.push({ path: this.redirect || '/' })
+                })
+              } else {
+                this.$router.push({ path: this.redirect || '/' })
+              }
+            })
           }).catch(() => {
             this.loading = false
           })

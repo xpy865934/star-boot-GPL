@@ -17,6 +17,8 @@ public enum ResultCode {
     USER_INFO_LOSE_ERROR(10005, "登录信息失效，请重新登录"),
     NOT_EXIST_USER_OR_ERROR_PWD(10000, "该用户不存在或密码错误"),
     SUCCESS_SAVE(200, "保存成功！"),
+    SUCCESS_UPLOAD(200, "上报成功！"),
+    ERROR_PARAMS(110, "参数异常！"),
     SIGN_ERROR(120, "签名错误"),
     TIME_OUT(130, "访问超时"),
     BAD_REQUEST(400, "参数解析失败"),

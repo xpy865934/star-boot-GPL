@@ -63,3 +63,11 @@ div:focus {
 .app-container {
   padding: 20px;
 }
+
+//main-container全局样式
+.app-container {
+  padding: 20px;
+  height: calc(100vh - 84px);
+  overflow-y: auto;
+}
+
