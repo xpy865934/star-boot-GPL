@@ -3,6 +3,7 @@ package com.star.starboot.uploaddata.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.star.starboot.system.dto.UsersDto;
 import com.star.starboot.uploaddata.dto.UploadDataDto;
 import com.star.starboot.uploaddata.entity.UploadData;
 
@@ -20,10 +21,10 @@ public interface UploadDataService extends IService<UploadData> {
 
     /**
      * 根据填写日期查询填报记录
-     * @param createAt
+     * @param uploadDataDto
      * @return
      */
-    UploadData queryByDate(Date createAt);
+    UploadData queryByDate(UploadDataDto uploadDataDto, UsersDto usersDto);
 
     /**
      * 分页查询

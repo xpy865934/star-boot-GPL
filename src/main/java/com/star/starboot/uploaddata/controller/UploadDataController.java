@@ -82,9 +82,11 @@ public class UploadDataController extends AbstractController {
     @RequiresPermissions("uploadDataQueryPager")
     @SysLog(description = "分页获取上报信息")
     public Result queryPager(@RequestBody JSONObject param){
+            UsersDto userInfo = ShiroUtils.build().getUserInfo();
             Integer current = param.getInteger("current");
             Integer size = param.getInteger("size");
             UploadDataDto uploadDataDto = param.getObject("bean", UploadDataDto.class);
+            uploadDataDto.setUserId(userInfo.getUserId());
             IPage<UploadDataDto> list = uploadDataService.queryPager(uploadDataDto,current,size);
             return Result.success(list);
     }
@@ -119,12 +121,12 @@ public class UploadDataController extends AbstractController {
         //  填写日期查询，主要用于查询本月填写的数据,如果上报日期存在，则优先按照上报时间查询
         UploadData uploadData = null;
         if(!StringUtils.isEmpty(data.getSbsj())){
-            uploadData = uploadDataService.queryByDate(data.getSbsj());
+            uploadData = uploadDataService.queryByDate(data, userInfo);
         } else {
             if(StringUtils.isEmpty(data.getCreateAt())){
                 return Result.create(ResultCode.ERROR_PARAMS);
             }
-            uploadData = uploadDataService.queryByDate(data.getCreateAt());
+            uploadData = uploadDataService.queryByDate(data, userInfo);
         }
 
         if(!StringUtils.isEmpty(uploadData)){
