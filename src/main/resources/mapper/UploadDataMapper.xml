@@ -80,12 +80,20 @@
         PROCESS_STATE, CREATE_BY, CREATE_AT, UPDATE_BY, UPDATE_AT, DELETED_AT, DELETED_BY, DELETED_CODE, USER_ID, UPLOAD_DATA_ID, ICU_ZKYS, ICU_CWS, ICU_HSZS, YYZCWS, ICU_CWL, ICU_YSCWB, ICU_HSCWB, ICU_YYBRS, ICU_XSZBRS, ICU_SZHZZRS, YY_YSBRS, YY_XSZBRS, YY_SZHZZRS, ICU_HZSZL, APACHE_HZS, APACHE, ICU_HZSZZCRS, YY_SZZCRS, ICU_HZSZCRL, SEPSIS_HZZS, TBUNDLE_HZS, SBUNDLE_HZS, TBUNDLE_WCL, SBUNDLE_WCL, KJYSBLZS, KJYWSJLS, KJYWSJL, DVTBLZS, DVTYFL, LCSWRS, ZDCYRS, ICUZSWRS, ICU_YJBSLZH, ICU_SJBSL, ICU_YJBSL, ICU_BSZS, FJH_ICU_HZS, ZR_ICU_HZS, CF_ICU_HZS, ZC_ICU_HZS, FJH_ICU_ZRL, CFL, FJH_TCCS, ICU_CGZLS, FJH_BGL, ZCGLS, ICU_BGZLS, ZCGL, ICU_FYBRZLS, ICU_TQTS, VAP_FBL, ICU_XLGLZLS, ICU_JMDGZTS, CRBSI_FBL, ICU_MNGLZLS, ICU_NGLZZTS, CAUTI_FBL, SBSJ, QRBJ
     </sql>
     <select id="queryByDate" resultType="com.star.starboot.uploaddata.entity.UploadData">
-        select * from t_upload_data where date_format(CREATE_AT,'%Y-%m') = date_format(#{createAt},'%Y-%m') and DELETED_CODE = 0
+        select * from t_upload_data where DELETED_CODE = 0 and USER_ID = #{usersDto.userId}
+        <choose>
+            <when test="uploadDataDto.sbsj != null">
+                and date_format(SBSJ,'%Y-%m') = date_format(#{uploadDataDto.sbsj},'%Y-%m')
+            </when>
+            <otherwise>
+                and date_format(CREATE_AT,'%Y-%m') = date_format(#{uploadDataDto.createAt},'%Y-%m')
+            </otherwise>
+        </choose>
     </select>
     <select id="queryPage" resultType="com.star.starboot.uploaddata.dto.UploadDataDto">
         select uploadData.*,users.USER_NAME from t_upload_data uploadData
         left join t_users users on uploadData.USER_ID = users.USER_ID
-        where uploadData.DELETED_CODE = 0
+        where uploadData.DELETED_CODE = 0 and uploadData.USER_ID = #{uploadDataDto.userId}
     </select>
 
 </mapper>

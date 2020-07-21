@@ -3,6 +3,7 @@ package com.star.starboot.uploaddata.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.star.starboot.system.dto.UsersDto;
 import com.star.starboot.uploaddata.dao.UploadDataMapper;
 import com.star.starboot.uploaddata.dto.UploadDataDto;
 import com.star.starboot.uploaddata.entity.UploadData;
@@ -27,8 +28,8 @@ public class UploadDataServiceImpl extends ServiceImpl<UploadDataMapper, UploadD
     private UploadDataMapper uploadDataMapper;
 
     @Override
-    public UploadData queryByDate(Date createAt) {
-        return uploadDataMapper.queryByDate(createAt);
+    public UploadData queryByDate(UploadDataDto uploadDataDto, UsersDto usersDto) {
+        return uploadDataMapper.queryByDate(uploadDataDto,usersDto);
     }
 
     @Override
