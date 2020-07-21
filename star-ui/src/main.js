@@ -5,7 +5,7 @@ import 'normalize.css/normalize.css' // A modern alternative to CSS resets
 import ElementUI from 'element-ui'
 import { Message } from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import locale from 'element-ui/lib/locale/lang/en' // lang i18n
+import locale from 'element-ui/lib/locale/lang/zh-CN' // lang i18n
 
 import '@/styles/index.scss' // global css
 
@@ -18,10 +18,24 @@ import '@/permission' // permission control
 
 import config from '@/config' // config
 
+import { isEmpty, isIntNum, isNumber, decimalPercentConvert } from '@/utils/common'
+
+// 自定义组件
+// 分页   // 暂时封装到了表格中，没有单独使用
+// import Pager from './xcomponents/Pager'
+// Vue.use(Pager)
+// 表格
+import XTable from './xcomponents/XTable'
+Vue.use(XTable)
+
 /**
  * 注册全局变量
  */
 Vue.prototype.$config = config
+Vue.prototype.$isEmpty = isEmpty
+Vue.prototype.$isIntNum = isIntNum
+Vue.prototype.$isNumber = isNumber
+Vue.prototype.$decimalPercentConvert = decimalPercentConvert
 
 // 重写$messgae
 Vue.prototype.$message = function(data) {
@@ -30,6 +44,24 @@ Vue.prototype.$message = function(data) {
     message: data.message,
     duration: config.messageDuration
   })
+}
+
+// 日期格式化
+Vue.prototype.$DateFormat = function(date, fmt) { // author: meizz
+  var o = {
+    'M+': date.getMonth() + 1, // 月份
+    'd+': date.getDate(), // 日
+    'h+': date.getHours(), // 小时
+    'm+': date.getMinutes(), // 分
+    's+': date.getSeconds(), // 秒
+    'q+': Math.floor((date.getMonth() + 3) / 3), // 季度
+    'S': date.getMilliseconds() // 毫秒
+  }
+  if (/(y+)/.test(fmt)) { fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length)) }
+  for (var k in o) {
+    if (new RegExp('(' + k + ')').test(fmt)) { fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (('00' + o[k]).substr(('' + o[k]).length))) }
+  }
+  return fmt
 }
 
 /**

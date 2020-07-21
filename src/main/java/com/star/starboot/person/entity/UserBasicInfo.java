@@ -1,6 +1,7 @@
 package com.star.starboot.person.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.star.starboot.common.entity.AbstractEntity;
 import lombok.Data;
@@ -25,7 +26,7 @@ public class UserBasicInfo extends AbstractEntity {
     /**
      * 用户基本信息id
      */
-    @TableField("USER_BASIC_INFO_ID")
+    @TableId("USER_BASIC_INFO_ID")
     private String userBasicInfoId;
     @TableField("USER_ID")
     private String userId;
@@ -159,5 +160,15 @@ public class UserBasicInfo extends AbstractEntity {
      */
     @TableField("LXR_EMAIL")
     private String lxrEmail;
+    /**
+     * 医师人数
+     */
+    @TableField("YSRS")
+    private Integer ysrs;
+    /**
+     * 护士人数
+     */
+    @TableField("HSRS")
+    private Integer hsrs;
 
 }

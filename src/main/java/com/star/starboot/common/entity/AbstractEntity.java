@@ -37,7 +37,7 @@ public class AbstractEntity implements Serializable {
      * 创建时间
      */
     @TableField("CREATE_AT")
-    @JsonFormat(pattern = SystemConstant.FULL_DATE_PATTERN)
+    @JsonFormat(pattern = SystemConstant.FULL_DATE_PATTERN ,timezone = "GMT+8")
     private Date createAt;
     /**
      * 更新人
@@ -48,13 +48,13 @@ public class AbstractEntity implements Serializable {
      * 更新时间
      */
     @TableField("UPDATE_AT")
-    @JsonFormat(pattern = SystemConstant.FULL_DATE_PATTERN)
+    @JsonFormat(pattern = SystemConstant.FULL_DATE_PATTERN ,timezone = "GMT+8")
     private Date updateAt;
     /**
      * 删除时间
      */
     @TableField("DELETED_AT")
-    @JsonFormat(pattern = SystemConstant.FULL_DATE_PATTERN)
+    @JsonFormat(pattern = SystemConstant.FULL_DATE_PATTERN ,timezone = "GMT+8")
     private Date deletedAt;
     /**
      * 删除人

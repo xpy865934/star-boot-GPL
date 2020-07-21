@@ -1,4 +1,4 @@
-import { save, update, query } from '@/api/person'
+import { save, update, queryByDate, upload, queryPager } from '@/api/uploadData'
 
 const getDefaultState = () => {
   return {
@@ -35,9 +35,31 @@ const actions = {
         })
     })
   },
-  query({ commit }, data) {
+  upload({ commit }, data) {
     return new Promise((resolve, reject) => {
-      query(data)
+      upload(data)
+        .then(response => {
+          resolve(response)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  },
+  queryByDate({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      queryByDate(data)
+        .then(response => {
+          resolve(response.data)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  },
+  queryPager({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      queryPager(data)
         .then(response => {
           resolve(response.data)
         })
