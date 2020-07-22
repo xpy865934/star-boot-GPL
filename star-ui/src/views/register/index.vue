@@ -28,10 +28,24 @@
         <el-input
           ref="userCode"
           v-model="registerForm.userCode"
-          placeholder="用户名"
+          placeholder="用户名(医生姓名)"
           name="userCode"
           type="text"
           tabindex="2"
+          auto-complete="on"
+        />
+      </el-form-item>
+
+      <el-form-item prop="tel">
+        <span class="svg-container">
+          <svg-icon icon-class="user" />
+        </span>
+        <el-input
+          ref="tel"
+          v-model.number="registerForm.tel"
+          placeholder="联系方式"
+          name="tel"
+          tabindex="3"
           auto-complete="on"
         />
       </el-form-item>
@@ -47,7 +61,7 @@
           :type="passwordType"
           placeholder="密码"
           name="password"
-          tabindex="3"
+          tabindex="4"
           auto-complete="on"
         />
         <span class="show-pwd" @click="showPwd">
@@ -66,7 +80,7 @@
           :type="passwordType"
           placeholder="确认密码"
           name="passwordConfirm"
-          tabindex="4"
+          tabindex="5"
           auto-complete="on"
           @keyup.enter.native="handleRegister"
         />
@@ -112,6 +126,7 @@ export default {
       },
       registerRules: {
         userName: [{ required: true, trigger: 'blur', message: '医院名称(中文)不能为空' }],
+        tel: [{ type: 'number', required: true, trigger: 'blur', message: '联系方式不能为空' }],
         userCode: [{ required: true, trigger: 'blur', message: '用户名不能为空' }],
         password: [{ required: true, trigger: 'blur', message: '密码不能为空' }],
         passwordConfirm: [{ required: true, trigger: 'blur', validator: validateConfirmPassword }]
