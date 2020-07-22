@@ -1,6 +1,8 @@
 package com.star.starboot.system.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.star.starboot.common.utils.CommonUtils;
 import com.star.starboot.constant.SystemConstant;
@@ -70,5 +72,10 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
         usersReRoles.setUserId(usersDto.getUserId());
         usersReRoles.setRoleId("e38e757154d8f746944b69f040065645");
         usersReRolesMapper.insert(usersReRoles);
+    }
+
+    @Override
+    public IPage<UsersDto> queryPager(UsersDto usersDto, Integer current, Integer size) {
+        return usersMapper.queryPage(new Page(current, size), usersDto);
     }
 }

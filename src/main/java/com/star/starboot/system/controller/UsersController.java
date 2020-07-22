@@ -1,6 +1,8 @@
 package com.star.starboot.system.controller;
 
 
+import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.star.starboot.annotation.SysLog;
 import com.star.starboot.common.enums.ResultCode;
 import com.star.starboot.common.utils.ShiroUtils;
@@ -8,16 +10,15 @@ import com.star.starboot.common.vo.Result;
 import com.star.starboot.config.shiro.UserPasswordRealm;
 import com.star.starboot.system.dto.UsersDto;
 import com.star.starboot.system.service.UsersService;
+import com.star.starboot.uploaddata.dto.UploadDataDto;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RestController;
 import com.star.starboot.common.controller.AbstractController;
 
 /**
@@ -39,6 +40,22 @@ public class UsersController extends AbstractController {
 
     @Autowired
     private UserPasswordRealm userPasswordRealm;
+
+    /**
+     * 分页获取用户信息
+     * @return
+     */
+    @PostMapping("/queryPager")
+    @RequiresPermissions("usersQueryPager")
+    @SysLog(description = "分页获取用户信息")
+    public Result queryPager(@RequestBody JSONObject param){
+        Integer current = param.getInteger("current");
+        Integer size = param.getInteger("size");
+        UsersDto usersDto = param.getObject("bean", UsersDto.class);
+        IPage<UsersDto> list = usersService.queryPager(usersDto,current,size);
+        return Result.success(list);
+    }
+
     /**
      * 获取登录用户信息
      * @return
