@@ -29,3 +29,10 @@ export function getUserInfo(params) {
 export function loginOut() {
   return request.get('/common/loginOut', {}, false)
 }
+
+/**
+ * 用户退出
+ */
+export function queryPager(params) {
+  return request.post('/users/queryPager', params, false)
+}

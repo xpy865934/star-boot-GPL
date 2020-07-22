@@ -1,4 +1,4 @@
-import { login, register, getUserInfo, loginOut } from '@/api/user'
+import { login, register, getUserInfo, loginOut, queryPager } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { getCurrentBrowser, getOs } from '../../utils/common'
 import { resetRouter } from '@/router'
@@ -147,6 +147,21 @@ const actions = {
         removeToken()
         commit('RESET_STATE')
         resetRouter()
+        reject(error)
+      })
+    })
+  },
+
+  /**
+   * 分页查询
+   * @param {*} params
+   */
+  queryPager({ commit }, params) {
+    return new Promise((resolve, reject) => {
+      queryPager(params).then(response => {
+        const data = response.data
+        resolve(data)
+      }).catch(error => {
         reject(error)
       })
     })

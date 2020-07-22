@@ -50,6 +50,20 @@
         />
       </el-form-item>
 
+      <el-form-item prop="email">
+        <span class="svg-container">
+          <svg-icon icon-class="user" />
+        </span>
+        <el-input
+          ref="email"
+          v-model="registerForm.email"
+          placeholder="邮箱"
+          name="email"
+          tabindex="4"
+          auto-complete="on"
+        />
+      </el-form-item>
+
       <el-form-item prop="password">
         <span class="svg-container">
           <svg-icon icon-class="password" />
@@ -61,7 +75,7 @@
           :type="passwordType"
           placeholder="密码"
           name="password"
-          tabindex="4"
+          tabindex="5"
           auto-complete="on"
         />
         <span class="show-pwd" @click="showPwd">
@@ -80,7 +94,7 @@
           :type="passwordType"
           placeholder="确认密码"
           name="passwordConfirm"
-          tabindex="5"
+          tabindex="6"
           auto-complete="on"
           @keyup.enter.native="handleRegister"
         />

@@ -10,7 +10,7 @@ const buttonSize = 'mini'
 // form 表单中的控件宽度
 const formFieldWidth = '100%'
 // form 表单中的label宽度
-const formLabelWidth = '110px'
+const formLabelWidth = '120px'
 // form 表单中的位置
 const formLabelPosition = 'right'
 // 搜索按钮样式
