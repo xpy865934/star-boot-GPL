@@ -16,7 +16,7 @@ const formLabelPosition = 'right'
 // 搜索按钮样式
 const searchButton = 'primary'
 // 重置按钮样式
-const resetButton = 'primary'
+const resetButton = ''
 // 新增按钮样式
 const addButton = 'primary'
 // 保存按钮样式

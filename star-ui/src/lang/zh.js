@@ -12,6 +12,7 @@ export default {
   common: {
     searchCondition: '查询条件',
     index: '序号',
+    loginOut: '退出登录',
 
     action: '操作',
     edit: '编辑',
