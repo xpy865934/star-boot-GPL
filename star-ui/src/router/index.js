@@ -73,10 +73,10 @@ export const asyncRoutes = [
     children: [
       {
         path: 'index',
-        name: 'upload_data',
+        name: 'uploadData',
         access: ['uploadData'],
         component: () => import('@/views/upload_data/index'),
-        meta: { title: '数据上报', icon: 'form' }
+        meta: { title: 'uploadData', icon: 'form' }
       }
     ]
   },
@@ -88,10 +88,10 @@ export const asyncRoutes = [
     children: [
       {
         path: 'index',
-        name: 'count_data',
+        name: 'countData',
         access: ['countData'],
         component: () => import('@/views/count_data/index'),
-        meta: { title: '数据汇总', icon: 'el-icon-notebook-2' }
+        meta: { title: 'countData', icon: 'el-icon-notebook-2' }
       }
     ]
   },
@@ -103,10 +103,10 @@ export const asyncRoutes = [
     children: [
       {
         path: 'index',
-        name: 'person_data',
+        name: 'personData',
         access: ['personData'],
         component: () => import('@/views/person_data/index'),
-        meta: { title: '个人信息', icon: 'el-icon-user-solid' }
+        meta: { title: 'personData', icon: 'el-icon-user-solid' }
       }
     ]
   },
@@ -117,21 +117,21 @@ export const asyncRoutes = [
     component: Layout,
     access: ['systemManagement'],
     meta: {
-      title: '系统管理',
+      title: 'systemManagement',
       icon: 'el-icon-s-tools'
     },
     children: [
       // 用户管理
-      // {
-      //   path: '/users',
-      //   component: () => import('@/views/system_management/users/index'),
-      //   name: 'users',
-      //   access: ['users'],
-      //   meta: {
-      //     title: '用户管理'
-      //     // if do not set roles, means: this page does not require permission
-      //   }
-      // },
+      {
+        path: '/users',
+        component: () => import('@/views/system_management/users/index'),
+        name: 'users',
+        access: ['users'],
+        meta: {
+          title: 'users'
+          // if do not set roles, means: this page does not require permission
+        }
+      },
       // 汇总统计
       {
         path: '/hztj',
@@ -139,7 +139,7 @@ export const asyncRoutes = [
         name: 'hztj',
         access: ['hztj'],
         meta: {
-          title: '汇总统计'
+          title: 'hztj'
           // if do not set roles, means: this page does not require permission
         }
       },
@@ -151,7 +151,7 @@ export const asyncRoutes = [
         name: 'ureportDesigner',
         access: ['ureportDesigner'],
         meta: {
-          title: '报表设计'
+          title: 'ureportDesigner'
           // if do not set roles, means: this page does not require permission
         }
       }
