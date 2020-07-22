@@ -4,6 +4,7 @@ import getters from './getters'
 import app from './modules/app'
 import settings from './modules/settings'
 import permission from './modules/permission'
+import tagsView from './modules/tagsView'
 import user from './modules/user'
 import person from './modules/person'
 import uploadData from './modules/uploadData'
@@ -17,7 +18,8 @@ const store = new Vuex.Store({
     user,
     permission,
     person,
-    uploadData
+    uploadData,
+    tagsView
   },
   getters
 })
