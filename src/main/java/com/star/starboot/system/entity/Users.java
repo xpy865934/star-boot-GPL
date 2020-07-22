@@ -4,7 +4,9 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.star.starboot.common.entity.AbstractEntity;
+import com.star.starboot.constant.SystemConstant;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -113,6 +115,7 @@ public class Users extends AbstractEntity {
      * 最后一次的登录时间
      */
     @TableField("LAST_LOGIN_DATE")
+    @JsonFormat(pattern = SystemConstant.FULL_DATE_PATTERN ,timezone = "GMT+8")
     private Date lastLoginDate;
     /**
      * 最后一次登录的ip地址

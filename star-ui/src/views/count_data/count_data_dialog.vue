@@ -462,51 +462,10 @@ export default {
 }
 </script>
 <style lang="less">
-span.bank2
-{
- padding-left:2px;
-}
-span.bank5
-{
- padding-left:5px;
-}
-span.bank15
-{
- padding-left:15px;
-}
 .span_label{
   font-weight: bold;color: blue;
 }
 .span_data{
   font-style: italic;color: red;font-weight: bold;
-}
-.xpy_dialog {
-  display: flex;
-  justify-content: center;
-  align-items: Center;
-  overflow: hidden;
-  .el-dialog {
-    margin: 0 auto !important;
-    max-height: 90%;
-    height: 90%;
-    overflow: hidden;
-    .el-dialog__body {
-      position: absolute;
-      left: 0;
-      top: 61px;
-      bottom: 61px;
-      right: 10px;
-      padding: 0;
-      z-index: 1;
-      overflow: hidden;
-      overflow-y: auto;
-    }
-    .el-dialog__footer{
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-    }
-  }
 }
 </style>

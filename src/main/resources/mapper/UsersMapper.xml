@@ -5,17 +5,17 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.star.starboot.system.entity.Users">
         <id column="USER_ID" property="userId" />
-    <result column="PROCESS_STATE" property="processState" />
-    <result column="CREATE_BY" property="createBy" />
-    <result column="CREATE_AT" property="createAt" />
-    <result column="UPDATE_BY" property="updateBy" />
-    <result column="UPDATE_AT" property="updateAt" />
-    <result column="DELETED_AT" property="deletedAt" />
-    <result column="DELETED_BY" property="deletedBy" />
-    <result column="DELETED_CODE" property="deletedCode" />
+        <result column="PROCESS_STATE" property="processState" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="CREATE_AT" property="createAt" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="UPDATE_AT" property="updateAt" />
+        <result column="DELETED_AT" property="deletedAt" />
+        <result column="DELETED_BY" property="deletedBy" />
+        <result column="DELETED_CODE" property="deletedCode" />
         <result column="USER_CODE" property="userCode" />
-        <result column="USRE_NAME" property="usreName" />
-        <result column="USRE_SEX" property="usreSex" />
+        <result column="USRE_NAME" property="userName" />
+        <result column="USRE_SEX" property="userSex" />
         <result column="DEPARTMENT_ID" property="departmentId" />
         <result column="COMPANY_POSITION" property="companyPosition" />
         <result column="BIRTHDAY" property="birthday" />
@@ -43,6 +43,18 @@
         DELETED_CODE,
         USER_ID, USER_CODE, USRE_NAME, USRE_SEX, DEPARTMENT_ID, COMPANY_POSITION, BIRTHDAY, CREDENTIALS, CREDENTIALS_CODE, EMAIL, QQ, WX, TEL, PASSWORD, PASSWORD_CHANGE, WORKING, SALT
     </sql>
+
+    <sql id="base_query">
+        <if test='usersDto.userCode != null and usersDto.userCode != ""'>
+            and users.USER_CODE LIKE concat('%',#{usersDto.userCode},'%')
+        </if>
+        <if test='usersDto.userName != null and usersDto.userName != ""'>
+            and users.USER_NAME LIKE concat('%',#{usersDto.userName},'%')
+        </if>
+        <if test='usersDto.tel != null and usersDto.tel != ""'>
+            and users.TEL LIKE concat('%',#{usersDto.tel},'%')
+        </if>
+    </sql>
     <select id="getUserByUserCodeAndCompanyCode" resultType="com.star.starboot.system.dto.UsersDto">
         select users.*,company.COMPANY_ID,company.COMPANY_CODE,department.DEPARTMENT_CODE,
 	concat_ws( '-', `company`.`COMPANY_CODE` , `users`.`USER_CODE`) AS `userCompanyCode` from t_users users
@@ -50,6 +62,11 @@
         left join t_company company on department.COMPANY_ID = company.COMPANY_ID
         where users.DELETED_CODE = 0 and department.DELETED_CODE = 0 and company.DELETED_CODE = 0
         and users.USER_CODE = #{userCode} and company.COMPANY_CODE = #{companyCode}
+    </select>
+    <select id="queryPage" resultType="com.star.starboot.system.dto.UsersDto">
+        select users.* from t_users users
+        where users.DELETED_CODE = 0
+        <include refid="base_query"/>
     </select>
 
 </mapper>

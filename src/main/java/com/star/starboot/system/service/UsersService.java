@@ -1,5 +1,6 @@
 package com.star.starboot.system.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.star.starboot.system.dto.UsersDto;
 import com.star.starboot.system.entity.Users;
@@ -27,4 +28,13 @@ public interface UsersService extends IService<Users> {
      * @param usersDto
      */
     void register(UsersDto usersDto);
+
+    /**
+     * 分页查询用户信息
+     * @param usersDto
+     * @param current
+     * @param size
+     * @return
+     */
+    IPage<UsersDto> queryPager(UsersDto usersDto, Integer current, Integer size);
 }

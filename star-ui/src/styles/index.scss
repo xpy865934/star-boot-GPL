@@ -59,11 +59,6 @@ div:focus {
   }
 }
 
-// main-container global css
-.app-container {
-  padding: 20px;
-}
-
 //main-container全局样式
 .app-container {
   padding: 20px;
@@ -71,3 +66,49 @@ div:focus {
   overflow-y: auto;
 }
 
+.search-btn{
+  text-align: center
+}
+
+span.bank2
+{
+ padding-left:2px;
+}
+span.bank5
+{
+ padding-left:5px;
+}
+span.bank15
+{
+ padding-left:15px;
+}
+
+.xpy_dialog {
+  display: flex;
+  justify-content: center;
+  align-items: Center;
+  overflow: hidden;
+  .el-dialog {
+    margin: 0 auto !important;
+    max-height: 90%;
+    height: 90%;
+    overflow: hidden;
+    .el-dialog__body {
+      position: absolute;
+      left: 0;
+      top: 61px;
+      bottom: 61px;
+      right: 10px;
+      padding: 0;
+      z-index: 1;
+      overflow: hidden;
+      overflow-y: auto;
+    }
+    .el-dialog__footer{
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+  }
+}
