@@ -22,6 +22,8 @@ import Layout from '@/layout'
     icon: 'svg-name'/'el-icon-x' the icon show in the sidebar
     breadcrumb: false            if set false, the item will hidden in breadcrumb(default is true)
     activeMenu: '/example/list'  if set path, the sidebar will highlight the path you set
+    affix: true                  if true, the tag will affix in the tags-view
+    noCache: true                if true, the page will no be cached(default is false)
   }
  */
 
@@ -55,9 +57,9 @@ export const constantRoutes = [
     children: [
       {
         path: 'dashboard',
-        name: 'Dashboard',
+        name: 'dashboard',
         component: () => import('@/views/dashboard/index'),
-        meta: { title: '首页', icon: 'dashboard' }
+        meta: { title: 'dashboard', icon: 'dashboard', noCache: true, affix: true }
       }
     ]
   }
@@ -119,6 +121,17 @@ export const asyncRoutes = [
       icon: 'el-icon-s-tools'
     },
     children: [
+      // 用户管理
+      // {
+      //   path: '/users',
+      //   component: () => import('@/views/system_management/users/index'),
+      //   name: 'users',
+      //   access: ['users'],
+      //   meta: {
+      //     title: '用户管理'
+      //     // if do not set roles, means: this page does not require permission
+      //   }
+      // },
       // 汇总统计
       {
         path: '/hztj',
