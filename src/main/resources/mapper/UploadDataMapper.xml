@@ -81,14 +81,7 @@
     </sql>
     <select id="queryByDate" resultType="com.star.starboot.uploaddata.entity.UploadData">
         select * from t_upload_data where DELETED_CODE = 0 and USER_ID = #{usersDto.userId}
-        <choose>
-            <when test="uploadDataDto.sbsj != null">
-                and date_format(SBSJ,'%Y-%m') = date_format(#{uploadDataDto.sbsj},'%Y-%m')
-            </when>
-            <otherwise>
-                and date_format(CREATE_AT,'%Y-%m') = date_format(#{uploadDataDto.createAt},'%Y-%m')
-            </otherwise>
-        </choose>
+        and date_format(SBSJ,'%Y-%m') = date_format(#{uploadDataDto.sbsj},'%Y-%m')
     </select>
     <select id="queryPage" resultType="com.star.starboot.uploaddata.dto.UploadDataDto">
         select uploadData.*,users.USER_NAME from t_upload_data uploadData
