@@ -2,7 +2,18 @@
   <div class="app-container">
     <el-form ref="form" :model="form" label-width="400px" size="mini">
       <el-row>
-        <el-col style="text-align:right">本月：<el-tag :type="form.qrbj == 1 ? 'success': 'error' ">{{ form.qrbj == 1 ? '已上报': '未上报' }}</el-tag></el-col>
+        <el-col style="text-align:left" span="12">
+          <el-button type="primary" :loading="loading" size="mini" @click="supplementData()">补报</el-button><span class="bank15" /><span class="bank15" />
+          <el-form-item label="上报日期">
+            <el-date-picker
+              v-model="form.sbsj"
+              type="month"
+              placeholder="选择月"
+              :readonly="readonly"
+            />
+          </el-form-item>
+        </el-col>
+        <el-col style="text-align:right" span="12">本月：<el-tag :type="form.qrbj == 1 ? 'success': 'error' ">{{ form.qrbj == 1 ? '已上报': '未上报' }}</el-tag></el-col>
       </el-row>
       <el-collapse v-model="activeNames">
         <el-collapse-item title="机构配置信息" name="1">
@@ -233,27 +244,27 @@ export default {
   computed: {
   // ICU床位率     ICU床位数/医院总床位数
     icuCwl: function() {
-      if (!this.$isEmpty(this.form.icuCws) && !this.$isEmpty(this.form.yyzcws) && this.form.yyzcws !== 0) {
-        var cwl = (this.form.icuCws / this.form.yyzcws).toFixed(5)
-        return (Math.round(cwl * 10000) / 100).toFixed(2) + '%'
-      }
-      return ''
+      // if (!this.$isEmpty(this.form.icuCws) && !this.$isEmpty(this.form.yyzcws) && this.form.yyzcws !== 0) {
+      var cwl = (this.form.icuCws / this.form.yyzcws).toFixed(5)
+      return (Math.round(cwl * 10000) / 100).toFixed(2) + '%'
+      // }
+      // return ''
     },
     // ICU医师床位比      全日制ICU专科医师数/ICU床位数
     icuYscwb: function() {
-      if (!this.$isEmpty(this.form.icuZkys) && !this.$isEmpty(this.form.icuCws) && this.form.icuCws !== 0) {
-      // var cwl = (this.form.icuZkys / this.form.icuCws).toFixed(5)
-        return this.$decimalPercentConvert(this.form.icuZkys, this.form.icuCws)
-      }
-      return ''
+      // if (!this.$isEmpty(this.form.icuZkys) && !this.$isEmpty(this.form.icuCws) && this.form.icuCws !== 0) {
+      // // var cwl = (this.form.icuZkys / this.form.icuCws).toFixed(5)
+      return this.$decimalPercentConvert(this.form.icuZkys, this.form.icuCws)
+      // }
+      // return ''
     },
     // ICU护士床位比      ICU护士总数/ICU床位数
     icuHscwb: function() {
-      if (!this.$isEmpty(this.form.icuHszs) && !this.$isEmpty(this.form.icuCws) && this.form.icuCws !== 0) {
-      // var cwl = (this.form.icuZkys / this.form.icuCws).toFixed(5)
-        return this.$decimalPercentConvert(this.form.icuHszs, this.form.icuCws)
-      }
-      return ''
+      // if (!this.$isEmpty(this.form.icuHszs) && !this.$isEmpty(this.form.icuCws) && this.form.icuCws !== 0) {
+      // // var cwl = (this.form.icuZkys / this.form.icuCws).toFixed(5)
+      return this.$decimalPercentConvert(this.form.icuHszs, this.form.icuCws)
+      // }
+      // return ''
     },
     // ICU收治患者总人数    ICU原有病人数 + ICU新收治病人数
     icuSzhzzrs: function() {
@@ -279,27 +290,27 @@ export default {
     },
     // ICU患者收治率      ICU收治患者总人数/医院收治患者总人数
     icuHzszl: function() {
-      if (!this.$isEmpty(this.icuSzhzzrs) && !this.$isEmpty(this.yySzhzzrs) && this.yySzhzzrs !== 0) {
-        var bsf = (this.icuSzhzzrs / this.yySzhzzrs).toFixed(5)
-        return (Math.round(bsf * 10000) / 100).toFixed(2) + '%'
-      }
-      return ''
+      // if (!this.$isEmpty(this.icuSzhzzrs) && !this.$isEmpty(this.yySzhzzrs) && this.yySzhzzrs !== 0) {
+      //   var bsf = (this.icuSzhzzrs / this.yySzhzzrs).toFixed(5)
+      return (Math.round(bsf * 10000) / 100).toFixed(2) + '%'
+      // }
+      // return ''
     },
     // //急性生理与慢性健康评分（APACHE Ⅱ评分）≥ 15分患者收治率（入ICU24小时内）    入ICU24小时内，APACHE Ⅱ评分 ≥ 15分患者/ICU收治患者总人数
     apache: function() {
-      if (!this.$isEmpty(this.form.apacheHzs) && !this.$isEmpty(this.icuSzhzzrs) && this.icuSzhzzrs !== 0) {
-        var bsf = (this.form.apacheHzs / this.icuSzhzzrs).toFixed(5)
-        return (Math.round(bsf * 10000) / 100).toFixed(2) + '%'
-      }
-      return ''
+      // if (!this.$isEmpty(this.form.apacheHzs) && !this.$isEmpty(this.icuSzhzzrs) && this.icuSzhzzrs !== 0) {
+      var bsf = (this.form.apacheHzs / this.icuSzhzzrs).toFixed(5)
+      return (Math.round(bsf * 10000) / 100).toFixed(2) + '%'
+      // }
+      // return ''
     },
     // ICU患者收治床日率           ICU患者收治总床日数/医院收治患者总床日数
     icuHzszcrl: function() {
-      if (!this.$isEmpty(this.form.icuHzszzcrs) && !this.$isEmpty(this.form.yySzzcrs) && this.form.yySzzcrs !== 0) {
-        var bsf = (this.form.icuHzszzcrs / this.form.yySzzcrs).toFixed(5)
-        return (Math.round(bsf * 10000) / 100).toFixed(2) + '%'
-      }
-      return ''
+      // if (!this.$isEmpty(this.form.icuHzszzcrs) && !this.$isEmpty(this.form.yySzzcrs) && this.form.yySzzcrs !== 0) {
+      var bsf = (this.form.icuHzszzcrs / this.form.yySzzcrs).toFixed(5)
+      return (Math.round(bsf * 10000) / 100).toFixed(2) + '%'
+      // }
+      // return ''
     },
     // 感染性休克3h集束化治疗（bundle）完成率         全部完成3h bundle的患者数/入ICU诊断为Sepsis患者总数
     tbundleWcl: function() {
@@ -311,27 +322,27 @@ export default {
     },
     // 感染性休克6h集束化治疗（bundle）完成率        全部完成6h bundle的患者数/入ICU诊断为Sepsis患者总数
     sbundleWcl: function() {
-      if (!this.$isEmpty(this.form.sbundleHzs) && !this.$isEmpty(this.form.sepsisHzzs) && this.form.sepsisHzzs !== 0) {
-        var bsf = (this.form.sbundleHzs / this.form.sepsisHzzs).toFixed(5)
-        return (Math.round(bsf * 10000) / 100).toFixed(2) + '%'
-      }
-      return ''
+      // if (!this.$isEmpty(this.form.sbundleHzs) && !this.$isEmpty(this.form.sepsisHzzs) && this.form.sepsisHzzs !== 0) {
+      var bsf = (this.form.sbundleHzs / this.form.sepsisHzzs).toFixed(5)
+      return (Math.round(bsf * 10000) / 100).toFixed(2) + '%'
+      // }
+      // return ''
     },
     // 抗菌药物治疗前病原学送检率             使用抗菌药物前病原学检验标本送检例数/治疗性抗菌药物病例总数
     kjywsjl: function() {
-      if (!this.$isEmpty(this.form.kjywsjls) && !this.$isEmpty(this.form.kjysblzs) && this.form.kjysblzs !== 0) {
-        var bsf = (this.form.kjywsjls / this.form.kjysblzs).toFixed(5)
-        return (Math.round(bsf * 10000) / 100).toFixed(2) + '%'
-      }
-      return ''
+      // if (!this.$isEmpty(this.form.kjywsjls) && !this.$isEmpty(this.form.kjysblzs) && this.form.kjysblzs !== 0) {
+      var bsf = (this.form.kjywsjls / this.form.kjysblzs).toFixed(5)
+      return (Math.round(bsf * 10000) / 100).toFixed(2) + '%'
+      // }
+      // return ''
     },
     // 深静脉血栓（DVT）预防率          采取药物预防、非药物预防DVT措施的病例总数/ICU收治患者总人数
     dvtyfl: function() {
-      if (!this.$isEmpty(this.form.dvtblzs) && !this.$isEmpty(this.icuSzhzzrs) && this.icuSzhzzrs !== 0) {
-        var bsf = (this.form.dvtblzs / this.icuSzhzzrs).toFixed(5)
-        return (Math.round(bsf * 10000) / 100).toFixed(2) + '%'
-      }
-      return ''
+      // if (!this.$isEmpty(this.form.dvtblzs) && !this.$isEmpty(this.icuSzhzzrs) && this.icuSzhzzrs !== 0) {
+      var bsf = (this.form.dvtblzs / this.icuSzhzzrs).toFixed(5)
+      return (Math.round(bsf * 10000) / 100).toFixed(2) + '%'
+      // }
+      // return ''
     },
     // ICU总死亡人数                临床死亡人数 + 自动出院人数
     icuzswrs: function() {
@@ -346,90 +357,93 @@ export default {
     },
     // ICU患者实际病死率           ICU总死亡人数/ICU收治患者总人数
     icuSjbsl: function() {
-      if (!this.$isEmpty(this.icuzswrs) && !this.$isEmpty(this.icuSzhzzrs) && this.icuSzhzzrs !== 0) {
-        var bsf = (this.icuzswrs / this.icuSzhzzrs).toFixed(5)
-        return (Math.round(bsf * 10000) / 100).toFixed(2) + '%'
-      }
-      return ''
+      // if (!this.$isEmpty(this.icuzswrs) && !this.$isEmpty(this.icuSzhzzrs) && this.icuSzhzzrs !== 0) {
+      var bsf = (this.icuzswrs / this.icuSzhzzrs).toFixed(5)
+      return (Math.round(bsf * 10000) / 100).toFixed(2) + '%'
+      // }
+      // return ''
     },
     // ICU患者预计病死率           ICU收治患者入ICU预计病死率之和/ICU收治患者总人数
     icuYjbsl: function() {
-      if (!this.$isEmpty(this.form.icuYjbslzh) && !this.$isEmpty(this.icuSzhzzrs) && this.icuSzhzzrs !== 0) {
-        var bsf = (this.form.icuYjbslzh / this.icuSzhzzrs).toFixed(5)
-        return (Math.round(bsf * 10000) / 100).toFixed(2) + '%'
-      }
-      return ''
+      // if (!this.$isEmpty(this.form.icuYjbslzh) && !this.$isEmpty(this.icuSzhzzrs) && this.icuSzhzzrs !== 0) {
+      var bsf = (this.form.icuYjbslzh / this.icuSzhzzrs).toFixed(5)
+      return (Math.round(bsf * 10000) / 100).toFixed(2) + '%'
+      // }
+      // return ''
     },
     // ICU重症患者标化病死指数（Standardized Mortality Ratio）        ICU总死亡人数/ICU收治患者总人数/ICU收治患者入ICU预计病死率之和/ICU收治患者总人数
     icuBszs: function() {
-      if (!this.$isEmpty(this.icuzswrs) && !this.$isEmpty(this.icuSzhzzrs) && this.icuSzhzzrs !== 0 && !this.$isEmpty(this.form.icuYjbslzh) && this.form.icuYjbslzh !== 0 &&
-      !this.$isEmpty(this.icuSzhzzrs) && this.icuSzhzzrs !== 0) {
-        var bsf = ((this.icuzswrs / this.icuSzhzzrs) / (this.form.icuYjbslzh / this.icuSzhzzrs)).toFixed(5)
-        return (Math.round(bsf * 10000) / 100).toFixed(2) + '%'
-      }
-      return ''
+      // if (!this.$isEmpty(this.icuzswrs) && !this.$isEmpty(this.icuSzhzzrs) && this.icuSzhzzrs !== 0 && !this.$isEmpty(this.form.icuYjbslzh) && this.form.icuYjbslzh !== 0 &&
+      // !this.$isEmpty(this.icuSzhzzrs) && this.icuSzhzzrs !== 0) {
+      var bsf = ((this.icuzswrs / this.icuSzhzzrs) / (this.form.icuYjbslzh / this.icuSzhzzrs)).toFixed(5)
+      return (Math.round(bsf * 10000) / 100).toFixed(2) + '%'
+      // }
+      // return ''
     },
     // 非计划转入ICU率          非计划转入ICU患者数（术后）/转入ICU患者总数（术后）
     fjhIcuZrl: function() {
-      if (!this.$isEmpty(this.form.fjhIcuHzs) && !this.$isEmpty(this.form.zrIcuHzs) && this.form.zrIcuHzs !== 0) {
-        var bsf = (this.form.fjhIcuHzs / this.form.zrIcuHzs).toFixed(5)
-        return (Math.round(bsf * 10000) / 100).toFixed(2) + '%'
-      }
-      return ''
+      // if (!this.$isEmpty(this.form.fjhIcuHzs) && !this.$isEmpty(this.form.zrIcuHzs) && this.form.zrIcuHzs !== 0) {
+      var bsf = (this.form.fjhIcuHzs / this.form.zrIcuHzs).toFixed(5)
+      return (Math.round(bsf * 10000) / 100).toFixed(2) + '%'
+      // }
+      // return ''
     },
     // 转出ICU后48h内重返率        转出ICU后48h内重返ICU患者数/ICU转出患者总数
     cfl: function() {
-      if (!this.$isEmpty(this.form.cfIcuHzs) && !this.$isEmpty(this.form.zcIcuHzs) && this.form.zcIcuHzs !== 0) {
-        var bsf = (this.form.cfIcuHzs / this.form.zcIcuHzs).toFixed(5)
-        return (Math.round(bsf * 10000) / 100).toFixed(2) + '%'
-      }
-      return ''
+      // if (!this.$isEmpty(this.form.cfIcuHzs) && !this.$isEmpty(this.form.zcIcuHzs) && this.form.zcIcuHzs !== 0) {
+      var bsf = (this.form.cfIcuHzs / this.form.zcIcuHzs).toFixed(5)
+      return (Math.round(bsf * 10000) / 100).toFixed(2) + '%'
+      // }
+      // return ''
     },
     // 非计划气管插管拔管率         非计划气管插管脱出次数/ICU患者气管插管总例数
     fjhBgl: function() {
-      if (!this.$isEmpty(this.form.fjhTccs) && !this.$isEmpty(this.form.icuCgzls) && this.form.icuCgzls !== 0) {
-        var bsf = (this.form.fjhTccs / this.form.icuCgzls).toFixed(5)
-        return (Math.round(bsf * 10000) / 100).toFixed(2) + '%'
-      }
-      return ''
+      // if (!this.$isEmpty(this.form.fjhTccs) && !this.$isEmpty(this.form.icuCgzls) && this.form.icuCgzls !== 0) {
+      var bsf = (this.form.fjhTccs / this.form.icuCgzls).toFixed(5)
+      return (Math.round(bsf * 10000) / 100).toFixed(2) + '%'
+      // }
+      // return ''
     },
     // 气管插管拔管后48h内再插管率       计划拔管后48h内再插管例数/ICU患者气管插管拔管总例数(不包括非计划拔管患者)
     zcgl: function() {
-      if (!this.$isEmpty(this.form.zcgls) && !this.$isEmpty(this.form.icuBgzls) && this.form.icuBgzls !== 0) {
-        var bsf = (this.form.zcgls / this.form.icuBgzls).toFixed(5)
-        return (Math.round(bsf * 10000) / 100).toFixed(2) + '%'
-      }
-      return ''
+      // if (!this.$isEmpty(this.form.zcgls) && !this.$isEmpty(this.form.icuBgzls) && this.form.icuBgzls !== 0) {
+      var bsf = (this.form.zcgls / this.form.icuBgzls).toFixed(5)
+      return (Math.round(bsf * 10000) / 100).toFixed(2) + '%'
+      // }
+      // return ''
     },
     // ICU呼吸机相关性肺炎（VAP）发病率         ICU呼吸机相关肺炎病人总例数/ICU总机械通气天数
     vapFbl: function() {
-      if (!this.$isEmpty(this.form.icuFybrzls) && !this.$isEmpty(this.form.icuTqts) && this.form.icuTqts !== 0) {
-        var bsf = (this.form.icuFybrzls / this.form.icuTqts).toFixed(5)
-        return (Math.round(bsf * 10000) / 100).toFixed(2) + '%'
-      }
-      return ''
+      // if (!this.$isEmpty(this.form.icuFybrzls) && !this.$isEmpty(this.form.icuTqts) && this.form.icuTqts !== 0) {
+      var bsf = (this.form.icuFybrzls / this.form.icuTqts).toFixed(5)
+      return (Math.round(bsf * 10000) / 100).toFixed(2) + '%'
+      // }
+      // return ''
     },
     // ICU血管内导管相关血流感染（CRBSI）发病率        ICU中心静脉导管相关性血流感染总例数/ICU中心静脉导管总天数
     crbsiFbl: function() {
-      if (!this.$isEmpty(this.form.icuXlglzls) && !this.$isEmpty(this.form.icuJmdgzts) && this.form.icuJmdgzts !== 0) {
-        var bsf = (this.form.icuXlglzls / this.form.icuJmdgzts).toFixed(5)
-        return (Math.round(bsf * 10000) / 100).toFixed(2) + '%'
-      }
-      return ''
+      // if (!this.$isEmpty(this.form.icuXlglzls) && !this.$isEmpty(this.form.icuJmdgzts) && this.form.icuJmdgzts !== 0) {
+      var bsf = (this.form.icuXlglzls / this.form.icuJmdgzts).toFixed(5)
+      return (Math.round(bsf * 10000) / 100).toFixed(2) + '%'
+      // }
+      // return ''
     },
     // ICU导尿管相关泌尿系感染（CAUTI）发病率        ICU导尿管相关泌尿系统感染总例数/ICU尿管留置总天数
     cautiFbl: function() {
-      if (!this.$isEmpty(this.form.icuMnglzls) && !this.$isEmpty(this.form.icuNglzzts) && this.form.icuNglzzts !== 0) {
-        var bsf = (this.form.icuMnglzls / this.form.icuNglzzts).toFixed(5)
-        return (Math.round(bsf * 10000) / 100).toFixed(2) + '%'
-      }
-      return ''
+      // if (!this.$isEmpty(this.form.icuMnglzls) && !this.$isEmpty(this.form.icuNglzzts) && this.form.icuNglzzts !== 0) {
+      var bsf = (this.form.icuMnglzls / this.form.icuNglzzts).toFixed(5)
+      return (Math.round(bsf * 10000) / 100).toFixed(2) + '%'
+      // }
+      // return ''
     }
   },
   mounted() {
     this.query()
   },
   methods: {
+    supplementData() {
+
+    },
     submitForm(flag) {
       this.$refs.form.validate(valid => {
         if (valid) {
