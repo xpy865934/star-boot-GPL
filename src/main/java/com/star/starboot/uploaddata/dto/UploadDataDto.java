@@ -5,6 +5,8 @@ import com.star.starboot.uploaddata.entity.UploadData;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.util.List;
+
 /**
  * All rights Reserved, Designed By www.xpyvip.top
  *
@@ -22,4 +24,9 @@ public class UploadDataDto extends UploadData {
      * 上报人姓名
      */
     private String userName;
+
+    /**
+     * 上报时间范围
+     */
+    private List<String> sbsjRange;
 }
