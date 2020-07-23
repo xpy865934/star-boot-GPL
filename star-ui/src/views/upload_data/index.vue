@@ -2,18 +2,19 @@
   <div class="app-container">
     <el-form ref="form" :model="form" label-width="400px" size="mini">
       <el-row>
-        <el-col style="text-align:left" span="12">
-          <el-button type="primary" :loading="loading" size="mini" @click="supplementData()">补报</el-button><span class="bank15" /><span class="bank15" />
+        <el-col style="text-align:left" :span="12">
           <el-form-item label="上报日期">
             <el-date-picker
               v-model="form.sbsj"
               type="month"
               placeholder="选择月"
-              :readonly="readonly"
+              format="yyyy 年 MM 月"
+              value-format="yyyy-MM-dd"
+              @change="sbsjChange"
             />
           </el-form-item>
         </el-col>
-        <el-col style="text-align:right" span="12">本月：<el-tag :type="form.qrbj == 1 ? 'success': 'error' ">{{ form.qrbj == 1 ? '已上报': '未上报' }}</el-tag></el-col>
+        <el-col style="text-align:right" :span="12">状态：<el-tag :type="form.qrbj == 1 ? 'success': 'error' ">{{ form.qrbj == 1 ? '已上报': '未上报' }}</el-tag></el-col>
       </el-row>
       <el-collapse v-model="activeNames">
         <el-collapse-item title="机构配置信息" name="1">
@@ -230,7 +231,9 @@ export default {
     return {
       activeNames: ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
       loading: false,
-      form: {},
+      form: {
+        sbsj: null
+      },
       url: '',
       urlList: {
         add: 'uploadData/save',
@@ -291,7 +294,7 @@ export default {
     // ICU患者收治率      ICU收治患者总人数/医院收治患者总人数
     icuHzszl: function() {
       // if (!this.$isEmpty(this.icuSzhzzrs) && !this.$isEmpty(this.yySzhzzrs) && this.yySzhzzrs !== 0) {
-      //   var bsf = (this.icuSzhzzrs / this.yySzhzzrs).toFixed(5)
+      var bsf = (this.icuSzhzzrs / this.yySzhzzrs).toFixed(5)
       return (Math.round(bsf * 10000) / 100).toFixed(2) + '%'
       // }
       // return ''
@@ -441,62 +444,100 @@ export default {
     this.query()
   },
   methods: {
-    supplementData() {
-
-    },
     submitForm(flag) {
       this.$refs.form.validate(valid => {
         if (valid) {
-          this.loading = true
-          this.form.qrbj = flag
-
           if (flag === 1) {
-            this.url = this.urlList.upload
+            this.$confirm('确认上报？', {
+              confirmButtonText: '确认',
+              cancelButtonText: '取消',
+              type: 'error'
+            }).then(() => {
+              this.url = this.urlList.upload
+              this.confirmSubmit(flag)
+            }).catch(() => {
+            })
+          } else {
+            this.confirmSubmit(flag)
           }
-
-          // 设置计算值
-          this.form.icuCwl = this.icuCwl
-          this.form.icuYscwb = this.icuYscwb
-          this.form.icuHscwb = this.icuHscwb
-          this.form.icuSzhzzrs = this.icuSzhzzrs
-          this.form.yySzhzzrs = this.yySzhzzrs
-          this.form.icuHzszl = this.icuHzszl
-          this.form.apache = this.apache
-          this.form.icuHzszcrl = this.icuHzszcrl
-          this.form.tbundleWcl = this.tbundleWcl
-          this.form.sbundleWcl = this.sbundleWcl
-          this.form.kjywsjl = this.kjywsjl
-          this.form.dvtyfl = this.dvtyfl
-          this.form.icuzswrs = this.icuzswrs
-          this.form.icuSjbsl = this.icuSjbsl
-          this.form.icuYjbsl = this.icuYjbsl
-          this.form.icuBszs = this.icuBszs
-          this.form.fjhIcuZrl = this.fjhIcuZrl
-          this.form.cfl = this.cfl
-          this.form.fjhBgl = this.fjhBgl
-          this.form.zcgl = this.zcgl
-          this.form.vapFbl = this.vapFbl
-          this.form.crbsiFbl = this.crbsiFbl
-          this.form.cautiFbl = this.cautiFbl
-
-          this.$store.dispatch(this.url, this.form).then(() => {
-            this.loading = false
-            this.query()
-          }).catch(() => {
-            this.loading = false
-          })
         } else {
           console.log('error submit!!')
           return false
         }
       })
     },
+    confirmSubmit(flag) {
+      this.loading = true
+      this.form.qrbj = flag
+      // 设置计算值
+      this.form.icuCwl = this.icuCwl
+      this.form.icuYscwb = this.icuYscwb
+      this.form.icuHscwb = this.icuHscwb
+      this.form.icuSzhzzrs = this.icuSzhzzrs
+      this.form.yySzhzzrs = this.yySzhzzrs
+      this.form.icuHzszl = this.icuHzszl
+      this.form.apache = this.apache
+      this.form.icuHzszcrl = this.icuHzszcrl
+      this.form.tbundleWcl = this.tbundleWcl
+      this.form.sbundleWcl = this.sbundleWcl
+      this.form.kjywsjl = this.kjywsjl
+      this.form.dvtyfl = this.dvtyfl
+      this.form.icuzswrs = this.icuzswrs
+      this.form.icuSjbsl = this.icuSjbsl
+      this.form.icuYjbsl = this.icuYjbsl
+      this.form.icuBszs = this.icuBszs
+      this.form.fjhIcuZrl = this.fjhIcuZrl
+      this.form.cfl = this.cfl
+      this.form.fjhBgl = this.fjhBgl
+      this.form.zcgl = this.zcgl
+      this.form.vapFbl = this.vapFbl
+      this.form.crbsiFbl = this.crbsiFbl
+      this.form.cautiFbl = this.cautiFbl
+
+      this.$store.dispatch(this.url, this.form).then(() => {
+        this.loading = false
+        this.sbsjChange(this.form.sbsj)
+      }).catch(() => {
+        this.loading = false
+      })
+    },
     query() {
-      this.$store.dispatch(this.urlList.query, { createAt: this.$DateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss') }).then((data) => {
+      this.$store.dispatch(this.urlList.query, { sbsj: this.$DateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss') }).then((data) => {
         this.form = data
 
         if (this.form.qrbj === 1) {
           this.readonly = true
+        } else {
+          this.readonly = false
+        }
+
+        // 设置第一次查询未上报的时间
+        if (this.$isEmpty(this.form.sbsj)) {
+          this.sbsjChange(this.$DateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss'))
+        }
+
+        if (data.uploadDataId) {
+          this.url = this.urlList.update
+        } else {
+          this.url = this.urlList.add
+        }
+      }).catch(() => {
+
+      })
+    },
+    sbsjChange(sbsj) {
+      this.$store.dispatch(this.urlList.query, { sbsj: sbsj }).then((data) => {
+        this.form = data
+
+        if (this.form.qrbj === 1) {
+          this.readonly = true
+        } else {
+          this.readonly = false
+        }
+
+        // 设置切换日期时上报时间
+        if (this.$isEmpty(this.form.sbsj)) {
+          this.form.sbsj = sbsj
         }
 
         if (data.uploadDataId) {
