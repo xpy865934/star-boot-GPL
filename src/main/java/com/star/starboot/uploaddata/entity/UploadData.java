@@ -325,7 +325,7 @@ public class UploadData extends AbstractEntity {
      * 上报时间
      */
     @TableField("SBSJ")
-    @JsonFormat(pattern = SystemConstant.DATE_PATTERN,timezone = "GMT+8")
+    @JsonFormat(pattern = SystemConstant.DATE_MONTH_PATTERN,timezone = "GMT+8")
     private Date sbsj;
     /**
      * 确认标记1 确认 0 未确认

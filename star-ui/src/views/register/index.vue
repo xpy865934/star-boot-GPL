@@ -8,7 +8,7 @@
 
       <el-form-item prop="userName">
         <span class="svg-container">
-          <svg-icon icon-class="user" />
+          <i class="el-icon-s-home" />
         </span>
         <el-input
           ref="userName"
@@ -38,7 +38,7 @@
 
       <el-form-item prop="tel">
         <span class="svg-container">
-          <svg-icon icon-class="user" />
+          <i class="el-icon-phone" />
         </span>
         <el-input
           ref="tel"
@@ -52,7 +52,7 @@
 
       <el-form-item prop="email">
         <span class="svg-container">
-          <svg-icon icon-class="user" />
+          <i class="el-icon-s-promotion" />
         </span>
         <el-input
           ref="email"

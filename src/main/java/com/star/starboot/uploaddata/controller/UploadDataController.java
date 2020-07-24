@@ -54,6 +54,21 @@ public class UploadDataController extends AbstractController {
     @SysLog(description = "新增上传ICU信息")
     public Result save(@RequestBody UploadDataDto uploadDataDto){
         UsersDto userInfo = ShiroUtils.build().getUserInfo();
+
+        if(StringUtils.isEmpty(uploadDataDto.getSbsj())){
+            return Result.create(ResultCode.ERROR_PARAMS);
+        }
+        if(new Date().before(uploadDataDto.getSbsj())){
+            // 当前时间在所选时间之前，则不能填报
+            return  Result.create(ResultCode.SYSTEM_ERR.getCode(),"月份异常，不可以提前申报");
+        }
+
+        // 判断是否已经存在上传的ICU信息
+        UploadData uploadData = uploadDataService.queryByDate(uploadDataDto, userInfo);
+        if(!StringUtils.isEmpty(uploadData)){
+            return Result.create(ResultCode.SYSTEM_ERR.getCode(),"当月已经存在数据，不可以重复新增");
+        }
+        uploadDataDto.setUserId(userInfo.getUserId());
         uploadDataDto.setCreateBy(userInfo.getUserId());
         uploadDataService.saveOrUpdate(uploadDataDto);
         return Result.create(ResultCode.SUCCESS_SAVE);
@@ -86,7 +101,11 @@ public class UploadDataController extends AbstractController {
             Integer current = param.getInteger("current");
             Integer size = param.getInteger("size");
             UploadDataDto uploadDataDto = param.getObject("bean", UploadDataDto.class);
-            uploadDataDto.setUserId(userInfo.getUserId());
+            // 判断是否有全部权限
+            if(!ShiroUtils.build().checkPermission("uploadDataQueryPagerAll")){
+                uploadDataDto.setUserId(userInfo.getUserId());
+            }
+
             IPage<UploadDataDto> list = uploadDataService.queryPager(uploadDataDto,current,size);
             return Result.success(list);
     }
@@ -103,7 +122,6 @@ public class UploadDataController extends AbstractController {
         uploadDataDto.setUpdateAt(new Date());
         uploadDataDto.setUpdateBy(userInfo.getUserId());
         uploadDataDto.setUserId(userInfo.getUserId());
-        uploadDataDto.setSbsj(new Date());
         uploadDataService.saveOrUpdate(uploadDataDto);
         return Result.create(ResultCode.SUCCESS_UPLOAD);
     }
@@ -118,15 +136,11 @@ public class UploadDataController extends AbstractController {
         UsersDto userInfo = ShiroUtils.build().getUserInfo();
         UploadDataDto uploadDataDto = new UploadDataDto();
 
-        //  填写日期查询，主要用于查询本月填写的数据,如果上报日期存在，则优先按照上报时间查询
         UploadData uploadData = null;
         if(!StringUtils.isEmpty(data.getSbsj())){
             uploadData = uploadDataService.queryByDate(data, userInfo);
         } else {
-            if(StringUtils.isEmpty(data.getCreateAt())){
-                return Result.create(ResultCode.ERROR_PARAMS);
-            }
-            uploadData = uploadDataService.queryByDate(data, userInfo);
+            return Result.create(ResultCode.ERROR_PARAMS);
         }
 
         if(!StringUtils.isEmpty(uploadData)){
