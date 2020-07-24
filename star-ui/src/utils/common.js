@@ -219,6 +219,14 @@ export function formatPercent(val) {
 }
 
 /**
+ * 格式化为千分比
+ * @param {*}} val
+ */
+export function formatThousandth(val) {
+  return (Math.round(val * 100000) / 100).toFixed(2) + '‰'
+}
+
+/**
  * 小数转换为分数（或者比例）  会出现1/3 为3333/10000
  */
 export function decimalConvert(d, intervalChar) {

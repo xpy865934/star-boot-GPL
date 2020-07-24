@@ -12,13 +12,17 @@
           :label-width="this.$config.formLabelWidth"
         >
           <el-form-item
-            label="上报日期"
-            prop="contractCode"
+            label="上报月份"
+            prop="sbsj"
           >
-            <el-input
-              v-model="searchForm.contractCode"
-              placeholder=""
-              :size="this.$config.formSize"
+            <el-date-picker
+              v-model="searchForm.sbsjRange"
+              type="monthrange"
+              range-separator="至"
+              start-placeholder="开始月份"
+              format="yyyy 年 MM 月"
+              value-format="yyyy-MM-dd"
+              end-placeholder="结束月份"
             />
           </el-form-item>
         </el-form>
@@ -81,8 +85,14 @@ export default {
           align: 'center'
         },
         {
-          // 上报人
+          // 医院
           prop: 'userName',
+          label: '医院',
+          align: 'center'
+        },
+        {
+          // 医生
+          prop: 'userCode',
           label: '上报人',
           align: 'center'
         }
