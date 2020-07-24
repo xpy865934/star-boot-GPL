@@ -3,7 +3,7 @@
     <el-form ref="form" :model="form" label-width="400px" size="mini">
       <el-row>
         <el-col style="text-align:left" :span="12">
-          <el-form-item label="上报日期">
+          <el-form-item label="上报月份">
             <el-date-picker
               v-model="form.sbsj"
               type="month"
@@ -248,18 +248,20 @@ export default {
   // ICU床位率     ICU床位数/医院总床位数
     icuCwl: function() {
       // if (!this.$isEmpty(this.form.icuCws) && !this.$isEmpty(this.form.yyzcws) && this.form.yyzcws !== 0) {
-      var cwl = (this.form.icuCws / this.form.yyzcws).toFixed(5)
-      return (Math.round(cwl * 10000) / 100).toFixed(2) + '%'
-      // }
-      // return ''
+      if (!this.$isEmpty(this.form.icuCws) && !this.$isEmpty(this.form.yyzcws)) {
+        var cwl = (this.form.icuCws / this.form.yyzcws).toFixed(5)
+        return (Math.round(cwl * 10000) / 100).toFixed(2) + '%'
+      }
+      return ''
     },
     // ICU医师床位比      全日制ICU专科医师数/ICU床位数
     icuYscwb: function() {
       // if (!this.$isEmpty(this.form.icuZkys) && !this.$isEmpty(this.form.icuCws) && this.form.icuCws !== 0) {
-      // // var cwl = (this.form.icuZkys / this.form.icuCws).toFixed(5)
-      return this.$decimalPercentConvert(this.form.icuZkys, this.form.icuCws)
-      // }
-      // return ''
+      if (!this.$isEmpty(this.form.icuZkys) && !this.$isEmpty(this.form.icuCws)) {
+      // var cwl = (this.form.icuZkys / this.form.icuCws).toFixed(5)
+        return this.$decimalPercentConvert(this.form.icuZkys, this.form.icuCws)
+      }
+      return ''
     },
     // ICU护士床位比      ICU护士总数/ICU床位数
     icuHscwb: function() {

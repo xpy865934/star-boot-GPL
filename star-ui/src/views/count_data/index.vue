@@ -12,7 +12,7 @@
           :label-width="this.$config.formLabelWidth"
         >
           <el-form-item
-            label="上报日期"
+            label="上报月份"
             prop="sbsj"
           >
             <el-date-picker
@@ -85,8 +85,14 @@ export default {
           align: 'center'
         },
         {
-          // 上报人
+          // 医院
           prop: 'userName',
+          label: '医院',
+          align: 'center'
+        },
+        {
+          // 医生
+          prop: 'userCode',
           label: '上报人',
           align: 'center'
         }

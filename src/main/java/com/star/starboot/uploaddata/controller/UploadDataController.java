@@ -101,7 +101,11 @@ public class UploadDataController extends AbstractController {
             Integer current = param.getInteger("current");
             Integer size = param.getInteger("size");
             UploadDataDto uploadDataDto = param.getObject("bean", UploadDataDto.class);
-            uploadDataDto.setUserId(userInfo.getUserId());
+            // 判断是否有全部权限
+            if(!ShiroUtils.build().checkPermission("uploadDataQueryPagerAll")){
+                uploadDataDto.setUserId(userInfo.getUserId());
+            }
+
             IPage<UploadDataDto> list = uploadDataService.queryPager(uploadDataDto,current,size);
             return Result.success(list);
     }
