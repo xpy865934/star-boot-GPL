@@ -19,7 +19,7 @@ import '@/permission' // permission control
 
 import config from '@/config' // config
 
-import { isEmpty, isIntNum, isNumber, decimalPercentConvert } from '@/utils/common'
+import { isEmpty, isIntNum, isNumber, decimalPercentConvert, formatPercent, formatThousandth } from '@/utils/common'
 
 // 自定义组件
 // 分页   // 暂时封装到了表格中，没有单独使用
@@ -40,6 +40,8 @@ Vue.prototype.$config = config
 Vue.prototype.$isEmpty = isEmpty
 Vue.prototype.$isIntNum = isIntNum
 Vue.prototype.$isNumber = isNumber
+Vue.prototype.$formatPercent = formatPercent
+Vue.prototype.$formatThousandth = formatThousandth
 Vue.prototype.$decimalPercentConvert = decimalPercentConvert
 
 // 重写$messgae
