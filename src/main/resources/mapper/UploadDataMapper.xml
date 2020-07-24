@@ -81,6 +81,9 @@
     </sql>
 
     <sql id="base_query">
+        <if test='uploadDataDto.userId != null and uploadDataDto.userId != ""'>
+            and uploadData.USER_ID = #{uploadDataDto.userId}
+        </if>
         <if test='uploadDataDto.sbsj != null'>
             and date_format(uploadData.SBSJ,'%Y-%m') = date_format(#{uploadDataDto.sbsj},'%Y-%m')
         </if>
@@ -95,9 +98,9 @@
         and date_format(SBSJ,'%Y-%m') = date_format(#{uploadDataDto.sbsj},'%Y-%m')
     </select>
     <select id="queryPage" resultType="com.star.starboot.uploaddata.dto.UploadDataDto">
-        select uploadData.*,users.USER_NAME from t_upload_data uploadData
+        select uploadData.*,users.USER_NAME,users.USER_CODE from t_upload_data uploadData
         left join t_users users on uploadData.USER_ID = users.USER_ID
-        where uploadData.DELETED_CODE = 0 and uploadData.USER_ID = #{uploadDataDto.userId}
+        where uploadData.DELETED_CODE = 0
         <include refid="base_query"/>
     </select>
 

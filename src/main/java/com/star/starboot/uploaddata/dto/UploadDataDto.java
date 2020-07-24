@@ -21,9 +21,14 @@ import java.util.List;
 public class UploadDataDto extends UploadData {
 
     /**
-     * 上报人姓名
+     * 医院
      */
     private String userName;
+
+    /**
+     * 医生
+     */
+    private String userCode;
 
     /**
      * 上报时间范围

@@ -3,12 +3,14 @@ package com.star.starboot.common.utils;
 import com.star.starboot.system.dto.UsersDto;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.DefaultHashService;
 import org.apache.shiro.crypto.hash.HashRequest;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.SessionKey;
 import org.apache.shiro.subject.SimplePrincipalCollection;
+import org.apache.shiro.subject.Subject;
 import org.apache.shiro.subject.support.DefaultSubjectContext;
 import org.apache.shiro.util.ByteSource;
 import org.apache.shiro.web.session.mgt.WebSessionKey;
@@ -17,6 +19,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Set;
 
 /**
  * All rights Reserved, Designed By www.xpyvip.top
@@ -85,5 +88,22 @@ public class ShiroUtils {
         }finally{
         }
         return null;
+    }
+
+    /**
+     * 检查当前用户是否具有该权限
+     * @param permission
+     * @return
+     */
+    public Boolean checkPermission(String permission){
+        SimpleAuthorizationInfo info = (SimpleAuthorizationInfo) SecurityUtils.getSubject().getSession().getAttribute("permissions");
+
+        Set<String> stringPermissions = info.getStringPermissions();
+        for (String str : stringPermissions) {
+            if(permission.equals(str)){
+                return true;
+            }
+        }
+        return false;
     }
 }

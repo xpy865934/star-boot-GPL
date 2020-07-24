@@ -7,7 +7,7 @@
           <el-form-item label="医院名称(中文)">
             <el-input v-model="form.userName" disabled />
           </el-form-item>
-          <el-form-item label="医院名称(英文)">
+          <el-form-item label="医生姓名">
             <el-input v-model="form.userCode" disabled />
           </el-form-item>
           <el-form-item
