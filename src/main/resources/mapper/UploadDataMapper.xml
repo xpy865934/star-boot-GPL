@@ -102,6 +102,7 @@
         left join t_users users on uploadData.USER_ID = users.USER_ID
         where uploadData.DELETED_CODE = 0
         <include refid="base_query"/>
+        Order by uploadData.SBSJ desc
     </select>
 
 </mapper>
