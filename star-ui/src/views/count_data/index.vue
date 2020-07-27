@@ -81,7 +81,7 @@ export default {
         {
           // 上报日期
           prop: 'sbsj',
-          label: '上报日期',
+          label: '上报月份',
           align: 'center'
         },
         {
