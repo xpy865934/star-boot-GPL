@@ -36,3 +36,11 @@ export function loginOut() {
 export function queryPager(params) {
   return request.post('/users/queryPager', params, false)
 }
+
+/**
+ * 删除用户
+ * @param {*} data
+ */
+export function deleteById(data) {
+  return request.get('/users/deleteById/' + data.userId, {}, true)
+}
