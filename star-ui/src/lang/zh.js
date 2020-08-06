@@ -79,6 +79,12 @@ export default {
     formNotValid: '请完善相关信息',
     smallType: '所属类型'
   },
+  tagsView: {
+    refresh: '刷新',
+    close: '关闭',
+    closeOthers: '关闭其他',
+    closeAll: '关闭所有'
+  },
   // 用户管理
   users: {
     userCode: '用户名(医生姓名)',
