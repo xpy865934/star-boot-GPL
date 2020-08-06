@@ -66,51 +66,6 @@ export const constantRoutes = [
 ]
 
 export const asyncRoutes = [
-  {
-    path: '/upload_data',
-    component: Layout,
-    access: ['uploadData'],
-    children: [
-      {
-        path: 'index',
-        name: 'uploadData',
-        access: ['uploadData'],
-        component: () => import('@/views/upload_data/index'),
-        meta: { title: 'uploadData', icon: 'form' }
-      }
-    ]
-  },
-
-  {
-    path: '/count_data',
-    component: Layout,
-    access: ['countData'],
-    children: [
-      {
-        path: 'index',
-        name: 'countData',
-        access: ['countData'],
-        component: () => import('@/views/count_data/index'),
-        meta: { title: 'countData', icon: 'el-icon-notebook-2' }
-      }
-    ]
-  },
-
-  {
-    path: '/person_data',
-    component: Layout,
-    access: ['personData'],
-    children: [
-      {
-        path: 'index',
-        name: 'personData',
-        access: ['personData'],
-        component: () => import('@/views/person_data/index'),
-        meta: { title: 'personData', icon: 'el-icon-user-solid' }
-      }
-    ]
-  },
-
   // 系统管理
   {
     path: '/system_management',
