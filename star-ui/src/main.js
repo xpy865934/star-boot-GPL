@@ -53,6 +53,20 @@ Vue.prototype.$message = function(data) {
   })
 }
 
+// 权限校验
+Vue.prototype.$access = function(permission) {
+  const permissions = store.getters.permissions
+  if (permission) {
+    if (permissions.indexOf(permission) > -1) {
+      return true
+    } else {
+      return false
+    }
+  } else {
+    return true
+  }
+}
+
 // 日期格式化
 Vue.prototype.$DateFormat = function(date, fmt) { // author: meizz
   var o = {
