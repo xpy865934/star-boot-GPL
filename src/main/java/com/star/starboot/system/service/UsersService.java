@@ -37,4 +37,10 @@ public interface UsersService extends IService<Users> {
      * @return
      */
     IPage<UsersDto> queryPager(UsersDto usersDto, Integer current, Integer size);
+
+    /**
+     * 删除用户
+     * @param userId
+     */
+    void deleteById(String userId);
 }
