@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.star.starboot.common.utils.CommonUtils;
+import com.star.starboot.common.utils.ShiroUtils;
 import com.star.starboot.constant.SystemConstant;
 import com.star.starboot.exception.BusinessException;
 import com.star.starboot.system.dao.DepartmentMapper;
@@ -20,6 +21,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+
+import java.util.Date;
 
 /**
  * <p>
@@ -77,5 +80,18 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
     @Override
     public IPage<UsersDto> queryPager(UsersDto usersDto, Integer current, Integer size) {
         return usersMapper.queryPage(new Page(current, size), usersDto);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void deleteById(String userId) {
+        UsersDto userInfo = ShiroUtils.build().getUserInfo();
+        Users user = new Users();
+        user.setUserId(userId);
+        user.setDeletedAt(new Date());
+        user.setDeletedBy(userInfo.getUserId());
+        usersMapper.updateById(user);
+        // updateById 无法更新删除字段  UPDATE t_users SET DELETED_BY=?, DELETED_AT=? WHERE USER_ID=? AND DELETED_CODE='0'
+        usersMapper.deleteById(userId);
     }
 }

@@ -4,13 +4,13 @@ package com.star.starboot.system.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.star.starboot.annotation.SysLog;
+import com.star.starboot.common.controller.AbstractController;
 import com.star.starboot.common.enums.ResultCode;
 import com.star.starboot.common.utils.ShiroUtils;
 import com.star.starboot.common.vo.Result;
 import com.star.starboot.config.shiro.UserPasswordRealm;
 import com.star.starboot.system.dto.UsersDto;
 import com.star.starboot.system.service.UsersService;
-import com.star.starboot.uploaddata.dto.UploadDataDto;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -18,8 +18,6 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-
-import com.star.starboot.common.controller.AbstractController;
 
 /**
  * <p>
@@ -76,6 +74,18 @@ public class UsersController extends AbstractController {
         }else{
             return Result.create(ResultCode.USER_INFO_LOSE_ERROR);
         }
+    }
+
+    /**
+     * 删除用户
+     * @return
+     */
+    @GetMapping("/deleteById/{userId}")
+    @RequiresPermissions("usersDeleted")
+    @SysLog(description = "删除用户")
+    public Result deleteById(@PathVariable String userId){
+        usersService.deleteById(userId);
+        return Result.success();
     }
 }
 

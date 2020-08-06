@@ -140,6 +140,34 @@ export default {
               this.addRowVisible = true
               this.addRowDisabled = false
             }
+          },
+          {
+            // 删除
+            label: this.$t('common.delete'),
+            type: 'danger',
+            showFun: (index, row) => {
+              if (this.$access('usersDeleted')) {
+                return true
+              } else {
+                return false
+              }
+            },
+            method: (index, row) => {
+              // 删除
+              this.$confirm(this.$t('common.comfirmDelete'), this.$t('common.info'), {
+                confirmButtonText: this.$t('common.comfirm'),
+                cancelButtonText: this.$t('common.cancle'),
+                type: 'error'
+              }).then(() => {
+                // 删除成功
+                this.$store.dispatch('user/deleteById', { userId: row.userId }).then((res) => {
+                  // 重新查询
+                  this.getPagerData(this.pagination.pageIndex, this.pagination.pageSize, this.searchForm)
+                }).catch(() => {
+                })
+              }).catch(() => {
+              })
+            }
           }
         ]
       }
