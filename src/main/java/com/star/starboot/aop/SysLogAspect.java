@@ -186,6 +186,7 @@ public class SysLogAspect {
             } else if ("GET".equals(method)) {
                 params = queryString;
             }
+            params = params.replaceAll("%(?![0-9a-fA-F]{2})", "%25");
             params = URLDecoder.decode(params, "utf-8");
         }
         return params;
