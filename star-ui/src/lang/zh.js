@@ -7,7 +7,8 @@ export default {
     systemManagement: '系统管理',
     hztj: '汇总统计',
     ureportDesigner: '报表设计',
-    users: '用户管理'
+    users: '用户管理',
+    resources: '菜单管理'
   },
   common: {
     searchCondition: '查询条件',

@@ -27,6 +27,7 @@ public class AnonAction {
         put("/contract/getAllContract","anon");
         put("/sysAppSetting/getAppVersion","anon");
         put("/sysAppSetting/downloadAppUpdate","anon");
+        put("/resources/queryList","anon");
 
         // 部门、组织机构
         put("/department/getDepartmentsTree*", "anon");
