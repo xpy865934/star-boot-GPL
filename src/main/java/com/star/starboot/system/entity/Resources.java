@@ -72,4 +72,9 @@ public class Resources extends AbstractEntity {
     private String resourcesCode;
     @TableField("COMPANY_ID")
     private String CompanyId;
+    /**
+     * 排序号
+     */
+    @TableField("pxh")
+    private String pxh;
 }

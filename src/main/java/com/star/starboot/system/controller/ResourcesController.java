@@ -1,12 +1,21 @@
 package com.star.starboot.system.controller;
 
 
+import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.star.starboot.annotation.SysLog;
+import com.star.starboot.common.vo.Result;
+import com.star.starboot.system.dto.ResourcesDto;
+import com.star.starboot.system.dto.UsersDto;
+import com.star.starboot.system.service.ResourcesService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RestController;
 import com.star.starboot.common.controller.AbstractController;
+
+import java.util.List;
 
 /**
  * <p>
@@ -22,5 +31,20 @@ import com.star.starboot.common.controller.AbstractController;
 @Slf4j
 public class ResourcesController extends AbstractController {
 
+    @Autowired
+    private ResourcesService resourcesService;
+
+    /**
+     * 获取资源列表
+     * @return
+     */
+    @PostMapping("/queryList")
+//    @RequiresPermissions("resourcesQueryList")
+    @SysLog(description = "获取资源列表")
+    public Result queryList(@RequestBody JSONObject param){
+        ResourcesDto resourcesDto = param.getObject("bean", ResourcesDto.class);
+        List<ResourcesDto> list = resourcesService.queryList(resourcesDto);
+        return Result.success(list);
+    }
 }
 
