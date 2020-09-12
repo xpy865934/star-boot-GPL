@@ -22,4 +22,11 @@ public interface RolesReResourcesService extends IService<RolesReResources> {
      * @return
      */
     List<Resources> getResourcesByRoleTid(String roleId);
+
+    /**
+     * 保存角色和资源的关联关系
+     * @param roleId
+     * @param checked
+     */
+    void save(String roleId, List<String> checked);
 }

@@ -1,7 +1,10 @@
 package com.star.starboot.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.star.starboot.system.dto.ResourcesDto;
 import com.star.starboot.system.entity.Resources;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,16 @@ import com.star.starboot.system.entity.Resources;
  */
 public interface ResourcesService extends IService<Resources> {
 
+    /**
+     * 查询资源列表
+     * @param resourcesDto
+     * @return
+     */
+    List<ResourcesDto> queryList(ResourcesDto resourcesDto);
+
+    /**
+     * 删除资源
+     * @param resourceId
+     */
+    void deleteById(String resourceId);
 }

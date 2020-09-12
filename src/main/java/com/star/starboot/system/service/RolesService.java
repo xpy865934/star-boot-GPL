@@ -1,5 +1,7 @@
 package com.star.starboot.system.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.star.starboot.system.dto.RolesDto;
 import com.star.starboot.system.entity.Roles;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.apache.ibatis.annotations.Param;
@@ -23,4 +25,13 @@ public interface RolesService extends IService<Roles> {
      * @return
      */
     List<Roles> findByUserIdAndCompany(String userId, String companyId);
+
+    /**
+     * 分页获取角色信息
+     * @param rolesDto
+     * @param current
+     * @param size
+     * @return
+     */
+    IPage<RolesDto> queryPager(RolesDto rolesDto, Integer current, Integer size);
 }

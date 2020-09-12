@@ -72,4 +72,14 @@ public class Resources extends AbstractEntity {
     private String resourcesCode;
     @TableField("COMPANY_ID")
     private String CompanyId;
+    /**
+     * 排序号
+     */
+    @TableField("pxh")
+    private String pxh;
+    /**
+     * 是否启用 1 启用 0 未启用 默认是1
+     */
+    @TableField("used")
+    private Integer used;
 }

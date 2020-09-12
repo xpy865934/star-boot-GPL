@@ -29,6 +29,9 @@
         DELETED_CODE,
         ROLES_RE_RESOURCES_ID, RESOURCES_ID, ROLE_ID
     </sql>
+    <delete id="deleteByRoleId">
+        update t_roles_re_resources re set re.DELETED_CODE = 1,re.DELETED_AT = NOW(),re.DELETED_BY = #{userId} where re.ROLE_ID = #{roleId}
+    </delete>
     <select id="getResourcesByRoleTid" resultType="com.star.starboot.system.entity.Resources">
         select
         re.RESOURCES_ID,

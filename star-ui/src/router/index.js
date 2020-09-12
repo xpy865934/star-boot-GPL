@@ -76,6 +76,29 @@ export const asyncRoutes = [
       icon: 'el-icon-s-tools'
     },
     children: [
+      // 菜单管理
+      {
+        path: '/resources',
+        component: () =>
+          import('@/views/system_management/resources/index'),
+        name: 'resources',
+        //  access: ["resources"],
+        meta: {
+          title: 'resources'
+          // if do not set roles, means: this page does not require permission
+        }
+      },
+      // 角色数据
+      {
+        path: '/roles',
+        component: () => import('@/views/system_management/roles/index'),
+        name: 'roles',
+        access: ['roles'],
+        meta: {
+          title: 'roles'
+          // if do not set roles, means: this page does not require permission
+        }
+      },
       // 用户管理
       {
         path: '/users',
