@@ -33,5 +33,16 @@
     <select id="findByUserIdAndCompany" resultType="com.star.starboot.system.entity.Roles">
         select re.ROLE_ID,re.ROLE_CODE,re.ROLE_NAME,re.COMPANY_ID from users_roles_department_company re where re.USER_ID = #{userId} and re.COMPANY_ID = #{companyId}
     </select>
+    <select id="queryPage" resultType="com.star.starboot.system.dto.RolesDto">
+        SELECT roles.*,company.COMPANY_NAME, company.COMPANY_CODE FROM t_roles roles
+        LEFT JOIN t_company company ON roles.COMPANY_ID = company.COMPANY_ID
+        WHERE roles.DELETED_CODE = 0 AND company.DELETED_CODE = 0
+        <if test="rolesDto.roleCode != null and rolesDto.roleCode != ''">
+            and  roles.ROLE_CODE like concat('%', #{rolesDto.roleCode}, '%')
+        </if>
+        <if test="rolesDto.roleName != null and rolesDto.roleName != ''">
+            and  roles.ROLE_NAME like concat('%', #{rolesDto.roleName}, '%')
+        </if>
+    </select>
 
 </mapper>

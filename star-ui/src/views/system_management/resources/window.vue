@@ -104,11 +104,20 @@ export default {
       dialogWidth: this.$config.dialogWidth,
       companyTid: '',
       rules: {
-        companyName: [
-          { required: true, message: this.$t('common.pleaseSelect') + this.$t('roleManagement.companyName'), trigger: 'change' }
+        resourcesNum: [
+          { required: true, message: this.$t('common.pleaseInput') + '资源编号', trigger: 'change' }
         ],
-        roleName: [
-          { required: true, message: this.$t('common.pleaseInput') + this.$t('roleManagement.roleName'), trigger: 'change' }
+        resourcesName: [
+          { required: true, message: this.$t('common.pleaseInput') + '资源名称', trigger: 'change' }
+        ],
+        resourcesType: [
+          { required: true, message: this.$t('common.pleaseSelect') + '资源类型', trigger: 'change' }
+        ],
+        resourcesCode: [
+          { required: true, message: this.$t('common.pleaseInput') + '资源代码', trigger: 'change' }
+        ],
+        pxh: [
+          { required: true, message: this.$t('common.pleaseInput') + '排序号', trigger: 'change' }
         ]
       }
     }
