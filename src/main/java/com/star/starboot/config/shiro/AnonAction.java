@@ -27,6 +27,7 @@ public class AnonAction {
         put("/contract/getAllContract","anon");
         put("/sysAppSetting/getAppVersion","anon");
         put("/sysAppSetting/downloadAppUpdate","anon");
+        put("/resources/queryList","anon");
 
         // 部门、组织机构
         put("/department/getDepartmentsTree*", "anon");
@@ -76,5 +77,12 @@ public class AnonAction {
         // ios审核
         put("/iosNews/getList", "anon");
         put("/iosProduct/getList", "anon");
+
+        // 临时测试
+        put("/resources/queryList", "anon");
+        put("/resources/updateUsed", "anon");
+        put("/resources/deleteById", "anon");
+        put("/resources/save", "anon");
+        put("/resources/update", "anon");
     }};
 }

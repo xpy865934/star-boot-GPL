@@ -1,6 +1,9 @@
 package com.star.starboot.system.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.star.starboot.system.dto.RolesDto;
 import com.star.starboot.system.entity.Roles;
 import com.star.starboot.system.dao.RolesMapper;
 import com.star.starboot.system.service.RolesService;
@@ -26,5 +29,10 @@ public class RolesServiceImpl extends ServiceImpl<RolesMapper, Roles> implements
     @Override
     public List<Roles> findByUserIdAndCompany(String userId, String companyId) {
         return rolesMapper.findByUserIdAndCompany(userId, companyId);
+    }
+
+    @Override
+    public IPage<RolesDto> queryPager(RolesDto rolesDto, Integer current, Integer size) {
+        return rolesMapper.queryPage(new Page(current, size), rolesDto);
     }
 }

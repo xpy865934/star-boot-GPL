@@ -35,5 +35,8 @@
         DELETED_CODE,
         RESOURCES_ID, RESOURCES_NUM, RESOURCES_NAME, RESOURCES_TYPE, RESOURCES_IMG, RESOURCES_DS, RESOURCES_MANA, PARENT_RESOURCES_NUM, COMPANY_ID
     </sql>
+    <select id="queryList" resultType="com.star.starboot.system.dto.ResourcesDto">
+        SELECT * FROM t_resources res where res.DELETED_CODE = 0 and res.COMPANY_ID = #{companyId} order by pxh asc
+    </select>
 
 </mapper>
