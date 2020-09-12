@@ -106,7 +106,15 @@ public class UserPasswordRealm extends AuthorizingRealm {
                         if(CollectionUtils.isNotEmpty(resourcesList)){
                             for (Resources resource : resourcesList){
                                 if(!StringUtils.isEmpty(resource.getResourcesCode())){
-                                    info.addStringPermission(resource.getResourcesCode());
+                                    // 使用分号分隔一个按钮可能会出现多个接口权限问题
+                                    String resourcesCode = resource.getResourcesCode();
+                                    String[] resourcesCodes = new String[1024];
+                                    if(!StringUtils.isEmpty(resourcesCode)){
+                                        resourcesCodes = resourcesCode.split(";");
+                                    }
+                                    for (int i = 0; i < resourcesCodes.length; i++) {
+                                        info.addStringPermission(resourcesCodes[i]);
+                                    }
                                 }
                             }
                         }
