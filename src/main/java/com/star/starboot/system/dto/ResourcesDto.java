@@ -24,4 +24,9 @@ public class ResourcesDto extends Resources {
      * 子节点
      */
     private List<ResourcesDto> children;
+
+    /**
+     * 父节点资源名称
+     */
+    private String parentResourcesName;
 }

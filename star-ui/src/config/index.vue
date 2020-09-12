@@ -24,7 +24,11 @@ const saveButton = 'primary'
 // 删除按钮样式
 const deletedButton = 'primary'
 // 弹出框的默认宽度
-const dialogWidth = '70%'
+const dialogWidth = {
+  large: '70%',
+  middle: '50%',
+  small: '30%'
+}
 // esc关闭模态框
 const dialogEsc = true
 // 点击关闭模态框

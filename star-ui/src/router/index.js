@@ -88,6 +88,17 @@ export const asyncRoutes = [
           // if do not set roles, means: this page does not require permission
         }
       },
+      // 角色数据
+      {
+        path: '/roles',
+        component: () => import('@/views/system_management/roles/index'),
+        name: 'roles',
+        access: ['roles'],
+        meta: {
+          title: 'roles'
+          // if do not set roles, means: this page does not require permission
+        }
+      },
       // 用户管理
       {
         path: '/users',
