@@ -29,4 +29,12 @@ public class ResourcesDto extends Resources {
      * 父节点资源名称
      */
     private String parentResourcesName;
+
+    /**
+     * 适应前端树形结构
+     * @return
+     */
+    public String getLabel(){
+        return this.getResourcesName();
+    }
 }

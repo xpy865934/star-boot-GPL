@@ -23,4 +23,11 @@ public interface RolesReResourcesMapper extends BaseMapper<RolesReResources> {
      * @return
      */
     List<Resources> getResourcesByRoleTid(@Param("roleId") String roleId);
+
+    /**
+     * 删除该角色下的所有资源信息
+     * @param roleId
+     * @param userId
+     */
+    void deleteByRoleId(@Param("roleId") String roleId, @Param("userId") String userId);
 }

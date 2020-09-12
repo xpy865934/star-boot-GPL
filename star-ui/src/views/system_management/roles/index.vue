@@ -4,8 +4,8 @@
     <el-collapse v-model="activeNames">
       <el-collapse-item :title="$t('common.searchCondition')" name="1">
         <el-form ref="rolesSearchForm" :model="searchForm" :size="formSize" :inline="true" :label-position="formLabelPosition" :label-width="formLabelWidth">
-          <el-form-item :label="$t('roles.companyName')" prop="companyName">
-            <el-input v-model="searchForm.companyName" :placeholder="$t('common.pleaseInput')+$t('roles.companyName')" :size="formSize" />
+          <el-form-item :label="$t('roles.roleCode')" prop="roleCode">
+            <el-input v-model="searchForm.roleCode" :placeholder="$t('common.pleaseInput')+$t('roles.roleCode')" :size="formSize" />
           </el-form-item>
           <el-form-item :label="$t('roles.roleName')" prop="roleName">
             <el-input v-model="searchForm.roleName" :placeholder="$t('common.pleaseInput')+$t('roles.roleName')" :size="formSize" />
@@ -17,24 +17,28 @@
       </el-collapse-item>
     </el-collapse>
     <el-row class="collapse-next-row">
-      <el-button :type="addButton" :size="buttonSize" @click="addRow">{{ $t('common.newAdd') }}</el-button>
+      <el-button :type="addButton" :size="buttonSize" @click="add">{{ $t('common.newAdd') }}</el-button>
     </el-row>
     <x-table id="xTable" :total="total" :options="options" :pagination="pagination" :columns="columns" :operates="operates" :list="tableData" @handleSizeChange="handleSizeChange" @handleIndexChange="handleIndexChange" @handleSelectionChange="handleSelectionChange" />
+    <role-window ref="roleWindow" :row="editRow" :add-row-visible="addRowVisible" :disabled="addRowDisabled" @update="addRowUpdate(arguments)" />
+    <roleResourcesWindow ref="roleResourcesWindow" :row="editRowResources" :add-row-visible="addRowVisibleResources" @update="addRowUpdateResources(arguments)" />
   </div>
 </template>
 
 <script>
+import roleWindow from './window'
+import roleResourcesWindow from './roleResourcesWindow'
+import { mapState } from 'vuex'
 export default {
   name: 'Roles',
+  components: { roleWindow, roleResourcesWindow },
   data() {
     return {
       urlList: {
-        queryPager: 'roles/queryPager'
+        queryPager: 'roles/queryPager',
+        save: 'roles/save',
+        update: 'roles/update'
       },
-      // 资源相关
-      editRowResources: {},
-      addRowVisibleResources: false,
-
       // 控制是否显示顶部搜索
       activeNames: ['1'],
       // 搜索form
@@ -43,6 +47,13 @@ export default {
       editRow: {},
       // 显示新增修改对话框
       addRowVisible: false,
+      // 控制表单是否可以操作
+      addRowDisabled: false,
+
+      // 资源相关
+      editRowResources: {},
+      addRowVisibleResources: false,
+
       // 表格数据
       tableData: [],
       // table 的参数
@@ -53,8 +64,6 @@ export default {
         mutiSelect: true, // 是否支持列表项选中功能
         showIndex: true // 是否显示序号列
       },
-      // 控制表单是否可以操作
-      addRowDisabled: false,
 
       // 公共配置
       formSize: this.$config.formSize,
@@ -83,6 +92,13 @@ export default {
           minWidth: 80
         },
         {
+          // roleCode
+          prop: 'roleCode',
+          label: this.$t('roles.roleCode'),
+          align: 'center',
+          minWidth: 80
+        },
+        {
           // roleName
           prop: 'roleName',
           label: this.$t('roles.roleName'),
@@ -95,19 +111,6 @@ export default {
         width: 300,
         fixed: 'right',
         list: [
-          {
-            // 查看
-            label: this.$t('common.view'),
-            type: 'primary',
-            show: true,
-            icon: 'el-icon-view',
-            method: (index, row) => {
-              // 查看
-              this.editRow = row
-              this.addRowVisible = true
-              this.addRowDisabled = true
-            }
-          },
           {
             // 编辑
             label: this.$t('common.edit'),
@@ -123,7 +126,7 @@ export default {
           },
           {
             // 资源
-            label: this.$t('roleManagement.resources'),
+            label: this.$t('roles.resources'),
             type: 'primary',
             show: true,
             icon: 'el-icon-edit',
@@ -136,6 +139,11 @@ export default {
         ]
       }
     }
+  },
+  computed: {
+    ...mapState({
+      user: (state) => state.user
+    })
   },
   watch: {
     $route: {
@@ -171,7 +179,10 @@ export default {
     /**
 * 添加
 */
-    addRow() {
+    add() {
+      this.editRow = {
+        companyId: this.user.companyId
+      }
       this.addRowVisible = true
       this.addRowDisabled = false
     },
@@ -217,14 +228,14 @@ export default {
       if (val[1]) {
         // 自己的处理逻辑
         const bean = val[1]
-        if (bean.tid) {
+        if (bean.roleId) {
           // 修改
-          this.$store.dispatch('updateRole', bean).then((res) => {
+          this.$store.dispatch(this.urlList.update, bean).then((res) => {
             // 第一个参数是显不显示对话框
             this.addRowVisible = val[0]
             // 清空
             this.editRow = {} // 需要置空，否则会导致页面清空，但是变量里面的数据还在
-            this.$refs.addRoleManagement.clearFields()
+            this.$refs.roleWindow.clearFields()
             // 修改成功
             this.$message({
               type: 'success',
@@ -236,12 +247,12 @@ export default {
           })
         } else {
           // 新增
-          this.$store.dispatch('saveRole', bean).then((res) => {
+          this.$store.dispatch(this.urlList.save, bean).then((res) => {
             // 第一个参数是显不显示对话框
             this.addRowVisible = val[0]
             // 清空
             this.editRow = {} // 需要置空，否则会导致页面清空，但是变量里面的数据还在
-            this.$refs.addRoleManagement.clearFields()
+            this.$refs.roleWindow.clearFields()
             // 新增成功
             this.$message({
               type: 'success',
@@ -271,12 +282,12 @@ export default {
           const checked = val[1]
           const roleId = val[2]
           // 修改角色资源信息
-          this.$store.dispatch('updateRoleResources', { roleId: roleId, checked: checked }).then((res) => {
+          this.$store.dispatch('roles/updateRoleResources', { roleId: roleId, checked: checked }).then((res) => {
             // 第一个参数是显不显示对话框
             this.addRowVisibleResources = val[0]
             // 清空
             this.editRowResources = {} // 需要置空，否则会导致页面清空，但是变量里面的数据还在
-            this.$refs.addRoleResourcesManagement.clearFields()
+            this.$refs.roleResourcesWindow.clearFields()
             // 修改成功
             this.$message({
               type: 'success',
@@ -290,7 +301,7 @@ export default {
         this.addRowVisibleResources = val[0]
         // 清空
         this.editRowResources = {} // 需要置空，否则会导致页面清空，但是变量里面的数据还在
-        this.$refs.addRoleResourcesManagement.clearFields()
+        this.$refs.roleResourcesWindow.clearFields()
       }
     }
   }

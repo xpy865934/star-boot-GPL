@@ -1,6 +1,9 @@
 package com.star.starboot.system.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.star.starboot.system.dto.RolesDto;
 import com.star.starboot.system.entity.Roles;
 import org.apache.ibatis.annotations.Param;
 
@@ -23,4 +26,12 @@ public interface RolesMapper extends BaseMapper<Roles> {
      * @return
      */
     List<Roles> findByUserIdAndCompany(@Param("userId") String userId, @Param("companyId") String companyId);
+
+    /**
+     * 分页获取角色信息
+     * @param page
+     * @param rolesDto
+     * @return
+     */
+    IPage<RolesDto> queryPage(@Param("page") Page page, @Param("rolesDto") RolesDto rolesDto);
 }

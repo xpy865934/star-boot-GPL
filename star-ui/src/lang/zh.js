@@ -98,8 +98,10 @@ export default {
   },
   // 角色管理
   roles: {
-    companyName: '公司',
-    roleName: '角色'
+    companyName: '所属公司',
+    roleCode: '角色代码',
+    roleName: '角色名称',
+    resources: '资源'
   },
   navbar: {
     logOut: '退出登录',
