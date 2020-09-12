@@ -8,30 +8,32 @@ export default {
     hztj: '汇总统计',
     ureportDesigner: '报表设计',
     users: '用户管理',
+    roles: '角色管理',
     resources: '菜单管理'
   },
   common: {
     searchCondition: '查询条件',
     index: '序号',
     loginOut: '退出登录',
+    edit: '编辑',
+    view: '查看',
+    add: '新增',
+    formNotValid: '请完善相关信息',
+    addSuccess: '新增成功!',
+    editSuccess: '修改成功!',
+    deleteSuccess: '删除成功!',
 
     action: '操作',
-    edit: '编辑',
     info: '提示',
     delete: '删除',
     comfirmDelete: '确认删除？',
     comfirm: '确定',
     cancle: '取消',
-    view: '查看',
     pleaseInput: '请输入',
     pleaseSelect: '请选择',
 
-    add: '添加',
-    addSuccess: '新增成功!',
     addFailed: '新增失败!',
-    editSuccess: '修改成功!',
     editFailed: '修改失败!',
-    deleteSuccess: '删除成功!',
     deleteFailed: '删除失败!',
     search: '查询',
     reset: '重置',
@@ -77,7 +79,6 @@ export default {
     export: '导出',
     uploadSuccess: '上传成功',
     dealUserName: '处理人',
-    formNotValid: '请完善相关信息',
     smallType: '所属类型'
   },
   tagsView: {
@@ -94,6 +95,11 @@ export default {
     email: '邮箱',
     lastLoginIp: '最后一次登录ip',
     lastLoginDate: '最后一次登录日期'
+  },
+  // 角色管理
+  roles: {
+    companyName: '公司',
+    roleName: '角色'
   },
   navbar: {
     logOut: '退出登录',

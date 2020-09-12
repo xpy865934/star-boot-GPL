@@ -22,4 +22,10 @@ public interface ResourcesService extends IService<Resources> {
      * @return
      */
     List<ResourcesDto> queryList(ResourcesDto resourcesDto);
+
+    /**
+     * 删除资源
+     * @param resourceId
+     */
+    void deleteById(String resourceId);
 }

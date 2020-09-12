@@ -77,5 +77,12 @@ public class AnonAction {
         // ios审核
         put("/iosNews/getList", "anon");
         put("/iosProduct/getList", "anon");
+
+        // 临时测试
+        put("/resources/queryList", "anon");
+        put("/resources/updateUsed", "anon");
+        put("/resources/deleteById", "anon");
+        put("/resources/save", "anon");
+        put("/resources/update", "anon");
     }};
 }
