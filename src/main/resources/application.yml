@@ -93,7 +93,7 @@ spring:
       aop-patterns: com.star.starboot.*.service.*
   thymeleaf:
     suffix: .html
-    prefix:  classpath:/templates/
+    prefix:  classpath:/static
     cache: false
 file:
   # 文件上传绝对路径
@@ -182,3 +182,7 @@ flowable:
   async-executor-activate: false
   #  将databaseSchemaUpdate设置为true。当Flowable发现库与数据库表结构不一致时，会自动将数据库表结构升级至新版本。
   database-schema-update: true
+  modeler:
+    app:
+      rest-enabled: true
+      deployment-api-url: "http://localhost:8002/star/api/starflowable"
