@@ -36,5 +36,11 @@
         where dept.DELETED_CODE = 0 and company.DELETED_CODE = 0 and dept.DEPARTMENT_CODE = #{departmentCode}
         and company.COMPANY_CODE = #{companyCode}
     </select>
+    <select id="queryList" resultType="com.star.starboot.system.dto.DepartmentDto">
+        select dept.* from t_department dept where dept.DELETED_CODE = 0
+        <if test="dto.companyId != null and dto.companyId != ''">
+            and dept.COMPANY_ID = #{dto.companyId}
+        </if>
+    </select>
 
 </mapper>

@@ -10,6 +10,7 @@ import com.star.starboot.system.dto.DictionaryDto;
 import com.star.starboot.system.service.DictionaryService;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,7 +37,7 @@ public class DictionaryController extends AbstractController {
      */
     @ApiOperation("分页获取字典信息")
     @PostMapping("/queryPager")
-//    @RequiresPermissions("rolesQueryPager")
+    @RequiresPermissions("dictionary:queryPager")
     @SysLog(description = "分页获取字典信息")
     public Result queryPager(@RequestBody JSONObject param){
         Integer current = param.getInteger("current");
@@ -52,7 +53,7 @@ public class DictionaryController extends AbstractController {
      */
     @ApiOperation("保存字典信息")
     @PostMapping("/save")
-//    @RequiresPermissions("resourcesQueryList")
+    @RequiresPermissions("dictionary:save")
     @SysLog(description = "保存字典信息")
     public Result save(@RequestBody DictionaryDto dictionaryDto){
         dictionaryService.saveOrUpdate(dictionaryDto);
@@ -65,7 +66,7 @@ public class DictionaryController extends AbstractController {
      */
     @ApiOperation("更新字典信息")
     @PostMapping("/update")
-//    @RequiresPermissions("resourcesQueryList")
+    @RequiresPermissions("dictionary:update")
     @SysLog(description = "更新字典信息")
     public Result update(@RequestBody DictionaryDto dictionaryDto){
         dictionaryService.saveOrUpdate(dictionaryDto);
