@@ -2,19 +2,15 @@ package com.star.starboot.system.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.star.starboot.annotation.SysLog;
+import com.star.starboot.common.controller.AbstractController;
 import com.star.starboot.common.vo.Result;
 import com.star.starboot.system.dto.ResourcesDto;
-import com.star.starboot.system.dto.UsersDto;
 import com.star.starboot.system.entity.Resources;
 import com.star.starboot.system.service.ResourcesService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import com.star.starboot.common.controller.AbstractController;
 
 import java.util.List;
 
