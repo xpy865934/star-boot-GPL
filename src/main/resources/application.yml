@@ -84,6 +84,7 @@ spring:
         session-stat-max-count: 100000
       stat-view-servlet:
         #allow: ${GATEWAY_HOST:172.26.114.241}
+        allow:
         enabled: true
         login-username: admin
         login-password: 123654
