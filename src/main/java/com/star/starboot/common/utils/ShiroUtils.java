@@ -4,15 +4,10 @@ import com.star.starboot.system.dto.UsersDto;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
-import org.apache.shiro.crypto.SecureRandomNumberGenerator;
-import org.apache.shiro.crypto.hash.DefaultHashService;
-import org.apache.shiro.crypto.hash.HashRequest;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.SessionKey;
 import org.apache.shiro.subject.SimplePrincipalCollection;
-import org.apache.shiro.subject.Subject;
 import org.apache.shiro.subject.support.DefaultSubjectContext;
-import org.apache.shiro.util.ByteSource;
 import org.apache.shiro.web.session.mgt.WebSessionKey;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -75,7 +70,15 @@ public class ShiroUtils {
      * 获取用户登录信息
      */
     public UsersDto getUserInfo(){
-        String sessionId = request.getHeader("token");
+        String sessionId=null;
+        sessionId = request.getHeader("token");
+        // 判断是否是ajax,如果是，则获取token,如果不是，则获取FLOWABLE_REMEMBER_ME
+//        if(CommonUtils.isAjax(request)){
+//           sessionId = request.getHeader("token");
+//        } else {
+//            // 支持flowable，加入flowable cookie
+//            sessionId = request.getHeader("FLOWABLE_REMEMBER_ME");
+//        }
         SessionKey key = new WebSessionKey(sessionId,request,response);
         try{
             Session se = SecurityUtils.getSecurityManager().getSession(key);
