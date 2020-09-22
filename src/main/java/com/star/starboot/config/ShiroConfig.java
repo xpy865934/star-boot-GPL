@@ -70,18 +70,6 @@ public class ShiroConfig {
 
         // 权限控制map.
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
-        // 公共请求(登录方法放在了公共请求里面)
-        filterChainDefinitionMap.put("/common/**", "anon");
-
-        // 下面shiro不拦截，交给FLowableLoginAdapter去拦截进行操作
-        filterChainDefinitionMap.put("/app/**", "anon");
-        filterChainDefinitionMap.put("/starflowable/**", "anon");
-        filterChainDefinitionMap.put("/flowableAdminLogin", "anon");
-        filterChainDefinitionMap.put("/flowableAdminLogout", "anon");
-        filterChainDefinitionMap.put("/swagger/**", "anon");
-        filterChainDefinitionMap.put("/druid/**", "anon");
-        // 静态资源
-        filterChainDefinitionMap.put("/static/**", "anon");
         // 登录方法
         filterChainDefinitionMap.putAll(AnonAction.anonAction);
 //        filterChainDefinitionMap.put("/admin/login*", "anon"); // 表示可以匿名访问
