@@ -46,10 +46,10 @@ public class Dictionary extends AbstractEntity {
     @TableField("DICT_TY")
     private Integer dictTy;
     /**
-     * 数据字典编号
+     * 数据字典代码
      */
-    @TableField("DICT_NUM")
-    private Integer dictNum;
+    @TableField("DICT_CODE")
+    private String dictCode;
     /**
      * 公司ID
      */

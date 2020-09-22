@@ -1,5 +1,7 @@
 package com.star.starboot.system.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.star.starboot.system.dto.DictionaryDto;
 import com.star.starboot.system.entity.Dictionary;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,4 +15,12 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface DictionaryService extends IService<Dictionary> {
 
+    /**
+     * 分页查询
+     * @param dictionaryDto
+     * @param current
+     * @param size
+     * @return
+     */
+    IPage<DictionaryDto> queryPager(DictionaryDto dictionaryDto, Integer current, Integer size);
 }

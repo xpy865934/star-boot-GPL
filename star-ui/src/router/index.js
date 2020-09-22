@@ -88,6 +88,17 @@ export const asyncRoutes = [
           // if do not set roles, means: this page does not require permission
         }
       },
+      // 数据字典
+      {
+        path: '/dict',
+        component: () => import('@/views/system_management/dict/index'),
+        name: 'dict',
+        //  access: ["resources"],
+        meta: {
+          title: 'dict'
+          // if do not set roles, means: this page does not require permission
+        }
+      },
       // 角色数据
       {
         path: '/roles',
