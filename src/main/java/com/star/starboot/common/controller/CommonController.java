@@ -12,6 +12,7 @@ import com.star.starboot.constant.SystemConstant;
 import com.star.starboot.system.dto.UsersDto;
 import com.star.starboot.system.entity.Users;
 import com.star.starboot.system.service.UsersService;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.DisabledAccountException;
@@ -50,6 +51,10 @@ public class CommonController extends  AbstractController{
      * 未授权跳转方法
      * @return
      */
+    @ApiOperation(
+            value = "未授权的跳转方法",
+            tags = {"Common"}
+    )
     @RequestMapping("/unauth")
     public Result unauth(){
         SecurityUtils.getSubject().logout();
@@ -60,6 +65,7 @@ public class CommonController extends  AbstractController{
      * 被踢出后跳转方法
      * @return
      */
+    @ApiOperation("未授权的跳转方法")
     @RequestMapping("/kickout")
     public Result kickout(){
         return Result.create(ResultCode.INVALID_TOKEN);
