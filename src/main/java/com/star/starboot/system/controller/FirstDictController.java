@@ -10,6 +10,7 @@ import com.star.starboot.system.dto.FirstDictDto;
 import com.star.starboot.system.service.FirstDictService;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,7 +37,7 @@ public class FirstDictController extends AbstractController {
      */
     @ApiOperation("分页获取一级字典信息")
     @PostMapping("/queryPager")
-//    @RequiresPermissions("rolesQueryPager")
+    @RequiresPermissions("firstDict:queryPager")
     @SysLog(description = "分页获取一级字典信息")
     public Result queryPager(@RequestBody JSONObject param){
         Integer current = param.getInteger("current");
@@ -52,7 +53,7 @@ public class FirstDictController extends AbstractController {
      */
     @ApiOperation("保存一级字典信息")
     @PostMapping("/save")
-//    @RequiresPermissions("resourcesQueryList")
+    @RequiresPermissions("firstDict:save")
     @SysLog(description = "保存一级字典信息")
     public Result save(@RequestBody FirstDictDto firstDictDto){
         firstDictService.saveOrUpdate(firstDictDto);
@@ -65,7 +66,7 @@ public class FirstDictController extends AbstractController {
      */
     @ApiOperation("更新一级字典信息")
     @PostMapping("/update")
-//    @RequiresPermissions("resourcesQueryList")
+    @RequiresPermissions("firstDict:update")
     @SysLog(description = "更新一级字典信息")
     public Result update(@RequestBody FirstDictDto firstDictDto){
         firstDictService.saveOrUpdate(firstDictDto);

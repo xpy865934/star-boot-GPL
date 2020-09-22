@@ -8,7 +8,9 @@ import com.star.starboot.common.vo.Result;
 import com.star.starboot.system.dto.ResourcesDto;
 import com.star.starboot.system.entity.Resources;
 import com.star.starboot.system.service.ResourcesService;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,8 +37,9 @@ public class ResourcesController extends AbstractController {
      * 获取资源列表
      * @return
      */
+    @ApiOperation(value = "获取资源列表")
     @PostMapping("/queryList")
-//    @RequiresPermissions("resourcesQueryList")
+    @RequiresPermissions("resources:queryList")
     @SysLog(description = "获取资源列表")
     public Result queryList(@RequestBody JSONObject param){
         ResourcesDto resourcesDto = param.getObject("bean", ResourcesDto.class);
@@ -48,8 +51,9 @@ public class ResourcesController extends AbstractController {
      * 保存菜单资源信息
      * @return
      */
+    @ApiOperation(value = "保存菜单资源信息")
     @PostMapping("/save")
-//    @RequiresPermissions("resourcesQueryList")
+    @RequiresPermissions("resources:save")
     @SysLog(description = "保存菜单资源信息")
     public Result save(@RequestBody ResourcesDto resourcesDto){
         resourcesService.saveOrUpdate(resourcesDto);
@@ -60,8 +64,9 @@ public class ResourcesController extends AbstractController {
      * 更新菜单资源信息
      * @return
      */
+    @ApiOperation(value = "更新菜单资源信息")
     @PostMapping("/update")
-//    @RequiresPermissions("resourcesQueryList")
+    @RequiresPermissions("resources:update")
     @SysLog(description = "更新菜单资源信息")
     public Result update(@RequestBody ResourcesDto resourcesDto){
         resourcesService.saveOrUpdate(resourcesDto);
@@ -72,8 +77,9 @@ public class ResourcesController extends AbstractController {
      * 更新资源是否启用
      * @return
      */
+    @ApiOperation(value = "更新资源是否启用")
     @PostMapping("/updateUsed")
-//    @RequiresPermissions("resourcesQueryList")
+    @RequiresPermissions("resources:updateUsed")
     @SysLog(description = "更新资源是否启用")
     public Result updateUsed(@RequestBody ResourcesDto resourcesDto){
         Resources resources = new Resources();
@@ -88,8 +94,9 @@ public class ResourcesController extends AbstractController {
      * 删除资源
      * @return
      */
+    @ApiOperation(value = "删除资源")
     @GetMapping("/deleteById/{resourceId}")
-//    @RequiresPermissions("usersDeleted")
+    @RequiresPermissions("resources:deleteById")
     @SysLog(description = "删除资源")
     public Result deleteById(@PathVariable String resourceId){
         resourcesService.deleteById(resourceId);

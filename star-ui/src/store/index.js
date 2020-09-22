@@ -8,6 +8,7 @@ import tagsView from './modules/tagsView'
 import user from './modules/user'
 import roles from './modules/roles'
 import dict from './modules/dict'
+import department from './modules/department'
 import resources from './modules/resources'
 
 Vue.use(Vuex)
@@ -21,6 +22,7 @@ const store = new Vuex.Store({
     permission,
     resources,
     dict,
+    department,
     tagsView
   },
   getters

@@ -11,6 +11,7 @@ import com.star.starboot.common.vo.Result;
 import com.star.starboot.config.shiro.UserPasswordRealm;
 import com.star.starboot.system.dto.UsersDto;
 import com.star.starboot.system.service.UsersService;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -43,8 +44,9 @@ public class UsersController extends AbstractController {
      * 分页获取用户信息
      * @return
      */
+    @ApiOperation(value = "分页获取用户信息")
     @PostMapping("/queryPager")
-    @RequiresPermissions("usersQueryPager")
+    @RequiresPermissions("users:usersQueryPager")
     @SysLog(description = "分页获取用户信息")
     public Result queryPager(@RequestBody JSONObject param){
         Integer current = param.getInteger("current");
@@ -58,6 +60,7 @@ public class UsersController extends AbstractController {
      * 获取登录用户信息
      * @return
      */
+    @ApiOperation(value = "获取登录用户信息")
     @PostMapping("/getUserInfo")
     @SysLog(description = "获取登录用户信息")
     public Result getUserInfo(){
@@ -80,8 +83,9 @@ public class UsersController extends AbstractController {
      * 删除用户
      * @return
      */
+    @ApiOperation(value = "删除用户")
     @GetMapping("/deleteById/{userId}")
-    @RequiresPermissions("usersDeleted")
+    @RequiresPermissions("users:deleteById")
     @SysLog(description = "删除用户")
     public Result deleteById(@PathVariable String userId){
         usersService.deleteById(userId);

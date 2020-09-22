@@ -10,7 +10,9 @@ import com.star.starboot.system.dto.RolesDto;
 import com.star.starboot.system.entity.Resources;
 import com.star.starboot.system.service.RolesReResourcesService;
 import com.star.starboot.system.service.RolesService;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,8 +43,9 @@ public class RolesController extends AbstractController {
      * 分页获取角色信息
      * @return
      */
+    @ApiOperation(value = "分页获取角色信息")
     @PostMapping("/queryPager")
-//    @RequiresPermissions("rolesQueryPager")
+    @RequiresPermissions("roles:queryPager")
     @SysLog(description = "分页获取角色信息")
     public Result queryPager(@RequestBody JSONObject param){
         Integer current = param.getInteger("current");
@@ -56,8 +59,9 @@ public class RolesController extends AbstractController {
      * 保存角色信息
      * @return
      */
+    @ApiOperation(value = "保存角色信息")
     @PostMapping("/save")
-//    @RequiresPermissions("resourcesQueryList")
+    @RequiresPermissions("roles:save")
     @SysLog(description = "保存角色信息")
     public Result save(@RequestBody RolesDto rolesDto){
         rolesService.saveOrUpdate(rolesDto);
@@ -68,8 +72,9 @@ public class RolesController extends AbstractController {
      * 更新角色信息
      * @return
      */
+    @ApiOperation(value = "更新角色信息")
     @PostMapping("/update")
-//    @RequiresPermissions("resourcesQueryList")
+    @RequiresPermissions("roles:update")
     @SysLog(description = "更新角色信息")
     public Result update(@RequestBody RolesDto rolesDto){
         rolesService.saveOrUpdate(rolesDto);
@@ -80,8 +85,9 @@ public class RolesController extends AbstractController {
      * 根据角色id获取角色资源信息
      * @return
      */
+    @ApiOperation(value = "根据角色id获取角色资源信息")
     @PostMapping("/getResourcesByRoleTid")
-//    @RequiresPermissions("resourcesQueryList")
+    @RequiresPermissions("roles:getResourcesByRoleTid")
     @SysLog(description = "根据角色id获取角色资源信息")
     public Result getResourcesByRoleTid(@RequestBody RolesDto rolesDto){
         List<Resources> resources = rolesReResourcesService.getResourcesByRoleTid(rolesDto.getRoleId());
@@ -92,8 +98,9 @@ public class RolesController extends AbstractController {
      * 更新角色资源信息
      * @return
      */
+    @ApiOperation(value = "更新角色资源信息")
     @PostMapping("/updateRoleResources")
-//    @RequiresPermissions("resourcesQueryList")
+    @RequiresPermissions("roles:updateRoleResources")
     @SysLog(description = "更新角色资源信息")
     public Result updateRoleResources(@RequestBody JSONObject param){
         String roleId = param.getString("roleId");

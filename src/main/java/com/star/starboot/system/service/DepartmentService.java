@@ -1,7 +1,11 @@
 package com.star.starboot.system.service;
 
+import com.star.starboot.system.dto.CompanyDto;
+import com.star.starboot.system.entity.Company;
 import com.star.starboot.system.entity.Department;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +17,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface DepartmentService extends IService<Department> {
 
+    /**
+     * 获取组织架构树形菜单
+     * @return
+     */
+    List<CompanyDto> getDepartmentTree(String companyId);
 }

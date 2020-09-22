@@ -42,5 +42,4 @@ public class Company extends AbstractEntity {
     @TableField("COMPANY_CODE")
     private String companyCode;
 
-
 }
