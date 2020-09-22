@@ -196,7 +196,7 @@ public class ShiroConfig {
 
         MySessionManager sessionManager = new MySessionManager();
         sessionManager.setSessionDAO(redisSessionDAO());
-        sessionManager.setSessionIdCookieEnabled(true);
+        sessionManager.setSessionIdCookieEnabled(true);// 需要设置为true，否则druid登录无法获取session
         sessionManager.setSessionIdCookie(simpleCookie);
 
         //全局会话超时时间（单位毫秒），默认30分钟  暂时设置为10秒钟 用来测试
