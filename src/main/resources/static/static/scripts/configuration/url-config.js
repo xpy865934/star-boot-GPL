@@ -25,7 +25,7 @@ FLOWABLE.APP_URL = {
     },
 
     getLogoutUrl: function () {
-        return FLOWABLE.CONFIG.contextRoot + '/app/logout';
+        return FLOWABLE.CONFIG.contextRoot + '/flowableAdminLogout';
     },
 
     /* MODEL URLS */
