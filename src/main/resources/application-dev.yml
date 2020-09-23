@@ -1,11 +1,32 @@
 spring:
   datasource:
     druid:
-      url: jdbc:mysql://120.78.198.144:3306/star?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=Asia/Shanghai
+      url: jdbc:mysql://localhost:3306/star?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=Asia/Shanghai
 #      url: jdbc:mysql://120.27.241.208:13306/qcnt?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
 #      url: jdbc:mysql://localhost:3306/qcnt?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=Asia/Shanghai
       username: root
-      password: xpy778899
+      password: root
+      filter:
+        wall:
+          enabled: true
+          config:
+            alter-table-allow: true
+            truncate-allow: true
+            drop-table-allow: true
+            #是否允许非以上基本语句的其他语句，缺省关闭，通过这个选项就能够屏蔽DDL
+            none-base-statement-allow: true
+            #检查UPDATE语句是否无where条件，这是有风险的，但不是SQL注入类型的风险
+            update-where-none-check: true
+            #SELECT ... INTO OUTFILE 是否允许，这个是mysql注入攻击的常见手段，缺省是禁止的
+            select-into-outfile-allow: true
+            #是否允许调用Connection.getMetadata方法，这个方法调用会暴露数据库的表信息
+            metadata-allow: true
+            #允许多条sql一起执行
+            multiStatementAllow: true
+            #对被认为是攻击的SQL进行LOG.error输出
+            log-violation: true
+            #对被认为是攻击的SQL抛出SQLExcepton
+            throw-exception: true
   mail:
     #邮件服务器地址
     host:

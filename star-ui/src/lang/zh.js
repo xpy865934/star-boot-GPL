@@ -9,6 +9,8 @@ export default {
     ureportDesigner: '报表设计',
     users: '用户管理',
     roles: '角色管理',
+    dict: '数据字典',
+    department: '组织架构',
     resources: '菜单管理'
   },
   common: {
@@ -102,6 +104,20 @@ export default {
     roleCode: '角色代码',
     roleName: '角色名称',
     resources: '资源'
+  },
+  // 组织架构
+  department: {
+    cardName: '组织机构',
+    departmentName: '组织机构名称',
+    departmentCode: '组织机构代码',
+    parentDepartmentName: '上级组织机构'
+  },
+  // 数据字典
+  dict: {
+    dictCode: '字典代码',
+    dictName: '字典名称',
+    dictDs: '字典描述',
+    parentDictName: '父级字典名称'
   },
   navbar: {
     logOut: '退出登录',

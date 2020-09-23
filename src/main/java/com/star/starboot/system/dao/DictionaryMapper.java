@@ -1,7 +1,11 @@
 package com.star.starboot.system.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.star.starboot.system.dto.DictionaryDto;
 import com.star.starboot.system.entity.Dictionary;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -13,4 +17,11 @@ import com.star.starboot.system.entity.Dictionary;
  */
 public interface DictionaryMapper extends BaseMapper<Dictionary> {
 
+    /**
+     * 分页查询
+     * @param page
+     * @param dictionaryDto
+     * @return
+     */
+    IPage<DictionaryDto> queryPage(@Param("page") Page page, @Param("dictionaryDto") DictionaryDto dictionaryDto);
 }

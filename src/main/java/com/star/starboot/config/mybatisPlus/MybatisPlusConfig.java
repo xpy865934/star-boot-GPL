@@ -1,5 +1,6 @@
-package com.star.starboot.config;
+package com.star.starboot.config.mybatisPlus;
 
+import com.baomidou.mybatisplus.core.config.GlobalConfig;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,4 +25,10 @@ public class MybatisPlusConfig {
         return page;
     }
 
+    @Bean
+    public GlobalConfig globalConfig() {
+        GlobalConfig globalConfig = new GlobalConfig();
+        globalConfig.setMetaObjectHandler(new UpdateRelatedFieldsMetaHandler());
+        return globalConfig;
+    }
 }

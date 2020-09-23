@@ -31,5 +31,25 @@
         DELETED_CODE,
         FIRST_DICT_ID, FIRST_DICT_CODE, FIRST_DICT_NAME, FIRST_DICT_DS, DICT_ID
     </sql>
+    <select id="queryPage" resultType="com.star.starboot.system.dto.FirstDictDto">
+        select firstDict.* from t_first_dict firstDict where firstDict.DELETED_CODE = 0
+        <if test="firstDictDto.firstDictCode != null and firstDictDto.firstDictCode != ''">
+            and  firstDict.FIRST_DICT_CODE like concat('%', #{firstDictDto.firstDictCode}, '%')
+        </if>
+        <if test="firstDictDto.firstDictName != null and firstDictDto.firstDictName != ''">
+            and  firstDict.FIRST_DICT_NAME like concat('%', #{firstDictDto.firstDictName}, '%')
+        </if>
+        <if test="firstDictDto.dictId != null and firstDictDto.dictId != ''">
+            and  firstDict.DICT_ID = #{firstDictDto.dictId}
+        </if>
+    </select>
+    <select id="queryList" resultType="com.star.starboot.system.dto.FirstDictDto">
+        select firstDict.* from t_first_dict firstDict
+        left join t_dictionary dict on firstDict.DICT_ID = dict.DICT_ID
+        where firstDict.DELETED_CODE = 0
+        <if test="firstDictDto.dictCode != null and firstDictDto.dictCode != ''">
+            and  dict.DICT_CODE = #{firstDictDto.dictCode}
+        </if>
+    </select>
 
 </mapper>

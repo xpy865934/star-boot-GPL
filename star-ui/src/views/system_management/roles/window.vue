@@ -74,7 +74,7 @@ export default {
         // 查看
         return this.$t('common.view')
       } else {
-        if (this.form.tid) {
+        if (this.form.roleId) {
           // 修改
           return this.$t('common.edit')
         } else {

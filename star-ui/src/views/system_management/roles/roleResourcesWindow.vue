@@ -2,7 +2,7 @@
   <el-dialog class="xpy_dialog" :title="title" :visible="addRowVisible" :width="dialogWidth.small" :close-on-press-escape="dialogEsc" :close-on-click-modal="dialogClick" :before-close="beforClose">
     <el-form ref="roleResourcesForm" :rules="rules" :model="form" :label-position="formLabelPosition" :label-width="formLabelWidth" :disabled="disabled">
       <el-row>
-        <el-col :span="6">
+        <el-col :span="24">
           <el-tree
             ref="resourcesTree"
             :data="resourcesData"

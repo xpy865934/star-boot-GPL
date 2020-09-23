@@ -76,15 +76,38 @@ export const asyncRoutes = [
       icon: 'el-icon-s-tools'
     },
     children: [
+      // 组织架构
+      {
+        path: '/department',
+        component: () =>
+          import('@/views/system_management/department/index'),
+        name: 'department',
+        access: ['department'],
+        meta: {
+          title: 'department'
+          // if do not set roles, means: this page does not require permission
+        }
+      },
       // 菜单管理
       {
         path: '/resources',
         component: () =>
           import('@/views/system_management/resources/index'),
         name: 'resources',
-        //  access: ["resources"],
+        access: ['resources'],
         meta: {
           title: 'resources'
+          // if do not set roles, means: this page does not require permission
+        }
+      },
+      // 数据字典
+      {
+        path: '/dict',
+        component: () => import('@/views/system_management/dict/index'),
+        name: 'dict',
+        access: ['dictionary'],
+        meta: {
+          title: 'dict'
           // if do not set roles, means: this page does not require permission
         }
       },

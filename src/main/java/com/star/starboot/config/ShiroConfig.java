@@ -9,6 +9,7 @@ import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSource
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
+import org.apache.shiro.web.session.mgt.ServletContainerSessionManager;
 import org.crazycake.shiro.RedisCacheManager;
 import org.crazycake.shiro.RedisManager;
 import org.crazycake.shiro.RedisSessionDAO;
@@ -69,10 +70,6 @@ public class ShiroConfig {
 
         // 权限控制map.
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
-        // 公共请求(登录方法放在了公共请求里面)
-        filterChainDefinitionMap.put("/common/**", "anon");
-        // 静态资源
-        filterChainDefinitionMap.put("/static/**", "anon");
         // 登录方法
         filterChainDefinitionMap.putAll(AnonAction.anonAction);
 //        filterChainDefinitionMap.put("/admin/login*", "anon"); // 表示可以匿名访问
@@ -187,7 +184,7 @@ public class ShiroConfig {
 
         MySessionManager sessionManager = new MySessionManager();
         sessionManager.setSessionDAO(redisSessionDAO());
-        sessionManager.setSessionIdCookieEnabled(false);
+        sessionManager.setSessionIdCookieEnabled(true);// 需要设置为true，否则druid登录无法获取session
         sessionManager.setSessionIdCookie(simpleCookie);
 
         //全局会话超时时间（单位毫秒），默认30分钟  暂时设置为10秒钟 用来测试

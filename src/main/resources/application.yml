@@ -84,6 +84,7 @@ spring:
         session-stat-max-count: 100000
       stat-view-servlet:
         #allow: ${GATEWAY_HOST:172.26.114.241}
+        allow:
         enabled: true
         login-username: admin
         login-password: 123654
@@ -93,7 +94,7 @@ spring:
       aop-patterns: com.star.starboot.*.service.*
   thymeleaf:
     suffix: .html
-    prefix:  classpath:/templates/
+    prefix:  classpath:/static
     cache: false
 file:
   # 文件上传绝对路径
@@ -108,7 +109,7 @@ file:
 
 #mybatis
 mybatis-plus:
-  mapper-locations: classpath*:/mapper/**Mapper.xml,classpath*:/mapper/**/**Mapper.xml
+  mapper-locations: classpath*:/mapper/**Mapper.xml,classpath*:/mapper/**/**Mapper.xml,classpath*:/META-INF/modeler-mybatis-mappings/*.xml
   #实体扫描，多个package用逗号或者分号分隔
   typeAliasesPackage: com.star.starboot.*.entity
   global-config:
@@ -137,6 +138,12 @@ mybatis-plus:
     map-underscore-to-camel-case: true
     cache-enabled: false
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  configuration-properties:
+    # 配置流程引擎参数，详情可见 DatabaseConfiguration
+    blobType: BLOB
+    boolValue: TRUE
+    # 不要设置库名，否则会出现双库名 bug
+    prefix: ''
 #配置日志
 logging:
   config: classpath:logback.xml
@@ -170,3 +177,13 @@ getui:
   appKey: CamhrEl0f67Gx3K9Jh2Pi3
   masterSecret: fXexg4WCxGAqV7hEGVvHf2
   url: http://sdk.open.api.igexin.com/apiex.htm
+
+flowable:
+  #关闭定时任务JOB
+  async-executor-activate: false
+  #  将databaseSchemaUpdate设置为true。当Flowable发现库与数据库表结构不一致时，会自动将数据库表结构升级至新版本。
+  database-schema-update: true
+  modeler:
+    app:
+      rest-enabled: true
+      deployment-api-url: "http://localhost:8002/star/api/starflowable"
