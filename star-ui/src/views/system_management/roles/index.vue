@@ -269,7 +269,7 @@ export default {
         this.addRowVisible = val[0]
         // 清空
         this.editRow = {} // 需要置空，否则会导致页面清空，但是变量里面的数据还在
-        this.$refs.addRoleManagement.clearFields()
+        this.$refs.roleWindow.clearFields()
       }
     },
     addRowUpdateResources(value) {

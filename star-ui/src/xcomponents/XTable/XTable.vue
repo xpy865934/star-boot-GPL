@@ -9,6 +9,7 @@
       :max-height="height"
       :stripe="options.stripe"
       @selection-change="handleSelectionChange"
+      @row-click="handleRowClick"
     >
       <!--region 选择框-->
       <el-table-column v-if="options.mutiSelect" type="selection" style="width: 55px;" />
@@ -219,6 +220,10 @@ export default {
     handleSelectionChange(val) {
       this.multipleSelection = val
       this.$emit('handleSelectionChange', val)
+    },
+    // 行点击
+    handleRowClick(row, column, event) {
+      this.$emit('handleRowClick', row, column, event)
     }
   }
 }

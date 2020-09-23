@@ -6,6 +6,7 @@ import org.apache.shiro.crypto.hash.DefaultHashService;
 import org.apache.shiro.crypto.hash.HashRequest;
 import org.apache.shiro.util.ByteSource;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -32,7 +33,6 @@ public class CommonUtils {
         }
 
         return prop;
-
     }
 
     /**
@@ -88,5 +88,19 @@ public class CommonUtils {
                 .setSource(ByteSource.Util.bytes(password)).setSalt(ByteSource.Util.bytes(salt))
                 .setIterations(2).build();
         return hashService.computeHash(request).toHex();
+    }
+
+    /**
+     * 判断请求是否是ajax请求
+     * @param request
+     * @return
+     */
+    public static Boolean isAjax(HttpServletRequest request){
+        if(request.getHeader("x-requested-with") != null
+                && request.getHeader("x-requested-with").equalsIgnoreCase("XMLHttpRequest")){
+            return true;
+        } else {
+            return false;
+        }
     }
 }

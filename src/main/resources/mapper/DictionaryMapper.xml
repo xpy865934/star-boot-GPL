@@ -16,7 +16,7 @@
         <result column="DICT_NAME" property="dictName" />
         <result column="DICT_DS" property="dictDs" />
         <result column="DICT_TY" property="dictTy" />
-        <result column="DICT_NUM" property="dictNum" />
+        <result column="DICT_CODE" property="dictCode" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -29,7 +29,16 @@
         DELETED_AT,
         DELETED_BY,
         DELETED_CODE,
-        DICT_ID, DICT_NAME, DICT_DS, DICT_TY, DICT_NUM
+        DICT_ID, DICT_NAME, DICT_DS, DICT_TY, DICT_CODE
     </sql>
+    <select id="queryPage" resultType="com.star.starboot.system.dto.DictionaryDto">
+        select dict.* from t_dictionary dict where dict.DELETED_CODE = 0
+        <if test="dictionaryDto.dictCode != null and dictionaryDto.dictCode != ''">
+            and  dict.DICT_CODE like concat('%', #{dictionaryDto.dictCode}, '%')
+        </if>
+        <if test="dictionaryDto.dictName != null and dictionaryDto.dictName != ''">
+            and  dict.DICT_NAME like concat('%', #{dictionaryDto.dictName}, '%')
+        </if>
+    </select>
 
 </mapper>
