@@ -133,6 +133,18 @@ export const asyncRoutes = [
           // if do not set roles, means: this page does not require permission
         }
       },
+      // 系统日志
+      {
+        path: '/syslog',
+        component: () =>
+          import('@/views/system_management/syslog/index'),
+        name: 'syslog',
+        access: ['sysLog'],
+        meta: {
+          title: 'syslog'
+          // if do not set roles, means: this page does not require permission
+        }
+      },
       // 汇总统计
       {
         path: '/hztj',

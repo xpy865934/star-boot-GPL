@@ -8,6 +8,7 @@ import tagsView from './modules/tagsView'
 import user from './modules/user'
 import roles from './modules/roles'
 import dict from './modules/dict'
+import syslog from './modules/syslog'
 import department from './modules/department'
 import resources from './modules/resources'
 
@@ -23,6 +24,7 @@ const store = new Vuex.Store({
     resources,
     dict,
     department,
+    syslog,
     tagsView
   },
   getters
