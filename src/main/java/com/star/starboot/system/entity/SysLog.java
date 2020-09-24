@@ -66,5 +66,17 @@ public class SysLog extends AbstractEntity {
     @TableField("COMPANY_ID")
     private String companyId;
 
+    /**
+     * 用户登录名
+     */
+    @TableField("USER_CODE")
+    private String userCode;
+
+    /**
+     * 公司代码
+     */
+    @TableField("COMPANY_CODE")
+    private String companyCode;
+
 
 }
