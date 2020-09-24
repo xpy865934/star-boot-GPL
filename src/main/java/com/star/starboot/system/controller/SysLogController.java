@@ -1,12 +1,17 @@
 package com.star.starboot.system.controller;
 
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.star.starboot.annotation.SysLog;
 import com.star.starboot.common.controller.AbstractController;
+import com.star.starboot.common.vo.Result;
+import com.star.starboot.system.service.SysLogService;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -22,5 +27,24 @@ import com.star.starboot.common.controller.AbstractController;
 @Slf4j
 public class SysLogController extends AbstractController {
 
+    @Autowired
+    private SysLogService sysLogService;
+
+
+    /**
+     * 分页获取系统日志信息
+     * @return
+     */
+    @ApiOperation("分页获取系统日志信息")
+    @PostMapping("/queryPager")
+    @RequiresPermissions("sysLog:queryPager")
+    @SysLog(description = "分页获取字典信息")
+    public Result queryPager(@RequestBody JSONObject param){
+        Integer current = param.getInteger("current");
+        Integer size = param.getInteger("size");
+        com.star.starboot.system.entity.SysLog sysLog = param.getObject("bean", com.star.starboot.system.entity.SysLog.class);
+        IPage<com.star.starboot.system.entity.SysLog> list = sysLogService.queryPager(sysLog,current,size);
+        return Result.success(list);
+    }
 }
 
