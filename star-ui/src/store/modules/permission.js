@@ -53,11 +53,11 @@ const permission = {
         const { roles, permissions } = data
         let accessedRoutes = []
         // 管理员id为1 跳过所有权限匹配
-        if (store.getters.userCode === 'admin') {
-          accessedRoutes = asyncRoutes
-        } else {
-          accessedRoutes = filterAsyncRoutes(asyncRoutes, roles, permissions)
-        }
+        // if (store.getters.userCode === 'admin') {
+        //   accessedRoutes = asyncRoutes
+        // } else {
+        accessedRoutes = filterAsyncRoutes(asyncRoutes, roles, permissions)
+        // }
         commit('SET_ROUTES', accessedRoutes)
         resolve(accessedRoutes)
       })

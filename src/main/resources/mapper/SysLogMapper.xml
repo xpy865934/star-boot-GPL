@@ -10,6 +10,7 @@
         <if test="sysLog.companyCode != null and sysLog.companyCode != ''">
             and log.COMPANY_CODE = #{sysLog.companyCode}
         </if>
+        ORDER BY CREATE_AT desc
     </select>
 
 </mapper>
