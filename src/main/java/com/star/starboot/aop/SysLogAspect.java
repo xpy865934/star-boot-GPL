@@ -1,11 +1,12 @@
 package com.star.starboot.aop;
 
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.google.gson.Gson;
 import com.star.starboot.common.utils.IpUtils;
 import com.star.starboot.common.utils.ShiroUtils;
 import com.star.starboot.system.dto.UsersDto;
 import com.star.starboot.system.entity.SysLog;
-import com.star.starboot.system.entity.Users;
 import com.star.starboot.system.service.SysLogService;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -87,6 +88,9 @@ public class SysLogAspect {
                 sysLog.setRequireMethod(joinPoint.getTarget().getClass().getName() + "." + joinPoint.getSignature().getName());
                 sysLog.setMethodDesc(getControllerMethodDescription(joinPoint));
                 sysLog.setParams(getParams(joinPoint, request));
+                JSONObject jsonObject = JSONUtil.parseArray(getParams(joinPoint, request)).getJSONObject(0);
+                sysLog.setUserCode(jsonObject.getStr("userCode"));
+                sysLog.setCompanyCode(jsonObject.getStr("companyCode"));
                 sysLog.setIp(ip);
                 sysLog.setClient(client);
                 sysLog.setOs(os);
@@ -124,7 +128,9 @@ public class SysLogAspect {
                 sysLog.setRequireMethod(joinPoint.getTarget().getClass().getName() + "." + joinPoint.getSignature().getName());
                 sysLog.setMethodDesc(getControllerMethodDescription(joinPoint));
                 sysLog.setUserId(usersDto.getUserId());
+                sysLog.setUserCode(usersDto.getUserCode());
                 sysLog.setCompanyId(usersDto.getCompanyId());
+                sysLog.setCompanyCode(usersDto.getCompanyCode());
                 sysLog.setParams(getParams(joinPoint, request));
                 sysLog.setIp(ip);
                 sysLog.setClient(client);
