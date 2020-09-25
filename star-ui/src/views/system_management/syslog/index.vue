@@ -110,14 +110,14 @@ export default {
         },
         {
           // os
-          prop: 'client',
+          prop: 'os',
           label: this.$t('syslog.os'),
           align: 'center',
           minWidth: 80
         },
         {
           // params
-          prop: 'client',
+          prop: 'params',
           label: this.$t('syslog.params'),
           align: 'center',
           minWidth: 80
