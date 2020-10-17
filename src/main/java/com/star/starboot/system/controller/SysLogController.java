@@ -37,7 +37,7 @@ public class SysLogController extends AbstractController {
      */
     @ApiOperation("分页获取系统日志信息")
     @PostMapping("/queryPager")
-    @RequiresPermissions("sysLog:queryPager")
+    @RequiresPermissions("sysLog_queryPager")
     @SysLog(description = "分页获取字典信息")
     public Result queryPager(@RequestBody JSONObject param){
         Integer current = param.getInteger("current");
