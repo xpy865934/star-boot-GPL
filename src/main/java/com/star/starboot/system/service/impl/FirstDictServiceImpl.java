@@ -44,4 +44,10 @@ public class FirstDictServiceImpl extends ServiceImpl<FirstDictMapper, FirstDict
         }
         return result;
     }
+
+    @Override
+    public List<FirstDictDto> getFirstDictAll() {
+        List<FirstDictDto> list = firstDictMapper.getFirstDictAll();
+        return list;
+    }
 }
