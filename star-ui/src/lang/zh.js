@@ -10,6 +10,7 @@ export default {
     users: '用户管理',
     roles: '角色管理',
     dict: '数据字典',
+    syslog: '系统日志',
     department: '组织架构',
     resources: '菜单管理'
   },
@@ -91,8 +92,8 @@ export default {
   },
   // 用户管理
   users: {
-    userCode: '用户名(医生姓名)',
-    userName: '医院名称',
+    userCode: '用户名',
+    userName: '姓名',
     tel: '联系方式',
     email: '邮箱',
     lastLoginIp: '最后一次登录ip',
@@ -132,6 +133,16 @@ export default {
     oldPassword: '旧密码',
     password: '新密码',
     confirmPassword: '确认密码'
+  },
+  syslog: {
+    userCode: '登录账号',
+    methodDesc: '动作',
+    requireMethod: '请求方法',
+    ip: 'ip地址',
+    client: '客户端',
+    os: '操作系统',
+    params: '请求参数'
+
   },
   /**
    * 登录页面

@@ -14,6 +14,8 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * <p>
  * 一级字典 前端控制器
@@ -71,6 +73,18 @@ public class FirstDictController extends AbstractController {
     public Result update(@RequestBody FirstDictDto firstDictDto){
         firstDictService.saveOrUpdate(firstDictDto);
         return Result.success();
+    }
+
+    /**
+     * 获取所有一级代码信息
+     * @return
+     */
+    @PostMapping("/getFirstDictAll")
+    @ApiOperation("获取所有一级代码信息")
+    @SysLog(description = "获取所有一级代码信息")
+    public Result getDict(@RequestBody FirstDictDto firstDictDto){
+        List<FirstDictDto> list = firstDictService.getFirstDictAll();
+        return Result.success(list);
     }
 }
 
