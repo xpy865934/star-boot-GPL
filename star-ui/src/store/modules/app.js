@@ -1,11 +1,15 @@
 import Cookies from 'js-cookie'
+import { getFirstDictAll } from '@/api/app'
 
 const state = {
   sidebar: {
-    opened: Cookies.get('sidebarStatus') ? !!+Cookies.get('sidebarStatus') : true,
+    opened: Cookies.get('sidebarStatus')
+      ? !!+Cookies.get('sidebarStatus')
+      : true,
     withoutAnimation: false
   },
-  device: 'desktop'
+  device: 'desktop',
+  firstDict: {}
 }
 
 const mutations = {
@@ -25,6 +29,16 @@ const mutations = {
   },
   TOGGLE_DEVICE: (state, device) => {
     state.device = device
+  },
+  SET_FIRST_DICT: (state, firstDict) => {
+    for (let i = 0; i < firstDict.length; i++) {
+      if (state.firstDict[firstDict[i].dictCode]) {
+        state.firstDict[firstDict[i].dictCode].push(firstDict[i])
+      } else {
+        state.firstDict[firstDict[i].dictCode] = []
+        state.firstDict[firstDict[i].dictCode].push(firstDict[i])
+      }
+    }
   }
 }
 
@@ -38,8 +52,26 @@ const actions = {
   toggleDevice({ commit }, device) {
     commit('TOGGLE_DEVICE', device)
   },
-  initStore() {
-
+  /**
+   * 获取所有的一级代码信息
+   * @param {*} param0
+   * @param {*} params
+   */
+  getFirstDictAll({ commit }, params) {
+    return new Promise((resolve, reject) => {
+      getFirstDictAll(params)
+        .then(response => {
+          const data = response.data
+          commit('SET_FIRST_DICT', data)
+          resolve(data)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  },
+  initStore(params) {
+    this.dispatch('app/getFirstDictAll', {})
   }
 }
 

@@ -5,6 +5,7 @@ import com.star.starboot.system.dto.FirstDictDto;
 import com.star.starboot.system.entity.FirstDict;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -33,4 +34,10 @@ public interface FirstDictService extends IService<FirstDict> {
      * @return
      */
     Map<String,String> getFirstDictByShzjCode(String sjzdCode);
+
+    /**
+     * 获取所有的一级代码信息
+     * @return
+     */
+    List<FirstDictDto> getFirstDictAll();
 }
