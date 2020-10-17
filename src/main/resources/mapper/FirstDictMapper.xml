@@ -51,5 +51,10 @@
             and  dict.DICT_CODE = #{firstDictDto.dictCode}
         </if>
     </select>
+    <select id="getFirstDictAll" resultType="com.star.starboot.system.dto.FirstDictDto">
+        select firstDict.*,dict.dict_code from t_first_dict firstDict
+        left join t_dictionary dict on firstDict.DICT_ID = dict.DICT_ID
+        where firstDict.DELETED_CODE = 0 ORDER BY dict.dict_code desc
+    </select>
 
 </mapper>

@@ -1,7 +1,10 @@
 package com.star.starboot.system.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.star.starboot.system.entity.SysLog;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -13,4 +16,11 @@ import com.star.starboot.system.entity.SysLog;
  */
 public interface SysLogMapper extends BaseMapper<SysLog> {
 
+    /**
+     * 分页查询
+     * @param page
+     * @param sysLog
+     * @return
+     */
+    IPage<SysLog> queryPage(@Param("page") Page page, @Param("sysLog") SysLog sysLog);
 }

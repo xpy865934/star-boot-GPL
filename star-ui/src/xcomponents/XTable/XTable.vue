@@ -19,7 +19,8 @@
         v-if="options.showIndex"
         type="index"
         label="序号"
-        width="60px;"
+        :align="columns[0].align"
+        width="55px;"
       />
       <!--endregion-->
       <!--region 数据列-->
