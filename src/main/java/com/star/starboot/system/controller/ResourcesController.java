@@ -39,7 +39,7 @@ public class ResourcesController extends AbstractController {
      */
     @ApiOperation(value = "获取资源列表")
     @PostMapping("/queryList")
-    @RequiresPermissions("resources:queryList")
+    @RequiresPermissions("resources_queryList")
     @SysLog(description = "获取资源列表")
     public Result queryList(@RequestBody JSONObject param){
         ResourcesDto resourcesDto = param.getObject("bean", ResourcesDto.class);
@@ -53,7 +53,7 @@ public class ResourcesController extends AbstractController {
      */
     @ApiOperation(value = "保存菜单资源信息")
     @PostMapping("/save")
-    @RequiresPermissions("resources:save")
+    @RequiresPermissions("resources_save")
     @SysLog(description = "保存菜单资源信息")
     public Result save(@RequestBody ResourcesDto resourcesDto){
         resourcesService.saveOrUpdate(resourcesDto);
@@ -66,7 +66,7 @@ public class ResourcesController extends AbstractController {
      */
     @ApiOperation(value = "更新菜单资源信息")
     @PostMapping("/update")
-    @RequiresPermissions("resources:update")
+    @RequiresPermissions("resources_update")
     @SysLog(description = "更新菜单资源信息")
     public Result update(@RequestBody ResourcesDto resourcesDto){
         resourcesService.saveOrUpdate(resourcesDto);
@@ -79,7 +79,7 @@ public class ResourcesController extends AbstractController {
      */
     @ApiOperation(value = "更新资源是否启用")
     @PostMapping("/updateUsed")
-    @RequiresPermissions("resources:updateUsed")
+    @RequiresPermissions("resources_updateUsed")
     @SysLog(description = "更新资源是否启用")
     public Result updateUsed(@RequestBody ResourcesDto resourcesDto){
         Resources resources = new Resources();
@@ -96,7 +96,7 @@ public class ResourcesController extends AbstractController {
      */
     @ApiOperation(value = "删除资源")
     @GetMapping("/deleteById/{resourceId}")
-    @RequiresPermissions("resources:deleteById")
+    @RequiresPermissions("resources_deleteById")
     @SysLog(description = "删除资源")
     public Result deleteById(@PathVariable String resourceId){
         resourcesService.deleteById(resourceId);

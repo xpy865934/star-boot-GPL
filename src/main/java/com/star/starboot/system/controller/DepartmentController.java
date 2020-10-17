@@ -46,7 +46,7 @@ public class DepartmentController extends AbstractController {
      */
     @ApiOperation(value = "获取所有的组织架构信息树形菜单")
     @GetMapping("/getDepartmentTree")
-    @RequiresPermissions("department:getDepartmentsTree")
+    @RequiresPermissions("department_getDepartmentsTree")
     @SysLog(description = "获取所有的组织架构信息树形菜单")
     public Result getDepartmentTree(){
         UsersDto userInfo = ShiroUtils.build().getUserInfo();

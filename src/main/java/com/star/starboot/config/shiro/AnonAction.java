@@ -24,6 +24,7 @@ public class AnonAction {
         // 公共请求(登录方法放在了公共请求里面)
         put("/common/**", "anon");
         put("/users/getUserInfo*", "anon");
+        put("/firstDict/getFirstDictAll*", "anon");
 
         // 下面shiro不拦截，交给FLowableLoginAdapter去拦截进行操作
         put("/app/**", "anon");
