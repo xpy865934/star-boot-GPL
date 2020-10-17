@@ -46,7 +46,7 @@ public class UsersController extends AbstractController {
      */
     @ApiOperation(value = "分页获取用户信息")
     @PostMapping("/queryPager")
-    @RequiresPermissions("users:usersQueryPager")
+    @RequiresPermissions("users_queryPager")
     @SysLog(description = "分页获取用户信息")
     public Result queryPager(@RequestBody JSONObject param){
         Integer current = param.getInteger("current");
@@ -85,7 +85,7 @@ public class UsersController extends AbstractController {
      */
     @ApiOperation(value = "删除用户")
     @GetMapping("/deleteById/{userId}")
-    @RequiresPermissions("users:deleteById")
+    @RequiresPermissions("users_deleteById")
     @SysLog(description = "删除用户")
     public Result deleteById(@PathVariable String userId){
         usersService.deleteById(userId);

@@ -45,7 +45,7 @@ public class RolesController extends AbstractController {
      */
     @ApiOperation(value = "分页获取角色信息")
     @PostMapping("/queryPager")
-    @RequiresPermissions("roles:queryPager")
+    @RequiresPermissions("roles_queryPager")
     @SysLog(description = "分页获取角色信息")
     public Result queryPager(@RequestBody JSONObject param){
         Integer current = param.getInteger("current");
@@ -61,7 +61,7 @@ public class RolesController extends AbstractController {
      */
     @ApiOperation(value = "保存角色信息")
     @PostMapping("/save")
-    @RequiresPermissions("roles:save")
+    @RequiresPermissions("roles_save")
     @SysLog(description = "保存角色信息")
     public Result save(@RequestBody RolesDto rolesDto){
         rolesService.saveOrUpdate(rolesDto);
@@ -74,7 +74,7 @@ public class RolesController extends AbstractController {
      */
     @ApiOperation(value = "更新角色信息")
     @PostMapping("/update")
-    @RequiresPermissions("roles:update")
+    @RequiresPermissions("roles_update")
     @SysLog(description = "更新角色信息")
     public Result update(@RequestBody RolesDto rolesDto){
         rolesService.saveOrUpdate(rolesDto);
@@ -87,7 +87,7 @@ public class RolesController extends AbstractController {
      */
     @ApiOperation(value = "根据角色id获取角色资源信息")
     @PostMapping("/getResourcesByRoleTid")
-    @RequiresPermissions("roles:getResourcesByRoleTid")
+    @RequiresPermissions("roles_getResourcesByRoleTid")
     @SysLog(description = "根据角色id获取角色资源信息")
     public Result getResourcesByRoleTid(@RequestBody RolesDto rolesDto){
         List<Resources> resources = rolesReResourcesService.getResourcesByRoleTid(rolesDto.getRoleId());
@@ -100,7 +100,7 @@ public class RolesController extends AbstractController {
      */
     @ApiOperation(value = "更新角色资源信息")
     @PostMapping("/updateRoleResources")
-    @RequiresPermissions("roles:updateRoleResources")
+    @RequiresPermissions("roles_updateRoleResources")
     @SysLog(description = "更新角色资源信息")
     public Result updateRoleResources(@RequestBody JSONObject param){
         String roleId = param.getString("roleId");

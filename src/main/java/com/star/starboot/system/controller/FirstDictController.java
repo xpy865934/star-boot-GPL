@@ -39,7 +39,7 @@ public class FirstDictController extends AbstractController {
      */
     @ApiOperation("分页获取一级字典信息")
     @PostMapping("/queryPager")
-    @RequiresPermissions("firstDict:queryPager")
+    @RequiresPermissions("firstDict_queryPager")
     @SysLog(description = "分页获取一级字典信息")
     public Result queryPager(@RequestBody JSONObject param){
         Integer current = param.getInteger("current");
@@ -55,7 +55,7 @@ public class FirstDictController extends AbstractController {
      */
     @ApiOperation("保存一级字典信息")
     @PostMapping("/save")
-    @RequiresPermissions("firstDict:save")
+    @RequiresPermissions("firstDict_save")
     @SysLog(description = "保存一级字典信息")
     public Result save(@RequestBody FirstDictDto firstDictDto){
         firstDictService.saveOrUpdate(firstDictDto);
@@ -68,7 +68,7 @@ public class FirstDictController extends AbstractController {
      */
     @ApiOperation("更新一级字典信息")
     @PostMapping("/update")
-    @RequiresPermissions("firstDict:update")
+    @RequiresPermissions("firstDict_update")
     @SysLog(description = "更新一级字典信息")
     public Result update(@RequestBody FirstDictDto firstDictDto){
         firstDictService.saveOrUpdate(firstDictDto);
