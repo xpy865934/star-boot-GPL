@@ -78,5 +78,11 @@ public class SysLog extends AbstractEntity {
     @TableField("COMPANY_CODE")
     private String companyCode;
 
+    /**
+     * App端UUID
+     */
+    @TableField("UUID")
+    private String uuid;
+
 
 }

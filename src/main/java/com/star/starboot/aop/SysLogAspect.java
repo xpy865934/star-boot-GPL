@@ -66,6 +66,7 @@ public class SysLogAspect {
             String ip = IpUtils.getIpAddr(request);
             String client = request.getHeader("client");
             String os = request.getHeader("os");
+            String uuid = request.getHeader("uuid");
             if(StringUtils.isEmpty(client)){
                 // 说明是从url参数中获取
                 client = request.getParameter("client");
@@ -94,6 +95,7 @@ public class SysLogAspect {
                 sysLog.setIp(ip);
                 sysLog.setClient(client);
                 sysLog.setOs(os);
+                sysLog.setUuid(uuid);
                 //保存数据库
                 sysLogService.save(sysLog);
             } catch (Exception e) {
@@ -105,6 +107,7 @@ public class SysLogAspect {
             String ip = IpUtils.getIpAddr(request);
             String client = request.getHeader("client");
             String os = request.getHeader("os");
+            String uuid = request.getHeader("uuid");
             if(StringUtils.isEmpty(client)){
                 // 说明是从url参数中获取
                 client = request.getParameter("client");
@@ -135,6 +138,7 @@ public class SysLogAspect {
                 sysLog.setIp(ip);
                 sysLog.setClient(client);
                 sysLog.setOs(os);
+                sysLog.setUuid(uuid);
                 //保存数据库
                 sysLogService.save(sysLog);
             } catch (Exception e) {
