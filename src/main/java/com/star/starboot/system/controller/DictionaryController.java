@@ -37,7 +37,7 @@ public class DictionaryController extends AbstractController {
      */
     @ApiOperation("分页获取字典信息")
     @PostMapping("/queryPager")
-    @RequiresPermissions("dictionary:queryPager")
+    @RequiresPermissions("dictionary_queryPager")
     @SysLog(description = "分页获取字典信息")
     public Result queryPager(@RequestBody JSONObject param){
         Integer current = param.getInteger("current");
@@ -53,7 +53,7 @@ public class DictionaryController extends AbstractController {
      */
     @ApiOperation("保存字典信息")
     @PostMapping("/save")
-    @RequiresPermissions("dictionary:save")
+    @RequiresPermissions("dictionary_save")
     @SysLog(description = "保存字典信息")
     public Result save(@RequestBody DictionaryDto dictionaryDto){
         dictionaryService.saveOrUpdate(dictionaryDto);
@@ -66,7 +66,7 @@ public class DictionaryController extends AbstractController {
      */
     @ApiOperation("更新字典信息")
     @PostMapping("/update")
-    @RequiresPermissions("dictionary:update")
+    @RequiresPermissions("dictionary_update")
     @SysLog(description = "更新字典信息")
     public Result update(@RequestBody DictionaryDto dictionaryDto){
         dictionaryService.saveOrUpdate(dictionaryDto);
