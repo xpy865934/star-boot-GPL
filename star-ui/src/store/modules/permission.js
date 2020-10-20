@@ -1,5 +1,4 @@
 import { asyncRoutes, constantRoutes } from '@/router'
-import store from '../../store'
 
 /**
  * 通过meta.access判断是否与当前用户权限匹配

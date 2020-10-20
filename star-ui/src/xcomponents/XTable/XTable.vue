@@ -8,6 +8,7 @@
       :data="list"
       :max-height="height"
       :stripe="options.stripe"
+      :border="options.border"
       @selection-change="handleSelectionChange"
       @row-click="handleRowClick"
     >
@@ -170,7 +171,8 @@ export default {
         loading: false, // 是否添加表格loading加载动画
         highlightCurrentRow: true, // 是否支持当前行高亮显示
         mutiSelect: false, // 是否支持列表项选中功能
-        showIndex: true // 是否显示序号列
+        showIndex: true, // 是否显示序号列
+        border: false // 是否显示边框
       })
     } // table 表格的控制参数
   },
