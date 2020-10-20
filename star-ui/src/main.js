@@ -19,7 +19,7 @@ import '@/permission' // permission control
 
 import config from '@/config' // config
 
-import { isEmpty, isIntNum, isNumber, decimalPercentConvert, formatPercent, formatThousandth } from '@/utils/common'
+import { isEmpty, isIntNum, isNumber, decimalPercentConvert, formatPercent, formatThousandth, translateFirstDict } from '@/utils/common'
 
 // 自定义组件
 // 分页   // 暂时封装到了表格中，没有单独使用
@@ -28,6 +28,11 @@ import { isEmpty, isIntNum, isNumber, decimalPercentConvert, formatPercent, form
 // 表格
 import XTable from './xcomponents/XTable'
 Vue.use(XTable)
+
+// k-form-design
+import KFormDesign from 'k-form-design'
+import 'k-form-design/lib/k-form-design.css'
+Vue.use(KFormDesign)
 
 Vue.use(ElementUI, {
   i18n: (key, value) => i18n.t(key, value)
@@ -43,6 +48,7 @@ Vue.prototype.$isNumber = isNumber
 Vue.prototype.$formatPercent = formatPercent
 Vue.prototype.$formatThousandth = formatThousandth
 Vue.prototype.$decimalPercentConvert = decimalPercentConvert
+Vue.prototype.$translateFirstDict = translateFirstDict
 
 // 重写$messgae
 Vue.prototype.$message = function(data) {
