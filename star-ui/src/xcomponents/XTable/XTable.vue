@@ -65,6 +65,7 @@
             <template v-for="(btn, key) in operates.list">
               <div v-if="btn.showFun && btn.showFun(key,scope.row)" :key="key" class="item">
                 <el-button
+                  v-if="btn.label"
                   :type="btn.type"
                   :icon="btn.icon"
                   :disabled="btn.disabled"
@@ -72,9 +73,19 @@
                   :size="buttonSize"
                   @click.native.prevent="btn.method(key,scope.row)"
                 >{{ btn.label }}</el-button>
+                <el-button
+                  v-else
+                  :type="btn.type"
+                  :icon="btn.icon"
+                  :disabled="btn.disabled"
+                  :plain="btn.plain"
+                  :size="buttonSize"
+                  @click.native.prevent="btn.method(key,scope.row)"
+                />
               </div>
               <div v-else-if="btn.show" :key="key" class="item">
                 <el-button
+                  v-if="btn.label"
                   :type="btn.type"
                   :icon="btn.icon"
                   :disabled="btn.disabled"
@@ -82,6 +93,15 @@
                   :size="buttonSize"
                   @click.native.prevent="btn.method(key,scope.row)"
                 >{{ btn.label }}</el-button>
+                <el-button
+                  v-else
+                  :type="btn.type"
+                  :icon="btn.icon"
+                  :disabled="btn.disabled"
+                  :plain="btn.plain"
+                  :size="buttonSize"
+                  @click.native.prevent="btn.method(key,scope.row)"
+                />
               </div>
             </template>
           </div>
