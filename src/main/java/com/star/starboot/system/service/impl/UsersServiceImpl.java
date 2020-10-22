@@ -1,6 +1,5 @@
 package com.star.starboot.system.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -15,7 +14,6 @@ import com.star.starboot.system.dto.UsersDto;
 import com.star.starboot.system.entity.Department;
 import com.star.starboot.system.entity.Users;
 import com.star.starboot.system.entity.UsersReRoles;
-import com.star.starboot.system.service.DepartmentService;
 import com.star.starboot.system.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -93,5 +92,10 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
         usersMapper.updateById(user);
         // updateById 无法更新删除字段  UPDATE t_users SET DELETED_BY=?, DELETED_AT=? WHERE USER_ID=? AND DELETED_CODE='0'
         usersMapper.deleteById(userId);
+    }
+
+    @Override
+    public List<UsersDto> queryList() {
+        return usersMapper.queryList();
     }
 }

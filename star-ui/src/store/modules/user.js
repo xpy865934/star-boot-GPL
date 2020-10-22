@@ -5,6 +5,7 @@ import { resetRouter } from '@/router'
 
 const getDefaultState = () => {
   return {
+    userId: '',
     userCode: '',
     userName: '',
     userSex: '',
@@ -39,6 +40,9 @@ const mutations = {
     state.token = token
   },
   SET_USER: (state, user) => {
+    if (user.userId) {
+      state.userId = user.userId
+    }
     if (user.userCode) {
       state.userCode = user.userCode
     }

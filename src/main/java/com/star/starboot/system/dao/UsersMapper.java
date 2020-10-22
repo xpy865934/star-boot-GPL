@@ -7,6 +7,8 @@ import com.star.starboot.system.dto.UsersDto;
 import com.star.starboot.system.entity.Users;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * <p>
  * 用户信息表 Mapper 接口
@@ -32,4 +34,10 @@ public interface UsersMapper extends BaseMapper<Users> {
      * @return
      */
     IPage<UsersDto> queryPage(@Param("page") Page page, @Param("usersDto") UsersDto usersDto);
+
+    /**
+     * 查询所有用户
+     * @return
+     */
+    List<UsersDto> queryList();
 }

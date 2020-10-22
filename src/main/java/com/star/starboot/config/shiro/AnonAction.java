@@ -24,15 +24,19 @@ public class AnonAction {
         // 公共请求(登录方法放在了公共请求里面)
         put("/common/**", "anon");
         put("/users/getUserInfo*", "anon");
+        put("/users/queryList*", "anon");
         put("/firstDict/getFirstDictAll*", "anon");
 
         // 下面shiro不拦截，交给FLowableLoginAdapter去拦截进行操作
         put("/app/**", "anon");
+        put("/process-api/**", "anon");
+        put("/app-api/**", "anon");
         put("/starflowable/**", "anon");
         put("/flowableAdminLogin", "anon");
         put("/flowableAdminLogout", "anon");
         // 静态资源
         put("/static/**", "anon");
+        put("/admin/**", "anon");
 
         // 判断需要：IOS
         put("/sysUser/register*", "anon");

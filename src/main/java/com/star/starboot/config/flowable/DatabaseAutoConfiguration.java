@@ -42,6 +42,25 @@ public class DatabaseAutoConfiguration {
         }
     }
 
+    @Bean
+    public Liquibase adminLiquibase(DataSource dataSource) {
+        LOGGER.debug("Configuring Liquibase");
+        Liquibase liquibase = null;
+        try {
+            DatabaseConnection connection = new JdbcConnection(dataSource.getConnection());
+            Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(connection);
+            database.setDatabaseChangeLogTableName("ACT_ADM_" + database.getDatabaseChangeLogTableName());
+            database.setDatabaseChangeLogLockTableName("ACT_ADM_" + database.getDatabaseChangeLogLockTableName());
+            liquibase = new Liquibase("META-INF/liquibase/flowable-admin-app-db-changelog.xml", new ClassLoaderResourceAccessor(), database);
+            liquibase.update("flowable");
+            return liquibase;
+        } catch (Exception e) {
+            throw new InternalServerErrorException("Error creating liquibase database");
+        } finally {
+            closeDatabase(liquibase);
+        }
+    }
+
     private void closeDatabase(Liquibase liquibase) {
         if (liquibase != null) {
             Database database = liquibase.getDatabase();

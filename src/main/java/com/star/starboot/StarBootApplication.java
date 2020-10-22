@@ -3,6 +3,7 @@ package com.star.starboot;
 import com.star.starboot.config.flowable.AppDispatcherServletConfiguration;
 import com.star.starboot.config.flowable.ApplicationConfiguration;
 import com.star.starboot.config.flowable.DatabaseAutoConfiguration;
+import org.flowable.ui.admin.domain.generator.MinimalDataGenerator;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -28,7 +29,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Import({
         ApplicationConfiguration.class,
         AppDispatcherServletConfiguration.class,
-        DatabaseAutoConfiguration.class
+        DatabaseAutoConfiguration.class,
+        MinimalDataGenerator.class
 //        DatabaseConfiguration.class
 })
 public class StarBootApplication extends SpringBootServletInitializer {

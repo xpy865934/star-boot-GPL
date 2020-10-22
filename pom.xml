@@ -335,6 +335,11 @@
             <version>${flowable.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.flowable</groupId>
+            <artifactId>flowable-ui-admin-conf</artifactId>
+            <version>${flowable.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>net.sourceforge.nekohtml</groupId>

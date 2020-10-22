@@ -68,5 +68,8 @@
         where users.DELETED_CODE = 0
         <include refid="base_query"/>
     </select>
+    <select id="queryList" resultType="com.star.starboot.system.dto.UsersDto">
+        select  re.USER_ID,re.USER_NAME from users_roles_department_company re
+    </select>
 
 </mapper>
