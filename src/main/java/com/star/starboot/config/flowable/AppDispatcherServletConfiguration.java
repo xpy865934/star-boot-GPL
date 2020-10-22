@@ -1,5 +1,6 @@
 package com.star.starboot.config.flowable;
 
+import org.flowable.ui.admin.properties.FlowableAdminAppProperties;
 import org.flowable.ui.modeler.properties.FlowableModelerAppProperties;
 import org.flowable.ui.modeler.rest.app.EditorGroupsResource;
 import org.flowable.ui.modeler.rest.app.EditorUsersResource;
@@ -18,11 +19,12 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 @Configuration
-@EnableConfigurationProperties({FlowableModelerAppProperties.class})
+@EnableConfigurationProperties({FlowableModelerAppProperties.class, FlowableAdminAppProperties.class})
 @ComponentScan(value = {
 //        "org.flowable.ui.idm.rest.app",
 //        "org.flowable.ui.common.rest.exception",
 //        "org.flowable.ui.common.rest",
+        "org.flowable.ui.admin.rest",
         "org.flowable.ui.modeler.rest.app"
 },
         excludeFilters = {

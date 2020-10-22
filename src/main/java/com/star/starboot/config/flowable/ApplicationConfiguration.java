@@ -1,5 +1,7 @@
 package com.star.starboot.config.flowable;
 
+import org.flowable.ui.admin.domain.generator.MinimalDataGenerator;
+import org.flowable.ui.admin.properties.FlowableAdminAppProperties;
 import org.flowable.ui.common.service.idm.RemoteIdmService;
 import org.flowable.ui.modeler.properties.FlowableModelerAppProperties;
 import org.flowable.ui.modeler.servlet.ApiDispatcherServletConfiguration;
@@ -15,11 +17,13 @@ import org.springframework.web.servlet.DispatcherServlet;
 
 
 @Configuration
-@EnableConfigurationProperties({FlowableModelerAppProperties.class})
+@EnableConfigurationProperties({FlowableModelerAppProperties.class, FlowableAdminAppProperties.class})
 @ComponentScan(basePackages = {
 //        "org.flowable.ui.idm.conf",
 //        "org.flowable.ui.idm.security",
 //        "org.flowable.ui.idm.service",
+        "org.flowable.ui.admin.repository",
+        "org.flowable.ui.admin.service",
         "org.flowable.ui.modeler.repository",
         "org.flowable.ui.modeler.service",
 //        "org.flowable.ui.common.filter",
