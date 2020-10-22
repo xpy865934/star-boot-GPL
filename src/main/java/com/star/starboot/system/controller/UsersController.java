@@ -20,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * <p>
  * 用户信息表 前端控制器
@@ -91,5 +93,19 @@ public class UsersController extends AbstractController {
         usersService.deleteById(userId);
         return Result.success();
     }
+
+
+    /**
+     * 查询所有用户
+     * @return
+     */
+    @ApiOperation(value = "查询所有用户")
+    @PostMapping("/queryList")
+    @SysLog(description = "查询所有用户")
+    public Result queryList(@RequestBody JSONObject param){
+        List<UsersDto> list = usersService.queryList();
+        return Result.success(list);
+    }
+
 }
 
