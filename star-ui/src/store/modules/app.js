@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie'
-import { getFirstDictAll } from '@/api/app'
+import { getFirstDictAll, getUserList } from '@/api/app'
 
 const state = {
   sidebar: {
@@ -9,7 +9,8 @@ const state = {
     withoutAnimation: false
   },
   device: 'desktop',
-  firstDict: {}
+  firstDict: {},
+  userList: []
 }
 
 const mutations = {
@@ -39,6 +40,9 @@ const mutations = {
         state.firstDict[firstDict[i].dictCode].push(firstDict[i])
       }
     }
+  },
+  SET_USER_LIST: (state, userList) => {
+    state.userList = userList
   }
 }
 
@@ -70,8 +74,27 @@ const actions = {
         })
     })
   },
+  /**
+   * 获取所有的用户信息
+   * @param {*} param0
+   * @param {*} params
+   */
+  getUserList({ commit }, params) {
+    return new Promise((resolve, reject) => {
+      getUserList(params)
+        .then(response => {
+          const data = response.data
+          commit('SET_USER_LIST', data)
+          resolve(data)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  },
   initStore(params) {
     this.dispatch('app/getFirstDictAll', {})
+    this.dispatch('app/getUserList', {})
   }
 }
 

@@ -4,6 +4,8 @@ server:
       context-path: /star/api   #项目的访问路径
 
 spring:
+  application:
+    name: star-boot
   servlet:
     multipart:
       enabled: true
@@ -106,10 +108,82 @@ file:
   # 空间名称
   qiniu-bucket-key: qcnt
 
+flowable:
+  #关闭定时任务JOB
+  async-executor-activate: false
+  #  将databaseSchemaUpdate设置为true。当Flowable发现库与数据库表结构不一致时，会自动将数据库表结构升级至新版本。
+  database-schema-update: true
+  modeler:
+    app:
+      rest-enabled: true
+      deployment-api-url: "http://localhost:8002/star/api/starflowable"
+  admin:
+    app:
+      security:
+        encryption:
+          credentials-secret-spec: 9FGl73ngxcOoJvmL
+          credentials-i-v-spec: j8kdO2hejA9lKmm6
+      server-config:
+        app:
+          context-root: ${spring.application.name}
+          password: test
+          server-address: http://localhost
+          user-name: admin
+          port: ${server.port}
+          rest-root: app-api
+          name: Flowable App app
+          description: Flowable App REST config
+        process:
+          context-root: ${spring.application.name}
+          server-address: http://localhost
+          password: test
+          user-name: admin
+          rest-root: process-api
+          port: ${server.port}
+          name: Flowable Process app
+          description: Flowable Process REST config
+        form:
+          context-root: ${spring.application.name}
+          server-address: http://localhost
+          password: test
+          user-name: admin
+          port: ${server.port}
+          rest-root: form-api
+          name: Flowable Form app
+          description: Flowable Form REST config
+        dmn:
+          context-root: ${spring.application.name}
+          server-address: http://localhost
+          password: test
+          user-name: admin
+          port: ${server.port}
+          rest-root: dmn-api
+          name: Flowable DMN app
+          description: Flowable DMN REST config
+        cmmn:
+          context-root: ${spring.application.name}
+          password: test
+          server-address: http://localhost
+          user-name: admin
+          port: ${server.port}
+          rest-root: cmmn-api
+          name: Flowable CMMN app
+          description: Flowable CMMN REST config
+        content:
+          context-root: ${spring.application.name}
+          server-address: http://localhost
+          password: test
+          user-name: admin
+          rest-root: content-api
+          port: ${server.port}
+          name: Flowable Content app
+          description: Flowable Content REST config
+  rest-api-enabled: true
+
 
 #mybatis
 mybatis-plus:
-  mapper-locations: classpath*:/mapper/**Mapper.xml,classpath*:/mapper/**/**Mapper.xml,classpath*:/META-INF/modeler-mybatis-mappings/*.xml
+  mapper-locations: classpath*:/mapper/**Mapper.xml,classpath*:/mapper/**/**Mapper.xml,classpath*:/META-INF/modeler-mybatis-mappings/*.xml,classpath*:/META-INF/admin-mybatis-mappings/*.xml
   #实体扫描，多个package用逗号或者分号分隔
   typeAliasesPackage: com.star.starboot.*.entity
   global-config:
@@ -177,13 +251,3 @@ getui:
   appKey: CamhrEl0f67Gx3K9Jh2Pi3
   masterSecret: fXexg4WCxGAqV7hEGVvHf2
   url: http://sdk.open.api.igexin.com/apiex.htm
-
-flowable:
-  #关闭定时任务JOB
-  async-executor-activate: false
-  #  将databaseSchemaUpdate设置为true。当Flowable发现库与数据库表结构不一致时，会自动将数据库表结构升级至新版本。
-  database-schema-update: true
-  modeler:
-    app:
-      rest-enabled: true
-      deployment-api-url: "http://localhost:8002/star/api/starflowable"

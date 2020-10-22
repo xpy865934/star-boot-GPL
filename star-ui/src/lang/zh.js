@@ -4,6 +4,8 @@ export default {
     uploadData: '数据上报',
     countData: '数据汇总',
     personData: '个人信息',
+    customerManagement: '客户管理',
+    customerInfo: '客户信息',
     systemManagement: '系统管理',
     hztj: '汇总统计',
     ureportDesigner: '报表设计',
@@ -89,6 +91,33 @@ export default {
     close: '关闭',
     closeOthers: '关闭其他',
     closeAll: '关闭所有'
+  },
+  // 客户管理
+  customerInfo: {
+    customerName: '客户姓名',
+    customerTel: '联系电话',
+    sex: '性别',
+    address: '住址',
+    age: '年龄',
+    profession: '职业',
+    hobbies: '爱好',
+    houses: '住宅',
+    province: '省',
+    city: '市',
+    area: '区',
+    communityName: '小区名称',
+    houseNum: '门牌号',
+    structural: '结构',
+    acreage: '大概面积',
+    projectManager: '项目经理',
+    projectManagerTel: '联系方式',
+    customerDesignerName: '设计师',
+    customerDesignerTel: '联系方式',
+    infoSource: '信息来源',
+    sourceName: '来源人',
+    remark: '备注',
+    salesman: '业务员',
+    planAndConfig: '方案/配置表'
   },
   // 用户管理
   users: {
