@@ -4,6 +4,8 @@ import com.star.starboot.system.entity.Users;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.util.Set;
+
 /**
  * All rights Reserved, Designed By www.xpyvip.top
  *
@@ -35,12 +37,12 @@ public class UsersDto extends Users {
     /**
      * 角色
      */
-    private Object[] roles;
+    private Set<String> roles;
 
     /**
      * 权限
      */
-    private Object[] permissions;
+    private Set<String> permissions;
 
     /**
      * 用户工号-公司代码   作为主键唯一

@@ -341,6 +341,13 @@
             <version>${flowable.version}</version>
         </dependency>
 
+        <!-- 流程api端点配置需要该pom文件，process-api -->
+        <dependency>
+            <groupId>org.flowable</groupId>
+            <artifactId>flowable-ui-task-conf</artifactId>
+            <version>${flowable.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>net.sourceforge.nekohtml</groupId>
             <artifactId>nekohtml</artifactId>
