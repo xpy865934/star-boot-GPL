@@ -9,6 +9,7 @@ import org.apache.shiro.session.mgt.SessionKey;
 import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.apache.shiro.subject.support.DefaultSubjectContext;
 import org.apache.shiro.web.session.mgt.WebSessionKey;
+import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -83,8 +84,15 @@ public class ShiroUtils {
         try{
             Session se = SecurityUtils.getSecurityManager().getSession(key);
             Object obj = se.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);
+            SimpleAuthorizationInfo info = (SimpleAuthorizationInfo)se.getAttribute("permissions");
             SimplePrincipalCollection coll = (SimplePrincipalCollection) obj;
-            return (UsersDto)coll.getPrimaryPrincipal();
+            UsersDto userDto = (UsersDto)coll.getPrimaryPrincipal();
+            if(!StringUtils.isEmpty(info)){
+                // 第一次登陆时需要写入日志，此时还获取不到日志信息
+                userDto.setRoles(info.getRoles());
+                userDto.setPermissions(info.getStringPermissions());
+            }
+            return userDto;
         }catch(Exception e){
             log.error(e.getMessage());
             e.printStackTrace();

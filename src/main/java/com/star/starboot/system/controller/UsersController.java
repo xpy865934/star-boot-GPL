@@ -14,7 +14,7 @@ import com.star.starboot.system.service.UsersService;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -68,12 +68,12 @@ public class UsersController extends AbstractController {
     public Result getUserInfo(){
         UsersDto userInfo = ShiroUtils.build().getUserInfo();
         if(!StringUtils.isEmpty(userInfo)){
-            AuthorizationInfo authorizationInfo = userPasswordRealm.getUserAuthorizationInfo(SecurityUtils.getSubject().getPrincipals());
+            SimpleAuthorizationInfo authorizationInfo = userPasswordRealm.getUserAuthorizationInfo(SecurityUtils.getSubject().getPrincipals());
             if(!StringUtils.isEmpty(authorizationInfo.getRoles())){
-                userInfo.setRoles(authorizationInfo.getRoles().toArray());
+                userInfo.setRoles(authorizationInfo.getRoles());
             }
             if(!StringUtils.isEmpty(authorizationInfo.getStringPermissions())){
-                userInfo.setPermissions(authorizationInfo.getStringPermissions().toArray());
+                userInfo.setPermissions(authorizationInfo.getStringPermissions());
             }
             return Result.success(userInfo);
         }else{

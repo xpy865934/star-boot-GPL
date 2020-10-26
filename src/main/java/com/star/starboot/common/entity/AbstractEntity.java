@@ -10,6 +10,7 @@ import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * All rights Reserved, Designed By www.xpyvip.top
@@ -24,11 +25,18 @@ import java.util.Date;
 @Accessors(chain = true)
 public class AbstractEntity implements Serializable {
 
-    /**
-     * 流程状态
-     */
-    @TableField("PROCESS_STATE")
-    private String processState;
+
+    @TableField("PROCESS_INSTANCE_ID")
+    private String processInstanceId;
+
+    @TableField("PROCESS_DEFINITION_ID")
+    private String processDefinitionId;
+
+    @TableField("TASK_IDS")
+    private String taskIds;
+
+    @TableField("TASK_NAMES")
+    private String taskNames;
     /**
      * 创建人
      */
@@ -68,4 +76,16 @@ public class AbstractEntity implements Serializable {
     @TableLogic
     @TableField("DELETED_CODE")
     private String deletedCode;
+
+    /**
+     * 流程bussinessKey
+     */
+    @TableField(exist = false)
+    private List<String> bussinessKeys;
+
+    /**
+     * 流程状态
+     */
+    @TableField(exist = false)
+    private String taskState;
 }

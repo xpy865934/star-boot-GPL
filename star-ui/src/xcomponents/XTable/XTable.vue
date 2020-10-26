@@ -25,9 +25,37 @@
       />
       <!--endregion-->
       <!--region 数据列-->
+      <!-- 流程列 -->
+      <template v-if="options.isFlow">
+        <template v-for="(column, index) in flowColumns">
+          <el-table-column
+            :key="index"
+            :prop="column.prop"
+            :label="column.label"
+            :align="column.align"
+            :show-overflow-tooltip="column.showOverflowTooltip === undefined ? true : column.showOverflowTooltip"
+            :width="column.width"
+            :min-width="column.minWidth"
+          >
+            <template slot-scope="scope">
+              <template v-if="!column.render">
+                <template v-if="column.formatter">
+                  <span>{{ column.formatter(scope.row, column) }}</span>
+                </template>
+                <template v-else>
+                  <span>{{ scope.row[column.prop] }}</span>
+                </template>
+              </template>
+              <template v-else>
+                <expand-dom :column="column" :row="scope.row" :render="column.render" :index="index" />
+              </template>
+            </template>
+          </el-table-column>
+        </template>
+      </template>
       <template v-for="(column, index) in columns">
         <el-table-column
-          :key="index"
+          :key="index + 1"
           :prop="column.prop"
           :label="column.label"
           :align="column.align"
@@ -159,7 +187,8 @@ export default {
       default: function() {
         return []
       }
-    }, // 数据列表
+    },
+    // 数据列表
     columns: {
       type: Array,
       default: function() {
@@ -192,7 +221,8 @@ export default {
         highlightCurrentRow: true, // 是否支持当前行高亮显示
         mutiSelect: false, // 是否支持列表项选中功能
         showIndex: true, // 是否显示序号列
-        border: false // 是否显示边框
+        border: false, // 是否显示边框
+        isFlow: false
       })
     } // table 表格的控制参数
   },
@@ -201,7 +231,17 @@ export default {
       pageIndex: 1,
       tableCurrentPagination: {},
       buttonSize: this.$config.buttonSize,
-      multipleSelection: [] // 多行选中
+      multipleSelection: [], // 多行选中
+      // 流程
+      flowColumns: [
+        {
+          // TASK_NAMES
+          prop: 'taskNames',
+          label: this.$t('common.taskNames'),
+          align: 'center',
+          minWidth: 50
+        }
+      ]
     }
   },
   computed: {
