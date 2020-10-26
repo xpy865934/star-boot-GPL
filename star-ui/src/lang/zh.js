@@ -27,6 +27,9 @@ export default {
     addSuccess: '新增成功!',
     editSuccess: '修改成功!',
     deleteSuccess: '删除成功!',
+    taskNames: '当前节点',
+    taskState: '事项',
+    approvalComments: '审批意见',
 
     action: '操作',
     info: '提示',

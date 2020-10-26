@@ -5,7 +5,6 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.star.starboot.system.entity.UsersReRoles">
         <id column="USERS_RE_ROLES_ID" property="usersReRolesId" />
-    <result column="PROCESS_STATE" property="processState" />
     <result column="CREATE_BY" property="createBy" />
     <result column="CREATE_AT" property="createAt" />
     <result column="UPDATE_BY" property="updateBy" />

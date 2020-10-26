@@ -87,7 +87,7 @@ public class UserPasswordRealm extends AuthorizingRealm {
      * @return
      */
     @Override
-    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
+    protected SimpleAuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
 
         log.info("---------------- 执行 Shiro 权限获取 ---------------------");
         Object principal = principalCollection.getPrimaryPrincipal();
@@ -99,7 +99,7 @@ public class UserPasswordRealm extends AuthorizingRealm {
                 List<Roles> roleList = rolesService.findByUserIdAndCompany(userLogin.getUserId(),userLogin.getCompanyId());
                 if(CollectionUtils.isNotEmpty(roleList)){
                     for(Roles role : roleList){
-                        info.addRole(role.getRoleName() + "(" + role.getRoleCode() + ")");
+                        info.addRole(role.getRoleId());
 
                         // 获取资源列表，所有的菜单和button全部放在一起，有这个资源，前端才展示
                         List<Resources> resourcesList = rolesReResourcesService.getResourcesByRoleTid(role.getRoleId());
@@ -166,7 +166,7 @@ public class UserPasswordRealm extends AuthorizingRealm {
      * @param principalCollection
      * @return
      */
-    public AuthorizationInfo getUserAuthorizationInfo(PrincipalCollection principalCollection){
+    public SimpleAuthorizationInfo getUserAuthorizationInfo(PrincipalCollection principalCollection){
         return this.doGetAuthorizationInfo(principalCollection);
     }
 

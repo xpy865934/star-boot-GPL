@@ -5,7 +5,6 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.star.starboot.system.entity.FirstDict">
         <id column="FIRST_DICT_ID" property="firstDictId" />
-    <result column="PROCESS_STATE" property="processState" />
     <result column="CREATE_BY" property="createBy" />
     <result column="CREATE_AT" property="createAt" />
     <result column="UPDATE_BY" property="updateBy" />

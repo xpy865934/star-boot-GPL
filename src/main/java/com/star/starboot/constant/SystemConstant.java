@@ -10,6 +10,10 @@ package com.star.starboot.constant;
  * @Date: Created in 2019年06月11日 下午7:48
  */
 public class SystemConstant {
+    // 流程图
+    public static final String KHGL  = "KHGL";
+
+
     /**
      * 年月日格式化
      */
