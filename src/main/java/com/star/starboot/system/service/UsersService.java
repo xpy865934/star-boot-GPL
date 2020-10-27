@@ -51,4 +51,11 @@ public interface UsersService extends IService<Users> {
      * @return
      */
     List<UsersDto> queryList();
+
+    /**
+     * 根据用户ids获取用户信息
+     * @param userIds
+     * @return
+     */
+    List<UsersDto> getByIds(List<String> userIds);
 }

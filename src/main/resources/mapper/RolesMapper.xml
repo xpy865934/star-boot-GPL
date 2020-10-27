@@ -43,5 +43,13 @@
             and  roles.ROLE_NAME like concat('%', #{rolesDto.roleName}, '%')
         </if>
     </select>
+    <select id="getByIds" resultType="com.star.starboot.system.dto.RolesDto">
+        select roles.* from t_roles roles where roles.DELETED_CODE = 0
+
+        and
+        <foreach collection='roleIds' item="item" separator="or" open="(" close=")">
+            find_in_set(roles.ROLE_ID, #{item})
+        </foreach>
+    </select>
 
 </mapper>

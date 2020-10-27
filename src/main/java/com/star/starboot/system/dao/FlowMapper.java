@@ -25,7 +25,9 @@ public interface FlowMapper extends BaseMapper<Flow> {
      * @param taskIds
      * @param taskNames
      */
-    void updateBusinessData(@Param("table") String table, @Param("tableId") String tableId, @Param("businessKey") String businessKey, @Param("processInstanceId") String processInstanceId, @Param("processDefinitionId") String processDefinitionId, @Param("taskIds") String taskIds, @Param("taskNames") String taskNames);
+    void updateBusinessData(@Param("table") String table, @Param("tableId") String tableId, @Param("businessKey") String businessKey,
+                            @Param("processInstanceId") String processInstanceId, @Param("processDefinitionId") String processDefinitionId,
+                            @Param("taskIds") String taskIds, @Param("taskNames") String taskNames, @Param("processState") Integer processState);
 
     /**
      * 更新业务数据任务相关信息
@@ -35,5 +37,6 @@ public interface FlowMapper extends BaseMapper<Flow> {
      * @param taskIds
      * @param taskNames
      */
-    void updateBusinessTaskData(@Param("table") String table, @Param("tableId") String tableId, @Param("businessKey") String businessKey, @Param("taskIds") String taskIds, @Param("taskNames") String taskNames);
+    void updateBusinessTaskData(@Param("table") String table, @Param("tableId") String tableId, @Param("businessKey") String businessKey,
+                                @Param("taskIds") String taskIds, @Param("taskNames") String taskNames, @Param("processState") Integer processState);
 }
