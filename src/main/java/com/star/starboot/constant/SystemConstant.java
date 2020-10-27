@@ -13,6 +13,13 @@ public class SystemConstant {
     // 流程图
     public static final String KHGL  = "KHGL";
 
+    /**
+     * 流程状态  1  申请  2  审批中  3 结束
+     */
+    public static final Integer PROCESS_START = 1;
+    public static final Integer PROCESS_APPROVING = 2;
+    public static final Integer PROCESS_COMPLETE = 3;
+
 
     /**
      * 年月日格式化

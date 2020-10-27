@@ -34,4 +34,11 @@ public interface RolesService extends IService<Roles> {
      * @return
      */
     IPage<RolesDto> queryPager(RolesDto rolesDto, Integer current, Integer size);
+
+    /**
+     * 根据角色id查询角色
+     * @param candidateGroups
+     * @return
+     */
+    List<RolesDto> getByIds(List<String> candidateGroups);
 }
