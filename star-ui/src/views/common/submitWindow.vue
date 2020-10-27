@@ -9,6 +9,19 @@
         </el-col>
       </el-row>
     </el-form>
+    <el-divider content-position="center">流程审批</el-divider>
+    <el-row>
+      <el-col :span="22" :offset="1">
+        <el-steps :active="flowActive" finish-status="success">
+          <el-step
+            v-for="(item, index) in flowNodeList"
+            :key="index"
+            :title="item.nodeNameAndUserName"
+            :description="item.approvalComments"
+          />
+        </el-steps>
+      </el-col>
+    </el-row>
     <div style="text-align:right">
       <el-button type="primary" :size="buttonSize" @click="ok('submit')">提 交</el-button>
       <el-button type="primary" :size="buttonSize" @click="ok('back')">退 回</el-button>
@@ -35,7 +48,7 @@ export default {
         return {}
       }
     },
-    bussinessKey: {
+    businessKey: {
       type: String,
       default: function() {
         return ''
@@ -75,6 +88,8 @@ export default {
       dialogEsc: this.$config.dialogEsc,
       dialogClick: this.$config.dialogClick,
       dialogWidth: this.$config.dialogWidth,
+      flowActive: 0,
+      flowNodeList: [],
       rules: {
         approvalComments: [
           { required: true, message: this.$t('common.pleaseInput') + this.$t('common.approvalComments'), trigger: 'change' }
@@ -97,6 +112,24 @@ export default {
     },
     row(v) {
       this.viewForm = JSON.parse(JSON.stringify(v))
+      if (v.processInstanceId) {
+        this.$store.dispatch('app/getFLowNodes', { processInstanceId: v.processInstanceId }).then((res) => {
+          this.flowNodeList = res
+          // 判断是否全部未激活，则表示流程结束
+          let flag = true
+          for (let i = 0; i < res.length; i++) {
+            if (res[i].active) {
+              this.flowActive = i
+              flag = false
+              break
+            }
+          }
+          if (flag) {
+            this.flowActive = res.length
+          }
+        }).catch(() => {
+        })
+      }
     }
   },
   mounted() {
@@ -113,7 +146,7 @@ export default {
     ok(value) {
       this.$refs['form'].validate((valid) => {
         if (valid) {
-          this.form.bussinessKey = this.viewForm[this.bussinessKey]
+          this.form.businessKey = this.viewForm[this.businessKey]
           this.form.submitState = value
           this.$emit('update', false, this.form)
         } else {

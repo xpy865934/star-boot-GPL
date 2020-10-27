@@ -98,4 +98,9 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
     public List<UsersDto> queryList() {
         return usersMapper.queryList();
     }
+
+    @Override
+    public List<UsersDto> getByIds(List<String> userIds) {
+        return usersMapper.getByIds(userIds);
+    }
 }

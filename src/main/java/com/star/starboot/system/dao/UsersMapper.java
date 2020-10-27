@@ -40,4 +40,11 @@ public interface UsersMapper extends BaseMapper<Users> {
      * @return
      */
     List<UsersDto> queryList();
+
+    /**
+     * 根据ids获取用户
+     * @param userIds
+     * @return
+     */
+    List<UsersDto> getByIds(@Param("userIds") List<String> userIds);
 }

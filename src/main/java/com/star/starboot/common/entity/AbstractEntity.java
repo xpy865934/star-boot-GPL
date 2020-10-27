@@ -26,6 +26,9 @@ import java.util.List;
 public class AbstractEntity implements Serializable {
 
 
+    @TableField("PROCESS_STATE")
+    private String processState;
+
     @TableField("PROCESS_INSTANCE_ID")
     private String processInstanceId;
 

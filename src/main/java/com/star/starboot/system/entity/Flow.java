@@ -17,13 +17,42 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class Flow{
 
+
+    private String processInstanceId;
+
+    private String processDefinitionId;
+
     /**
      * bussinessKey
      */
-    private String bussinessKey;
+    private String businessKey;
     /**
      * 审批意见
      */
     private String approvalComments;
 
+    /**
+     * 节点名称
+     */
+    private String nodeName;
+
+    /**
+     * 节点id
+     */
+    private String nodeId;
+
+    /**
+     * 审批人
+     */
+    private String assignee;
+
+    /**
+     * 是否是激活的
+     */
+    private boolean active = false;
+
+    /**
+     * 节点名称和审批人名称
+     */
+    public String nodeNameAndUserName;
 }

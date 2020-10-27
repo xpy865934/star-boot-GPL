@@ -35,4 +35,9 @@ public class RolesServiceImpl extends ServiceImpl<RolesMapper, Roles> implements
     public IPage<RolesDto> queryPager(RolesDto rolesDto, Integer current, Integer size) {
         return rolesMapper.queryPage(new Page(current, size), rolesDto);
     }
+
+    @Override
+    public List<RolesDto> getByIds(List<String> candidateGroups) {
+        return rolesMapper.getByIds(candidateGroups);
+    }
 }
