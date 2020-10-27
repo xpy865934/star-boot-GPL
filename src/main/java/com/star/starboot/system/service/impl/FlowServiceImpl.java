@@ -22,12 +22,12 @@ public class FlowServiceImpl extends ServiceImpl<FlowMapper, Flow> implements Fl
     private FlowMapper flowMapper;
 
     @Override
-    public void updateBusinessData(String table, String tableId, String businessKey, String processInstanceId, String processDefinitionId, String taskIds, String taskNames) {
-        flowMapper.updateBusinessData(table, tableId, businessKey, processInstanceId, processDefinitionId, taskIds, taskNames);
+    public void updateBusinessData(String table, String tableId, String businessKey, String processInstanceId, String processDefinitionId, String taskIds, String taskNames, Integer processState) {
+        flowMapper.updateBusinessData(table, tableId, businessKey, processInstanceId, processDefinitionId, taskIds, taskNames, processState);
     }
 
     @Override
-    public void updateBusinessTaskData(String table, String tableId, String businessKey, String taskIds, String taskNames) {
-        flowMapper.updateBusinessTaskData(table, tableId, businessKey, taskIds, taskNames);
+    public void updateBusinessTaskData(String table, String tableId, String businessKey, String taskIds, String taskNames, Integer processState) {
+        flowMapper.updateBusinessTaskData(table, tableId, businessKey, taskIds, taskNames, processState);
     }
 }

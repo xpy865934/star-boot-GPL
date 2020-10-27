@@ -13,3 +13,11 @@ export function getFirstDictAll(params) {
 export function getUserList(params) {
   return request.post('/users/queryList', params, false)
 }
+
+/**
+ * 获取所有的用户信息
+ */
+export function getFLowNodes(params) {
+  return request.post('/common/getFLowNodes', params, false)
+}
+

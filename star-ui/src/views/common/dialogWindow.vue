@@ -1,5 +1,18 @@
 <template>
   <el-dialog class="xpy_dialog" :append-to-body="appendToBody" :title="title" :visible="addRowVisible" :width="dialogWidth.large" :close-on-press-escape="dialogEsc" :close-on-click-modal="dialogClick" :before-close="beforClose">
+    <el-divider v-if="disabled" content-position="center">流程审批</el-divider>
+    <el-row v-if="disabled">
+      <el-col :span="22" :offset="1">
+        <el-steps :active="flowActive" finish-status="success">
+          <el-step
+            v-for="(item, index) in flowNodeList"
+            :key="index"
+            :title="item.nodeNameAndUserName"
+            :description="item.approvalComments"
+          />
+        </el-steps>
+      </el-col>
+    </el-row>
     <component :is="currentWindow" ref="window" :row="form" :disabled="disabled" :action="action" @update="addRowUpdate(arguments)" />
     <div v-if="!disabled" slot="footer">
       <el-button :size="buttonSize" @click="cancle">取 消</el-button>
@@ -59,6 +72,8 @@ export default {
       dialogEsc: this.$config.dialogEsc,
       dialogClick: this.$config.dialogClick,
       dialogWidth: this.$config.dialogWidth,
+      flowActive: 0,
+      flowNodeList: [],
       form: null
     }
   },
@@ -89,6 +104,24 @@ export default {
 
     row(v) {
       this.form = JSON.parse(JSON.stringify(v))
+      if (v.processInstanceId) {
+        this.$store.dispatch('app/getFLowNodes', { processInstanceId: v.processInstanceId }).then((res) => {
+          this.flowNodeList = res
+          // 判断是否全部未激活，则表示流程结束
+          let flag = true
+          for (let i = 0; i < res.length; i++) {
+            if (res[i].active) {
+              this.flowActive = i
+              flag = false
+              break
+            }
+          }
+          if (flag) {
+            this.flowActive = res.length
+          }
+        }).catch(() => {
+        })
+      }
     }
   },
   mounted() {

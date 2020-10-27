@@ -34,4 +34,11 @@ public interface RolesMapper extends BaseMapper<Roles> {
      * @return
      */
     IPage<RolesDto> queryPage(@Param("page") Page page, @Param("rolesDto") RolesDto rolesDto);
+
+    /**
+     * 根据角色id查询角色
+     * @param candidateGroups
+     * @return
+     */
+    List<RolesDto> getByIds(@Param("roleIds") List<String> candidateGroups);
 }

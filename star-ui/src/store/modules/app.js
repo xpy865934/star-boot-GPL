@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie'
-import { getFirstDictAll, getUserList } from '@/api/app'
+import { getFirstDictAll, getUserList, getFLowNodes } from '@/api/app'
 
 const state = {
   sidebar: {
@@ -85,6 +85,23 @@ const actions = {
         .then(response => {
           const data = response.data
           commit('SET_USER_LIST', data)
+          resolve(data)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  },
+  /**
+   * 获取所有的流程节点
+   * @param {*} param0
+   * @param {*} params
+   */
+  getFLowNodes({ commit }, params) {
+    return new Promise((resolve, reject) => {
+      getFLowNodes(params)
+        .then(response => {
+          const data = response.data
           resolve(data)
         })
         .catch(error => {

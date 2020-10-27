@@ -328,7 +328,7 @@ export default {
       // margin-top: 4px;
       // margin-bottom: 4px;
       display: block;
-      flex: 0 0 33%;
+      flex: 0 0 20%;
     }
   }
   .filter-data {

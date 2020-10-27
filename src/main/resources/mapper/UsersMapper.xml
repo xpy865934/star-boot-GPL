@@ -70,5 +70,13 @@
     <select id="queryList" resultType="com.star.starboot.system.dto.UsersDto">
         select  re.USER_ID,re.USER_NAME from users_roles_department_company re
     </select>
+    <select id="getByIds" resultType="com.star.starboot.system.dto.UsersDto">
+        select users.* from t_users users where users.DELETED_CODE = 0
+
+        and
+        <foreach collection='userIds' item="item" separator="or" open="(" close=")">
+            find_in_set(users.USER_ID, #{item})
+        </foreach>
+    </select>
 
 </mapper>

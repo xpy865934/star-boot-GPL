@@ -4,12 +4,14 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.star.starboot.annotation.SysLog;
 import com.star.starboot.common.enums.ResultCode;
+import com.star.starboot.common.utils.FlowableService;
 import com.star.starboot.common.utils.IpUtils;
 import com.star.starboot.common.vo.Result;
 import com.star.starboot.config.shiro.LoginType;
 import com.star.starboot.config.shiro.UserToken;
 import com.star.starboot.constant.SystemConstant;
 import com.star.starboot.system.dto.UsersDto;
+import com.star.starboot.system.entity.Flow;
 import com.star.starboot.system.entity.Users;
 import com.star.starboot.system.service.UsersService;
 import io.swagger.annotations.ApiOperation;
@@ -28,6 +30,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.List;
 
 /**
  * All rights Reserved, Designed By www.xpyvip.top
@@ -46,6 +49,9 @@ public class CommonController extends  AbstractController{
 
     @Autowired
     private UsersService usersService;
+
+    @Autowired
+    private FlowableService flowableService;
 
     /**
      * 未授权跳转方法
@@ -159,5 +165,17 @@ public class CommonController extends  AbstractController{
         usersDto.setRegister(SystemConstant.REGISTER);
         usersService.register(usersDto);
         return Result.success("注册成功");
+    }
+
+    /**
+     * 查询流程图
+     * @return
+     */
+    @ApiOperation("查询流程图")
+    @PostMapping("/getFLowNodes")
+    @SysLog(description = "查询流程图")
+    public Result getFLowNodes(@RequestBody Flow flow){
+        List<Flow> fLowNodes = flowableService.getFLowNodes(flow.getProcessInstanceId());
+        return Result.success(fLowNodes);
     }
 }
