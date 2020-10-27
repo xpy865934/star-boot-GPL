@@ -41,6 +41,7 @@
         <if test="firstDictDto.dictId != null and firstDictDto.dictId != ''">
             and  firstDict.DICT_ID = #{firstDictDto.dictId}
         </if>
+        order by firstDict.FIRST_DICT_CODE asc
     </select>
     <select id="queryList" resultType="com.star.starboot.system.dto.FirstDictDto">
         select firstDict.* from t_first_dict firstDict
@@ -53,7 +54,7 @@
     <select id="getFirstDictAll" resultType="com.star.starboot.system.dto.FirstDictDto">
         select firstDict.*,dict.dict_code from t_first_dict firstDict
         left join t_dictionary dict on firstDict.DICT_ID = dict.DICT_ID
-        where firstDict.DELETED_CODE = 0 ORDER BY dict.dict_code desc
+        where firstDict.DELETED_CODE = 0 ORDER BY dict.dict_code desc,firstDict.FIRST_DICT_CODE asc
     </select>
 
 </mapper>
