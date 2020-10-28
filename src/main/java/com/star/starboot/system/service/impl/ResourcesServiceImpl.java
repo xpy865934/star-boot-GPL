@@ -64,8 +64,9 @@ public class ResourcesServiceImpl extends ServiceImpl<ResourcesMapper, Resources
         resourcesMapper.deleteById(resourceId);
     }
 
-    private List<ResourcesDto> findByParentResourcesNum(List<ResourcesDto> list, Integer parentNum){
-        List<ResourcesDto> resources = list.stream().filter(s -> parentNum.equals(s.getParentResourcesNum())).collect(Collectors.toList());
+    private List<ResourcesDto> findByParentResourcesNum(List<ResourcesDto> list, String parentNum){
+        List<ResourcesDto> resources = new ArrayList<>();
+        resources = list.stream().filter(s -> parentNum.equals(s.getParentResourcesNum())).collect(Collectors.toList());
         return resources;
     }
 }
