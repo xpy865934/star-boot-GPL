@@ -30,6 +30,9 @@ export default {
     taskNames: '当前节点',
     taskState: '事项',
     approvalComments: '审批意见',
+    comfirmRecall: '确定撤回',
+    recallSuccess: '撤回成功',
+    recallFailed: '撤回失败',
 
     action: '操作',
     info: '提示',

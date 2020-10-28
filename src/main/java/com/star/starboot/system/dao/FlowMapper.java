@@ -38,5 +38,5 @@ public interface FlowMapper extends BaseMapper<Flow> {
      * @param taskNames
      */
     void updateBusinessTaskData(@Param("table") String table, @Param("tableId") String tableId, @Param("businessKey") String businessKey,
-                                @Param("taskIds") String taskIds, @Param("taskNames") String taskNames, @Param("processState") Integer processState);
+                                @Param("taskIds") String taskIds, @Param("taskNames") String taskNames, @Param("processState") Integer processState, @Param("assignee") String assignee);
 }

@@ -27,7 +27,7 @@ public class FlowServiceImpl extends ServiceImpl<FlowMapper, Flow> implements Fl
     }
 
     @Override
-    public void updateBusinessTaskData(String table, String tableId, String businessKey, String taskIds, String taskNames, Integer processState) {
-        flowMapper.updateBusinessTaskData(table, tableId, businessKey, taskIds, taskNames, processState);
+    public void updateBusinessTaskData(String table, String tableId, String businessKey, String taskIds, String taskNames, Integer processState, String assignee) {
+        flowMapper.updateBusinessTaskData(table, tableId, businessKey, taskIds, taskNames, processState, assignee);
     }
 }
