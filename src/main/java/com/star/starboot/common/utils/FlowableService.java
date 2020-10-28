@@ -168,6 +168,7 @@ public class FlowableService {
     @Transactional(rollbackFor = Exception.class)
     public void complete(String processInstanceId, String businessKey, String userId, String approvalComments) {
         Integer processState = SystemConstant.PROCESS_APPROVING;
+        String lastAssignee = userId;
         List<Task> usersTasks = this.completeByUserId(processInstanceId, businessKey);
 //        List<Task> rolesTasks = this.completeByRoleId(processInstanceId, businessKey);
         List<Task> result = new ArrayList<>();
@@ -210,8 +211,10 @@ public class FlowableService {
             // 流程结束
             taskNames = "结束";
             processState = SystemConstant.PROCESS_COMPLETE;
+            // 流程结束后不允许撤回，设置上一审批人为null
+            lastAssignee = null;
         }
-        flowService.updateBusinessTaskData(table, tableId, businessKey, taskIds, taskNames, processState);
+        flowService.updateBusinessTaskData(table, tableId, businessKey, taskIds, taskNames, processState,lastAssignee);
     }
 
 
@@ -224,13 +227,14 @@ public class FlowableService {
     @Transactional(rollbackFor = Exception.class)
     public void backLastNode(String processInstanceId, String businessKey, String userId, String approvalComments) {
         Integer processState = SystemConstant.PROCESS_APPROVING;
+        String sourceRef = "";
         List<Task> usersTasks = this.completeByUserId(processInstanceId, businessKey);
 //        List<Task> rolesTasks = this.completeByRoleId(processInstanceId, businessKey);
         List<Task> result = new ArrayList<>();
         result.addAll(usersTasks);
 //        result.addAll(rolesTasks);
         Map<String, Object> map = new HashedMap();
-        map.put("approval_comments", approvalComments);
+        map.put("approval_comments", "退回："+approvalComments);
         // 去重
         Set<Task> taskSet = new TreeSet<>((o1, o2) -> o1.getId().compareTo(o2.getId()));
         taskSet.addAll(result);
@@ -244,7 +248,7 @@ public class FlowableService {
                 FlowNode flowNode = (FlowNode) bpmnModel.getFlowElement(currentActivityId);
                 SequenceFlow sequenceFlow = flowNode.getIncomingFlows().get(0);
                 // 获取上一个节点的activityId
-                String sourceRef = sequenceFlow.getSourceRef();
+                sourceRef = sequenceFlow.getSourceRef();
 
 
                 taskService.setAssignee(task.getId(), userId);
@@ -267,14 +271,74 @@ public class FlowableService {
         // 获取当前任务节点
         List<Task> list = taskService.createTaskQuery().processInstanceId(processInstanceId).active().list();
         String taskIds = list.stream().map(Task::getId).collect(Collectors.joining(","));
-        String taskKeys = list.stream().map(Task::getTaskDefinitionKey).collect(Collectors.joining(","));
         String taskNames = list.stream().map(Task::getName).collect(Collectors.joining(","));
         // 退回到第一个节点
-        if("sq".equals(taskKeys)){
+        if("sq".equals(sourceRef)){
             processState = SystemConstant.PROCESS_START;
         }
         // 更新任务节点相关信息
-        flowService.updateBusinessTaskData(table, tableId, businessKey, taskIds, taskNames, processState);
+        flowService.updateBusinessTaskData(table, tableId, businessKey, taskIds, taskNames, processState, null);
+    }
+
+    /**
+     * 撤回任务
+     *
+     * @param processInstanceId
+     * @param businessKey
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public void recallNode(String processInstanceId, String businessKey, String lastAssignee) {
+        Integer processState = SystemConstant.PROCESS_APPROVING;
+        UsersDto userInfo = ShiroUtils.build().getUserInfo();
+        // 判断当前人是不是上一审批人
+        if(!userInfo.getUserId().equals(lastAssignee)){
+            throw new BusinessException("上一处理人不是当前用户，无权限操作");
+        }
+        List<Task> taskList = taskService.createTaskQuery().processInstanceId(processInstanceId).processInstanceBusinessKey(businessKey).active().list();
+        Map<String, Object> map = new HashedMap();
+        String sourceRef = "";
+        map.put("approval_comments", userInfo.getUserName()+"自主撤回");
+        // 去重
+        Set<Task> taskSet = new TreeSet<>((o1, o2) -> o1.getId().compareTo(o2.getId()));
+        taskSet.addAll(taskList);
+        List<Task> tasks = new ArrayList<>(taskSet);
+        if (!StringUtils.isEmpty(tasks) && tasks.size() > 0) {
+            for (Task task : tasks) {
+                Execution execution = runtimeService.createExecutionQuery().executionId(task.getExecutionId()).singleResult();
+                // 获取当前节点的activityId,即xml中每个标签的ID
+                String currentActivityId = execution.getActivityId();
+                BpmnModel bpmnModel = repositoryService.getBpmnModel(task.getProcessDefinitionId());
+                FlowNode flowNode = (FlowNode) bpmnModel.getFlowElement(currentActivityId);
+                SequenceFlow sequenceFlow = flowNode.getIncomingFlows().get(0);
+                // 获取上一个节点的activityId
+                sourceRef = sequenceFlow.getSourceRef();
+
+                taskService.setAssignee(task.getId(), userInfo.getUserId());
+                taskService.setVariablesLocal(task.getId(), map);
+                // 流程回退到上一个节点，审批人继续审批
+                runtimeService.createChangeActivityStateBuilder().processInstanceId(processInstanceId)
+                        .moveActivityIdTo(currentActivityId, sourceRef).changeState();
+            }
+        } else {
+            // 所有任务都无法完成的情况，则没有权限
+            throw new BusinessException("流程已审批，无法撤回");
+        }
+
+        // 获取当前流程变量
+        Map<String, Object> variables = runtimeService.getVariables(processInstanceId);
+        // 更新相关联的业务表数据
+        String table = variables.get("table").toString();
+        String tableId = variables.get("table_id").toString();
+        // 获取当前任务节点
+        List<Task> list = taskService.createTaskQuery().processInstanceId(processInstanceId).active().list();
+        String taskIds = list.stream().map(Task::getId).collect(Collectors.joining(","));
+        String taskNames = list.stream().map(Task::getName).collect(Collectors.joining(","));
+        // 撤回到第一个节点
+        if("sq".equals(sourceRef)){
+            processState = SystemConstant.PROCESS_START;
+        }
+        // 更新任务节点相关信息
+        flowService.updateBusinessTaskData(table, tableId, businessKey, taskIds, taskNames, processState, null);
     }
 
     /**
