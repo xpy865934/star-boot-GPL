@@ -34,5 +34,5 @@ public interface FlowService extends IService<Flow> {
      * @param taskIds
      * @param taskNames
      */
-    void updateBusinessTaskData(String table, String tableId, String businessKey, String taskIds, String taskNames, Integer processState);
+    void updateBusinessTaskData(String table, String tableId, String businessKey, String taskIds, String taskNames, Integer processState, String assignee);
 }

@@ -40,6 +40,9 @@ public class AbstractEntity implements Serializable {
 
     @TableField("TASK_NAMES")
     private String taskNames;
+
+    @TableField("LAST_ASSIGNEE")
+    private String lastAssignee;
     /**
      * 创建人
      */

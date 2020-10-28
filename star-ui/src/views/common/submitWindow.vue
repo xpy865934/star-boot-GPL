@@ -24,7 +24,7 @@
     </el-row>
     <div style="text-align:right">
       <el-button type="primary" :size="buttonSize" @click="ok('submit')">提 交</el-button>
-      <el-button type="primary" :size="buttonSize" @click="ok('back')">退 回</el-button>
+      <el-button v-if="viewForm.processState !== this.$config.PROCESS_STATE.COMPLETE && viewForm.processState !== this.$config.PROCESS_STATE.CREATE" type="primary" :size="buttonSize" @click="ok('back')">退 回</el-button>
     </div>
     <div>
       <el-divider content-position="center">业务数据</el-divider>
