@@ -7,7 +7,7 @@
          where ${tableId} = #{businessKey}
     </update>
     <update id="updateBusinessTaskData">
-        update ${table} set TASK_IDS=#{taskIds},TASK_NAMES=#{taskNames}, PROCESS_STATE=#{processState}
+        update ${table} set TASK_IDS=#{taskIds},TASK_NAMES=#{taskNames}, PROCESS_STATE=#{processState}, LAST_ASSIGNEE=#{assignee}
          where ${tableId} = #{businessKey}
     </update>
 </mapper>
