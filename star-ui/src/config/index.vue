@@ -33,6 +33,10 @@ const dialogWidth = {
 const dialogEsc = true
 // 点击关闭模态框
 const dialogClick = false
+// 表格图标显示
+const tableIcon = true
+// 表格文字显示
+const tableText = true
 // message 关闭时间
 const messageDuration = 1500
 
@@ -69,6 +73,8 @@ export default {
   UREPORT_BASE_API,
   defaultCompanyCode,
   defaultDepartmentCode,
-  PROCESS_STATE
+  PROCESS_STATE,
+  tableIcon,
+  tableText
 }
 </script>
