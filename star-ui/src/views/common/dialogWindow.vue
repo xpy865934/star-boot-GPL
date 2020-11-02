@@ -16,7 +16,7 @@
     <component :is="currentWindow" ref="window" :row="form" :disabled="disabled" :action="action" @update="addRowUpdate(arguments)" />
     <div v-if="!disabled" slot="footer">
       <el-button :size="buttonSize" @click="cancle">取 消</el-button>
-      <el-button type="primary" :size="buttonSize" @click="ok">提 交</el-button>
+      <el-button type="primary" :size="buttonSize" @click="ok">保 存</el-button>
     </div>
   </el-dialog>
 </template>

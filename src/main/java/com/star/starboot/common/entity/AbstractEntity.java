@@ -26,23 +26,60 @@ import java.util.List;
 public class AbstractEntity implements Serializable {
 
 
+    /**
+     * 流程状态  1  申请  2  审批中  3 结束
+     */
     @TableField("PROCESS_STATE")
     private String processState;
 
+    /**
+     * 流程实例id
+     */
     @TableField("PROCESS_INSTANCE_ID")
     private String processInstanceId;
 
+    /**
+     * 流程定义id
+     */
     @TableField("PROCESS_DEFINITION_ID")
     private String processDefinitionId;
 
+    /**
+     * 流程任务id 当前任务
+     */
     @TableField("TASK_IDS")
     private String taskIds;
 
+    /**
+     * 流程任务名称 当前任务
+     */
     @TableField("TASK_NAMES")
     private String taskNames;
 
+    /**
+     * 上一处理人
+     */
     @TableField("LAST_ASSIGNEE")
     private String lastAssignee;
+
+    /**
+     * 当前处理人id
+     */
+    @TableField("CURRENT_ASSIGNEE")
+    private String currentAssignee;
+
+    /**
+     * 当前处理人名称
+     */
+    @TableField("CURRENT_ASSIGNEE_NAMES")
+    private String currentAssigneeNames;
+
+    /**
+     * 当前任务keys
+     */
+    @TableField("TASK_KEYS")
+    private String taskKeys;
+
     /**
      * 创建人
      */

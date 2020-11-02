@@ -87,6 +87,14 @@ span.bank15
   margin: 10px auto;
 }
 
+// disable 修改字体颜色
+.el-input.is-disabled .el-input__inner{
+  color: #000;
+}
+.el-textarea.is-disabled .el-textarea__inner{
+  color: #000;
+}
+
 .xpy_dialog {
   display: flex;
   justify-content: center;

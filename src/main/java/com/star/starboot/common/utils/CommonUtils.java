@@ -5,6 +5,9 @@ import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.DefaultHashService;
 import org.apache.shiro.crypto.hash.HashRequest;
 import org.apache.shiro.util.ByteSource;
+import org.joda.time.LocalDateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -102,5 +105,15 @@ public class CommonUtils {
         } else {
             return false;
         }
+    }
+
+    /**
+     *
+     * @return
+     */
+    public static String parseTime(LocalDateTime localDateTime){
+        //日期格式化，通用时间表达式
+        DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+        return fmt.print(localDateTime);
     }
 }
