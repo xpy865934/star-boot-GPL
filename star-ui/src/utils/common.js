@@ -101,18 +101,18 @@ export function getOs() {
  * @param url
  * @param tid
  */
-export function getFileUrl(url, tid) {
+export function getFileUrl(url, fileId) {
   return (
-    process.env.BASE_API +
-    url +
-    '?tid=' +
-    tid +
-    '&token=' +
-    getToken() +
-    '&client=client:' +
-    getCurrentBrowser() +
-    '%20%20os:' +
-    getOs()
+    process.env.VUE_APP_BASE_API +
+           url +
+           '?fileId=' +
+           fileId +
+           '&token=' +
+           getToken() +
+           '&client=client:' +
+           getCurrentBrowser() +
+           '&os=os:' +
+           getOs()
   )
 }
 
@@ -123,7 +123,7 @@ export function getFileUrl(url, tid) {
  */
 export function getExportUrl(url, params) {
   return (
-    process.env.BASE_API +
+    process.env.VUE_APP_BASE_API +
     url +
     '?params=' +
     encodeURIComponent(JSON.stringify(params)) +

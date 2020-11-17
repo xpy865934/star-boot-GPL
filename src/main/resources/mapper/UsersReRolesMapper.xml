@@ -2,31 +2,4 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.star.starboot.system.dao.UsersReRolesMapper">
 
-    <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.star.starboot.system.entity.UsersReRoles">
-        <id column="USERS_RE_ROLES_ID" property="usersReRolesId" />
-    <result column="CREATE_BY" property="createBy" />
-    <result column="CREATE_AT" property="createAt" />
-    <result column="UPDATE_BY" property="updateBy" />
-    <result column="UPDATE_AT" property="updateAt" />
-    <result column="DELETED_AT" property="deletedAt" />
-    <result column="DELETED_BY" property="deletedBy" />
-    <result column="DELETED_CODE" property="deletedCode" />
-        <result column="USER_ID" property="userId" />
-        <result column="ROLE_ID" property="roleId" />
-    </resultMap>
-
-    <!-- 通用查询结果列 -->
-    <sql id="Base_Column_List">
-        PROCESS_STATE,
-        CREATE_BY,
-        CREATE_AT,
-        UPDATE_BY,
-        UPDATE_AT,
-        DELETED_AT,
-        DELETED_BY,
-        DELETED_CODE,
-        USERS_RE_ROLES_ID, USER_ID, ROLE_ID
-    </sql>
-
 </mapper>

@@ -11,6 +11,9 @@ const getters = {
   userCode: state => state.user.userCode,
   userName: state => state.user.userName,
   permissions: state => state.user.permissions,
-  permission_routes: state => state.permission.routes
+  permission_routes: state => state.permission.routes,
+
+  // file
+  uploadToken: state => state.user.uploadToken
 }
 export default getters

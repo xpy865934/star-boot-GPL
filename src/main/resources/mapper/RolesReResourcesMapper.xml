@@ -2,32 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.star.starboot.system.dao.RolesReResourcesMapper">
 
-    <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.star.starboot.system.entity.RolesReResources">
-        <id column="ROLES_RE_RESOURCES_ID" property="rolesReResourcesId" />
-    <result column="CREATE_BY" property="createBy" />
-    <result column="CREATE_AT" property="createAt" />
-    <result column="UPDATE_BY" property="updateBy" />
-    <result column="UPDATE_AT" property="updateAt" />
-    <result column="DELETED_AT" property="deletedAt" />
-    <result column="DELETED_BY" property="deletedBy" />
-    <result column="DELETED_CODE" property="deletedCode" />
-        <result column="RESOURCES_ID" property="resourcesId" />
-        <result column="ROLE_ID" property="roleId" />
-    </resultMap>
-
-    <!-- 通用查询结果列 -->
-    <sql id="Base_Column_List">
-        PROCESS_STATE,
-        CREATE_BY,
-        CREATE_AT,
-        UPDATE_BY,
-        UPDATE_AT,
-        DELETED_AT,
-        DELETED_BY,
-        DELETED_CODE,
-        ROLES_RE_RESOURCES_ID, RESOURCES_ID, ROLE_ID
-    </sql>
     <delete id="deleteByRoleId">
         update t_roles_re_resources re set re.DELETED_CODE = 1,re.DELETED_AT = NOW(),re.DELETED_BY = #{userId} where re.ROLE_ID = #{roleId}
     </delete>

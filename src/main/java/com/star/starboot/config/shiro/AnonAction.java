@@ -23,6 +23,7 @@ public class AnonAction {
 
         // 公共请求(登录方法放在了公共请求里面)
         put("/common/**", "anon");
+        put("/file/**", "anon");
         put("/users/getUserInfo*", "anon");
         put("/users/queryList*", "anon");
         put("/firstDict/getFirstDictAll*", "anon");
