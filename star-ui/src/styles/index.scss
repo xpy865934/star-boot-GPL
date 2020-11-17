@@ -95,6 +95,13 @@ span.bank15
   color: #000;
 }
 
+.el-steps{
+  overflow-x: auto;
+  .el-step{
+    min-width: 10%;
+  }
+}
+
 .xpy_dialog {
   display: flex;
   justify-content: center;
