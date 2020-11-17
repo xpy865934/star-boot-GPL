@@ -73,6 +73,10 @@ public class ShiroUtils {
     public UsersDto getUserInfo(){
         String sessionId=null;
         sessionId = request.getHeader("token");
+        // 如果获取头部信息出错，例如img src，则获取请求的参数
+        if(StringUtils.isEmpty(sessionId)){
+            sessionId = request.getParameter("token");
+        }
         // 判断是否是ajax,如果是，则获取token,如果不是，则获取FLOWABLE_REMEMBER_ME
 //        if(CommonUtils.isAjax(request)){
 //           sessionId = request.getHeader("token");

@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import { getFileUrl } from '../utils/common'
 
 /**
  * 获取所有的一级代码信息
@@ -19,5 +20,14 @@ export function getUserList(params) {
  */
 export function getFLowNodes(params) {
   return request.post('/common/getFLowNodes', params, false)
+}
+
+/**
+ * 下载文件
+ * @param params
+ */
+export function downloadFile(params) {
+  var url = getFileUrl('/file/downloadFile', params.fileId)
+  window.open(url)
 }
 

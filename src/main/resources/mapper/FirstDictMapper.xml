@@ -2,34 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.star.starboot.system.dao.FirstDictMapper">
 
-    <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.star.starboot.system.entity.FirstDict">
-        <id column="FIRST_DICT_ID" property="firstDictId" />
-    <result column="CREATE_BY" property="createBy" />
-    <result column="CREATE_AT" property="createAt" />
-    <result column="UPDATE_BY" property="updateBy" />
-    <result column="UPDATE_AT" property="updateAt" />
-    <result column="DELETED_AT" property="deletedAt" />
-    <result column="DELETED_BY" property="deletedBy" />
-    <result column="DELETED_CODE" property="deletedCode" />
-        <result column="FIRST_DICT_CODE" property="firstDictCode" />
-        <result column="FIRST_DICT_NAME" property="firstDictName" />
-        <result column="FIRST_DICT_DS" property="firstDictDs" />
-        <result column="DICT_ID" property="dictId" />
-    </resultMap>
-
-    <!-- 通用查询结果列 -->
-    <sql id="Base_Column_List">
-        PROCESS_STATE,
-        CREATE_BY,
-        CREATE_AT,
-        UPDATE_BY,
-        UPDATE_AT,
-        DELETED_AT,
-        DELETED_BY,
-        DELETED_CODE,
-        FIRST_DICT_ID, FIRST_DICT_CODE, FIRST_DICT_NAME, FIRST_DICT_DS, DICT_ID
-    </sql>
     <select id="queryPage" resultType="com.star.starboot.system.dto.FirstDictDto">
         select firstDict.* from t_first_dict firstDict where firstDict.DELETED_CODE = 0
         <if test="firstDictDto.firstDictCode != null and firstDictDto.firstDictCode != ''">
