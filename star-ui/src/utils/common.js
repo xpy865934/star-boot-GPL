@@ -300,6 +300,18 @@ export function translateFirstDict(firstDict, value) {
   }
   return result
 }
+
+export function translateUserName(userList, value) {
+  let result = ''
+  for (let i = 0; i < userList.length; i++) {
+    if (userList[i].userId === value) {
+      result = userList[i].userName
+      break
+    }
+  }
+  return result
+}
+
 export function uuid() {
   var s = []
   var hexDigits = '0123456789abcdef'
