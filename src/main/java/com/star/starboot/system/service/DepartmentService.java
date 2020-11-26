@@ -22,4 +22,12 @@ public interface DepartmentService extends IService<Department> {
      * @return
      */
     List<CompanyDto> getDepartmentTree(String companyId);
+
+    /**
+     * 获取部门根据部门code和公司code
+     * @param departmentCode
+     * @param companyCode
+     * @return
+     */
+    Department getByCodeAndCompanyCode(String departmentCode, String companyCode);
 }
