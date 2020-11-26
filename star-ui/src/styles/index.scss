@@ -94,6 +94,12 @@ span.bank15
 .el-textarea.is-disabled .el-textarea__inner{
   color: #000;
 }
+.el-checkbox__input.is-disabled.is-checked .el-checkbox__inner::after{
+  border-color:#000
+}
+.el-checkbox__input.is-disabled+span.el-checkbox__label{
+  color: #000;
+}
 
 .el-steps{
   overflow-x: auto;
