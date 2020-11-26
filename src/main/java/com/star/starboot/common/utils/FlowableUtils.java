@@ -48,7 +48,7 @@ import java.util.stream.Stream;
  * @Date: Created in 2020年10月22日 3:23 下午
  */
 @Service
-public class FlowableService {
+public class FlowableUtils {
 
     @Autowired
     private RuntimeService runtimeService;
