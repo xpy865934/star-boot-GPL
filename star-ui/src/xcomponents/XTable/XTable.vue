@@ -89,13 +89,13 @@
         :fixed="operates.fixed"
       >
         <template slot-scope="scope">
-          <div class="operate-group">
+          <div :class="changeOperateGrooup">
             <template v-for="(btn, key) in operates.list">
               <div v-if="btn.showFun && btn.showFun(key,scope.row)" :key="key" class="item">
                 <el-button
-                  v-if="btn.label"
+                  v-if="btn.label && tableText"
                   :type="btn.type"
-                  :icon="btn.icon"
+                  :icon="tableIcon?btn.icon:null"
                   :disabled="btn.disabled"
                   :plain="btn.plain"
                   :size="buttonSize"
@@ -104,7 +104,7 @@
                 <el-button
                   v-else
                   :type="btn.type"
-                  :icon="btn.icon"
+                  :icon="tableIcon?btn.icon:null"
                   :disabled="btn.disabled"
                   :plain="btn.plain"
                   :size="buttonSize"
@@ -113,9 +113,9 @@
               </div>
               <div v-else-if="btn.show" :key="key" class="item">
                 <el-button
-                  v-if="btn.label"
+                  v-if="btn.label && tableText"
                   :type="btn.type"
-                  :icon="btn.icon"
+                  :icon="tableIcon?btn.icon:null"
                   :disabled="btn.disabled"
                   :plain="btn.plain"
                   :size="buttonSize"
@@ -124,7 +124,7 @@
                 <el-button
                   v-else
                   :type="btn.type"
-                  :icon="btn.icon"
+                  :icon="tableIcon?btn.icon:null"
                   :disabled="btn.disabled"
                   :plain="btn.plain"
                   :size="buttonSize"
@@ -232,6 +232,8 @@ export default {
       tableCurrentPagination: {},
       buttonSize: this.$config.buttonSize,
       multipleSelection: [], // 多行选中
+      tableText: this.$config.tableText,
+      tableIcon: this.$config.tableIcon,
       // 流程
       flowColumns: [
         {
@@ -239,7 +241,14 @@ export default {
           prop: 'taskNames',
           label: this.$t('common.taskNames'),
           align: 'center',
-          minWidth: 50
+          minWidth: 50,
+          render: (h, params) => {
+            let result = params.row.taskNames
+            if (!this.$isEmpty(params.row.currentAssigneeNames)) {
+              result = result + '(' + params.row.currentAssigneeNames + ')'
+            }
+            return h('span', result)
+          }
         }
       ]
     }
@@ -249,6 +258,19 @@ export default {
     height() {
       // return this.$utils.Common.getWidthHeight().height - this.otherHeight
       return '100%'
+    },
+    /**
+     * 修改operateGroup样式
+     */
+    changeOperateGrooup() {
+      if (this.tableText && this.tableIcon) {
+        return { 'operate-group': true }
+      } else if (this.tableText) {
+        return { 'operate-group-text': true }
+      } else if (this.tableIcon) {
+        return { 'operate-group-icon': true }
+      }
+      return { 'operate-group': true }
     }
   },
   created() {},
@@ -321,14 +343,34 @@ export default {
     right: 6px !important;
     z-index: 1004;
   }
+  .operate-group-text {
+    display: flex;
+    flex-wrap: wrap;
+    .item {
+      margin-top: 4px;
+      margin-bottom: 4px;
+      display: block;
+      flex: 0 0 25%;
+    }
+  }
+  .operate-group-icon {
+    display: flex;
+    flex-wrap: wrap;
+    .item {
+      margin-top: 4px;
+      margin-bottom: 4px;
+      display: block;
+      flex: 0 0 20%;
+    }
+  }
   .operate-group {
     display: flex;
     flex-wrap: wrap;
     .item {
-      // margin-top: 4px;
-      // margin-bottom: 4px;
+      margin-top: 4px;
+      margin-bottom: 4px;
       display: block;
-      flex: 0 0 20%;
+      flex: 0 0 30%;
     }
   }
   .filter-data {

@@ -33,6 +33,10 @@ const dialogWidth = {
 const dialogEsc = true
 // 点击关闭模态框
 const dialogClick = false
+// 表格图标显示
+const tableIcon = true
+// 表格文字显示
+const tableText = true
 // message 关闭时间
 const messageDuration = 1500
 
@@ -42,6 +46,13 @@ const defaultDepartmentCode = '1000-1'
 
 // 分页默认属性
 const pager = { page: '1', rows: 20, total: 0 }
+
+// 流程状态常量
+const PROCESS_STATE = {
+  CREATE: '1',
+  APPROVING: '2',
+  COMPLETE: '3'
+}
 
 export default {
   formSize,
@@ -61,6 +72,9 @@ export default {
   messageDuration,
   UREPORT_BASE_API,
   defaultCompanyCode,
-  defaultDepartmentCode
+  defaultDepartmentCode,
+  PROCESS_STATE,
+  tableIcon,
+  tableText
 }
 </script>

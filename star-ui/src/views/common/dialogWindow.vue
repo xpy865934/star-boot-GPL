@@ -1,7 +1,7 @@
 <template>
-  <el-dialog class="xpy_dialog" :append-to-body="appendToBody" :title="title" :visible="addRowVisible" :width="dialogWidth.large" :close-on-press-escape="dialogEsc" :close-on-click-modal="dialogClick" :before-close="beforClose">
-    <el-divider v-if="disabled" content-position="center">流程审批</el-divider>
-    <el-row v-if="disabled">
+  <el-dialog :class="{ xpy_dialog: bodyScroll }" :append-to-body="appendToBody" :title="title" :visible="addRowVisible" :width="width" :close-on-press-escape="dialogEsc" :close-on-click-modal="dialogClick" :before-close="beforClose">
+    <el-divider v-if="isFlow && disabled" content-position="center">流程审批</el-divider>
+    <el-row v-if="isFlow && disabled">
       <el-col :span="22" :offset="1">
         <el-steps :active="flowActive" finish-status="success">
           <el-step
@@ -15,8 +15,9 @@
     </el-row>
     <component :is="currentWindow" ref="window" :row="form" :disabled="disabled" :action="action" @update="addRowUpdate(arguments)" />
     <div v-if="!disabled" slot="footer">
-      <el-button :size="buttonSize" @click="cancle">取 消</el-button>
-      <el-button type="primary" :size="buttonSize" @click="ok">提 交</el-button>
+      <el-button v-if="showSave" :size="buttonSize" @click="cancle">取 消</el-button>
+      <el-button v-else type="primary" :size="buttonSize" @click="cancle">关 闭</el-button>
+      <el-button v-if="showSave" type="primary" :size="buttonSize" @click="ok">保 存</el-button>
     </div>
   </el-dialog>
 </template>
@@ -28,6 +29,12 @@ export default {
     customerInfoHousesWindow: () => import('../customerInfo/housesWindow')
   },
   props: {
+    bodyScroll: {
+      type: Boolean,
+      default: function() {
+        return false
+      }
+    },
     appendToBody: {
       type: Boolean,
       default: function() {
@@ -62,6 +69,24 @@ export default {
       type: String,
       default: function() {
         return ''
+      }
+    },
+    isFlow: {
+      type: Boolean,
+      default: function() {
+        return false
+      }
+    },
+    showSave: {
+      type: Boolean,
+      default: function() {
+        return true
+      }
+    },
+    width: {
+      type: String,
+      default: () => {
+        return '70%'
       }
     }
   },

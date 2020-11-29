@@ -4,8 +4,6 @@ server:
       context-path: /star/api   #项目的访问路径
 
 spring:
-  application:
-    name: star-boot
   servlet:
     multipart:
       enabled: true
@@ -125,7 +123,7 @@ flowable:
           credentials-i-v-spec: j8kdO2hejA9lKmm6
       server-config:
         app:
-          context-root: ${spring.application.name}
+          context-root: star/api
           password: test
           server-address: http://localhost
           user-name: admin
@@ -134,7 +132,7 @@ flowable:
           name: Flowable App app
           description: Flowable App REST config
         process:
-          context-root: ${spring.application.name}
+          context-root: star/api
           server-address: http://localhost
           password: test
           user-name: admin
@@ -143,7 +141,7 @@ flowable:
           name: Flowable Process app
           description: Flowable Process REST config
         form:
-          context-root: ${spring.application.name}
+          context-root: star/api
           server-address: http://localhost
           password: test
           user-name: admin
@@ -152,7 +150,7 @@ flowable:
           name: Flowable Form app
           description: Flowable Form REST config
         dmn:
-          context-root: ${spring.application.name}
+          context-root: star/api
           server-address: http://localhost
           password: test
           user-name: admin
@@ -161,7 +159,7 @@ flowable:
           name: Flowable DMN app
           description: Flowable DMN REST config
         cmmn:
-          context-root: ${spring.application.name}
+          context-root: star/api
           password: test
           server-address: http://localhost
           user-name: admin
@@ -170,7 +168,7 @@ flowable:
           name: Flowable CMMN app
           description: Flowable CMMN REST config
         content:
-          context-root: ${spring.application.name}
+          context-root: star/api
           server-address: http://localhost
           password: test
           user-name: admin

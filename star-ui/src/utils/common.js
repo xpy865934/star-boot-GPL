@@ -101,18 +101,18 @@ export function getOs() {
  * @param url
  * @param tid
  */
-export function getFileUrl(url, tid) {
+export function getFileUrl(url, fileId) {
   return (
-    process.env.BASE_API +
-    url +
-    '?tid=' +
-    tid +
-    '&token=' +
-    getToken() +
-    '&client=client:' +
-    getCurrentBrowser() +
-    '%20%20os:' +
-    getOs()
+    process.env.VUE_APP_BASE_API +
+           url +
+           '?fileId=' +
+           fileId +
+           '&token=' +
+           getToken() +
+           '&client=client:' +
+           getCurrentBrowser() +
+           '&os=os:' +
+           getOs()
   )
 }
 
@@ -123,7 +123,7 @@ export function getFileUrl(url, tid) {
  */
 export function getExportUrl(url, params) {
   return (
-    process.env.BASE_API +
+    process.env.VUE_APP_BASE_API +
     url +
     '?params=' +
     encodeURIComponent(JSON.stringify(params)) +
@@ -300,6 +300,18 @@ export function translateFirstDict(firstDict, value) {
   }
   return result
 }
+
+export function translateUserName(userList, value) {
+  let result = ''
+  for (let i = 0; i < userList.length; i++) {
+    if (userList[i].userId === value) {
+      result = userList[i].userName
+      break
+    }
+  }
+  return result
+}
+
 export function uuid() {
   var s = []
   var hexDigits = '0123456789abcdef'
