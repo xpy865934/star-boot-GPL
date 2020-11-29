@@ -3,11 +3,13 @@
 <mapper namespace="com.star.starboot.system.dao.FlowMapper">
 
     <update id="updateBusinessData" statementType="PREPARED">
-        update ${table} set PROCESS_INSTANCE_ID = #{processInstanceId},PROCESS_DEFINITION_ID=#{processDefinitionId},TASK_IDS=#{taskIds},TASK_NAMES=#{taskNames}, PROCESS_STATE=#{processState}
+        update ${table} set PROCESS_INSTANCE_ID = #{processInstanceId},PROCESS_DEFINITION_ID=#{processDefinitionId},
+        TASK_IDS=#{taskIds},TASK_NAMES=#{taskNames}, PROCESS_STATE=#{processState}, TASK_KEYS=#{taskKeys}, CURRENT_ASSIGNEE=#{assigneeIds}, CURRENT_ASSIGNEE_NAMES=#{assigneeNames}
          where ${tableId} = #{businessKey}
     </update>
     <update id="updateBusinessTaskData">
-        update ${table} set TASK_IDS=#{taskIds},TASK_NAMES=#{taskNames}, PROCESS_STATE=#{processState}
+        update ${table} set TASK_IDS=#{taskIds},TASK_NAMES=#{taskNames}, PROCESS_STATE=#{processState}, LAST_ASSIGNEE=#{assignee},
+        TASK_KEYS=#{taskKeys}, CURRENT_ASSIGNEE=#{assigneeIds}, CURRENT_ASSIGNEE_NAMES=#{assigneeNames}
          where ${tableId} = #{businessKey}
     </update>
 </mapper>

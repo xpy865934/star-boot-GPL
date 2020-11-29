@@ -7,13 +7,13 @@ import com.star.starboot.common.utils.CommonUtils;
 import com.star.starboot.common.utils.ShiroUtils;
 import com.star.starboot.constant.SystemConstant;
 import com.star.starboot.exception.BusinessException;
-import com.star.starboot.system.dao.DepartmentMapper;
 import com.star.starboot.system.dao.UsersMapper;
-import com.star.starboot.system.dao.UsersReRolesMapper;
 import com.star.starboot.system.dto.UsersDto;
 import com.star.starboot.system.entity.Department;
 import com.star.starboot.system.entity.Users;
 import com.star.starboot.system.entity.UsersReRoles;
+import com.star.starboot.system.service.DepartmentService;
+import com.star.starboot.system.service.UsersReRolesService;
 import com.star.starboot.system.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,10 +38,10 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
     private UsersMapper usersMapper;
 
     @Autowired
-    private DepartmentMapper departmentMapper;
+    private DepartmentService departmentService;
 
     @Autowired
-    private UsersReRolesMapper usersReRolesMapper;
+    private UsersReRolesService usersReRolesService;
 
     @Override
     public UsersDto getUserByUserCodeAndCompanyCode(String userCode, String companyCode) {
@@ -64,7 +64,7 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
         usersDto.setWorking(SystemConstant.WORKING);
 
         // 查询该部门代码的部门id 前端默认部门和组织时使用
-        Department department = departmentMapper.getByCodeAndCompanyCode(usersDto.getDepartmentCode(),usersDto.getCompanyCode());
+        Department department = departmentService.getByCodeAndCompanyCode(usersDto.getDepartmentCode(),usersDto.getCompanyCode());
         usersDto.setDepartmentId(department.getDepartmentId());
 
         usersMapper.insert(usersDto);
@@ -73,7 +73,7 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
         UsersReRoles usersReRoles = new UsersReRoles();
         usersReRoles.setUserId(usersDto.getUserId());
         usersReRoles.setRoleId("e38e757154d8f746944b69f040065645");
-        usersReRolesMapper.insert(usersReRoles);
+        usersReRolesService.save(usersReRoles);
     }
 
     @Override

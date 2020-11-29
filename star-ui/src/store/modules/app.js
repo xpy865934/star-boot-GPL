@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie'
-import { getFirstDictAll, getUserList, getFLowNodes } from '@/api/app'
+import { getFirstDictAll, getUserList, getFLowNodes, downloadFile } from '@/api/app'
 
 const state = {
   sidebar: {
@@ -103,6 +103,22 @@ const actions = {
         .then(response => {
           const data = response.data
           resolve(data)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  },
+  /**
+   * 下载文件
+   * @param {*} param0
+   * @param {*} params
+   */
+  downloadFile({ commit }, params) {
+    return new Promise((resolve, reject) => {
+      downloadFile(params)
+        .then(response => {
+          resolve(response)
         })
         .catch(error => {
           reject(error)

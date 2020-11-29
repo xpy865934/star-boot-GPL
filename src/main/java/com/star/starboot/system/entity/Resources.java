@@ -34,7 +34,7 @@ public class Resources extends AbstractEntity {
      * 资源编号
      */
     @TableField("RESOURCES_NUM")
-    private Integer resourcesNum;
+    private String resourcesNum;
     /**
      * 资源名称
      */
@@ -64,7 +64,7 @@ public class Resources extends AbstractEntity {
      * 父级资源编号
      */
     @TableField("PARENT_RESOURCES_NUM")
-    private Integer parentResourcesNum;
+    private String parentResourcesNum;
     /**
      * 资源代码
      */

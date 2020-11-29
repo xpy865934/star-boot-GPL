@@ -1,11 +1,13 @@
 package com.star.starboot.common.utils;
 
 import cn.hutool.core.collection.CollectionUtil;
+import com.star.starboot.common.entity.AbstractEntity;
 import com.star.starboot.constant.SystemConstant;
 import com.star.starboot.exception.BusinessException;
 import com.star.starboot.system.dto.RolesDto;
 import com.star.starboot.system.dto.UsersDto;
 import com.star.starboot.system.entity.Flow;
+import com.star.starboot.system.entity.Roles;
 import com.star.starboot.system.entity.Users;
 import com.star.starboot.system.service.FlowService;
 import com.star.starboot.system.service.RolesService;
@@ -15,10 +17,15 @@ import org.apache.commons.collections.map.HashedMap;
 import org.flowable.bpmn.model.Process;
 import org.flowable.bpmn.model.*;
 import org.flowable.common.engine.impl.identity.Authentication;
-import org.flowable.engine.*;
+import org.flowable.engine.HistoryService;
+import org.flowable.engine.RepositoryService;
+import org.flowable.engine.RuntimeService;
+import org.flowable.engine.TaskService;
 import org.flowable.engine.history.HistoricProcessInstance;
 import org.flowable.engine.runtime.Execution;
 import org.flowable.engine.runtime.ProcessInstance;
+import org.flowable.engine.runtime.ProcessInstanceBuilder;
+import org.flowable.identitylink.service.impl.persistence.entity.IdentityLinkEntityImpl;
 import org.flowable.task.api.Task;
 import org.flowable.task.api.history.HistoricTaskInstance;
 import org.flowable.variable.api.history.HistoricVariableInstance;
@@ -41,13 +48,10 @@ import java.util.stream.Stream;
  * @Date: Created in 2020年10月22日 3:23 下午
  */
 @Service
-public class FlowableService {
+public class FlowableUtils {
 
     @Autowired
     private RuntimeService runtimeService;
-
-    @Autowired
-    private ProcessEngine processEngine;
 
     @Autowired
     private TaskService taskService;
@@ -74,16 +78,21 @@ public class FlowableService {
      * * @param businessKey 业务key
      * * @param map         参数键值对
      * * @return 流程实例ID
-     * * @Author 包海鹏
+     * * @Author xpy
      */
     @Transactional(rollbackFor = Exception.class)
-    public ProcessInstance startProcess(String processKey, String businessKey, Map<String, Object> map, String userId) {
+    public ProcessInstance startProcess(String processInstanceName, String processKey, String businessKey, Map<String, Object> map, String userId) {
         Authentication.setAuthenticatedUserId(userId);
         // 流程创建会把businessKey放在流程变量里面
         map.put("businessKey", businessKey);
         // 创建流程默认第一个申请节点审批人为流程创建人
         map.put("sqr", userId);
-        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processKey, businessKey, map);
+        ProcessInstanceBuilder processInstanceBuilder = runtimeService.createProcessInstanceBuilder();
+        processInstanceBuilder.processDefinitionKey(processKey);
+        processInstanceBuilder.businessKey(businessKey);
+        processInstanceBuilder.variables(map);
+        processInstanceBuilder.name(processInstanceName);
+        ProcessInstance processInstance = processInstanceBuilder.start();
         Authentication.setAuthenticatedUserId(null);
 
         // 获取当前流程变量
@@ -92,10 +101,13 @@ public class FlowableService {
         String table = variables.get("table").toString();
         String tableId = variables.get("table_id").toString();
         // 获取当前任务节点
-        List<Task> list = taskService.createTaskQuery().processInstanceId(processInstance.getProcessInstanceId()).active().list();
+        List<Task> list = taskService.createTaskQuery().processInstanceId(processInstance.getProcessInstanceId()).includeIdentityLinks().active().list();
         String taskIds = list.stream().map(Task::getId).collect(Collectors.joining(","));
         String taskNames = list.stream().map(Task::getName).collect(Collectors.joining(","));
-        flowService.updateBusinessData(table, tableId, businessKey, processInstance.getProcessInstanceId(), processInstance.getProcessDefinitionId(), taskIds, taskNames, SystemConstant.PROCESS_START);
+        String taskKeys = list.stream().map(Task::getTaskDefinitionKey).collect(Collectors.joining(","));
+        List<String> assigneeIds = getTaskAssigneeIds(list);
+        List<String> assigneeNames = getTaskAssigneeNames(list);
+        flowService.updateBusinessData(table, tableId, businessKey, processInstance.getProcessInstanceId(), processInstance.getProcessDefinitionId(), taskIds, taskNames, taskKeys, String.join(",", assigneeIds), String.join(",", assigneeNames), SystemConstant.PROCESS_START);
         return processInstance;
     }
 
@@ -108,9 +120,9 @@ public class FlowableService {
      * @param userId
      */
     @Transactional(rollbackFor = Exception.class)
-    public void startAndConplete(String processKey, String businessKey, Map<String, Object> map, String userId) {
-        ProcessInstance processInstance = this.startProcess(processKey, businessKey, map, userId);
-        this.complete(processInstance.getProcessInstanceId(), businessKey, userId, "同意");
+    public void startAndComplete(String processInstanceName, String processKey, String businessKey, Map<String, Object> map, String userId) {
+        ProcessInstance processInstance = this.startProcess(processInstanceName, processKey, businessKey, map, userId);
+        this.taskComplete(processInstance.getProcessInstanceId(), businessKey, "同意");
     }
 
     /**
@@ -166,8 +178,10 @@ public class FlowableService {
      * @param approvalComments
      */
     @Transactional(rollbackFor = Exception.class)
-    public void complete(String processInstanceId, String businessKey, String userId, String approvalComments) {
+    public void taskComplete(String processInstanceId, String businessKey, String approvalComments) {
+        String userId = ShiroUtils.build().getUserInfo().getUserId();
         Integer processState = SystemConstant.PROCESS_APPROVING;
+        String lastAssignee = userId;
         List<Task> usersTasks = this.completeByUserId(processInstanceId, businessKey);
 //        List<Task> rolesTasks = this.completeByRoleId(processInstanceId, businessKey);
         List<Task> result = new ArrayList<>();
@@ -194,24 +208,41 @@ public class FlowableService {
         // 获取当前流程变量  不能使用runtimeService.getVariables 一旦最后一步完成之后就无法查询该流程实例
         List<HistoricVariableInstance> HistoricVariableInstanceList = historyService.createHistoricVariableInstanceQuery().processInstanceId(processInstanceId).excludeTaskVariables().list();
         Map<String, Object> variables = new HashedMap();
-        for (HistoricVariableInstance variable: HistoricVariableInstanceList) {
-            variables.put(variable.getVariableName(),variable.getValue());
+        for (HistoricVariableInstance variable : HistoricVariableInstanceList) {
+            variables.put(variable.getVariableName(), variable.getValue());
         }
 
         // 更新相关联的业务表数据
         String table = variables.get("table").toString();
         String tableId = variables.get("table_id").toString();
         // 获取当前任务节点
-        List<Task> list = taskService.createTaskQuery().processInstanceId(processInstanceId).active().list();
+        List<Task> list = taskService.createTaskQuery().processInstanceId(processInstanceId).includeIdentityLinks().active().list();
         String taskIds = list.stream().map(Task::getId).collect(Collectors.joining(","));
         String taskNames = list.stream().map(Task::getName).collect(Collectors.joining(","));
+        String taskKeys = list.stream().map(Task::getTaskDefinitionKey).collect(Collectors.joining(","));
+        List<String> assigneeIds = getTaskAssigneeIds(list);
+        List<String> assigneeNames = getTaskAssigneeNames(list);
         // 更新任务节点相关信息
-        if(StringUtils.isEmpty(taskIds)){
+        if (StringUtils.isEmpty(taskIds)) {
             // 流程结束
             taskNames = "结束";
             processState = SystemConstant.PROCESS_COMPLETE;
+            // 流程结束后不允许撤回，设置上一审批人为null
+            lastAssignee = null;
         }
-        flowService.updateBusinessTaskData(table, tableId, businessKey, taskIds, taskNames, processState);
+        flowService.updateBusinessTaskData(table, tableId, businessKey, taskIds, taskNames, taskKeys, String.join(",", assigneeIds), String.join(",", assigneeNames), processState, lastAssignee);
+    }
+
+    /**
+     * 完成任务
+     *
+     * @param businessKey
+     * @param approvalComments
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public void complete(AbstractEntity abstractEntity, String businessKey, String approvalComments) {
+        checkFlowPermission(abstractEntity);
+        this.taskComplete(abstractEntity.getProcessInstanceId(),businessKey,approvalComments);
     }
 
 
@@ -222,15 +253,19 @@ public class FlowableService {
      * @param approvalComments
      */
     @Transactional(rollbackFor = Exception.class)
-    public void backLastNode(String processInstanceId, String businessKey, String userId, String approvalComments) {
+    public void backLastNode(AbstractEntity abstractEntity, String businessKey, String approvalComments) {
+        checkFlowPermission(abstractEntity);
         Integer processState = SystemConstant.PROCESS_APPROVING;
+        String processInstanceId = abstractEntity.getProcessInstanceId();
+        String userId = ShiroUtils.build().getUserInfo().getUserId();
+        String sourceRef = "";
         List<Task> usersTasks = this.completeByUserId(processInstanceId, businessKey);
 //        List<Task> rolesTasks = this.completeByRoleId(processInstanceId, businessKey);
         List<Task> result = new ArrayList<>();
         result.addAll(usersTasks);
 //        result.addAll(rolesTasks);
         Map<String, Object> map = new HashedMap();
-        map.put("approval_comments", approvalComments);
+        map.put("approval_comments", "退回：" + approvalComments);
         // 去重
         Set<Task> taskSet = new TreeSet<>((o1, o2) -> o1.getId().compareTo(o2.getId()));
         taskSet.addAll(result);
@@ -244,7 +279,7 @@ public class FlowableService {
                 FlowNode flowNode = (FlowNode) bpmnModel.getFlowElement(currentActivityId);
                 SequenceFlow sequenceFlow = flowNode.getIncomingFlows().get(0);
                 // 获取上一个节点的activityId
-                String sourceRef = sequenceFlow.getSourceRef();
+                sourceRef = sequenceFlow.getSourceRef();
 
 
                 taskService.setAssignee(task.getId(), userId);
@@ -265,16 +300,82 @@ public class FlowableService {
         String table = variables.get("table").toString();
         String tableId = variables.get("table_id").toString();
         // 获取当前任务节点
-        List<Task> list = taskService.createTaskQuery().processInstanceId(processInstanceId).active().list();
+        List<Task> list = taskService.createTaskQuery().processInstanceId(processInstanceId).includeIdentityLinks().active().list();
         String taskIds = list.stream().map(Task::getId).collect(Collectors.joining(","));
-        String taskKeys = list.stream().map(Task::getTaskDefinitionKey).collect(Collectors.joining(","));
         String taskNames = list.stream().map(Task::getName).collect(Collectors.joining(","));
+        String taskKeys = list.stream().map(Task::getTaskDefinitionKey).collect(Collectors.joining(","));
+        List<String> assigneeIds = getTaskAssigneeIds(list);
+        List<String> assigneeNames = getTaskAssigneeNames(list);
         // 退回到第一个节点
-        if("sq".equals(taskKeys)){
+        if ("sq".equals(sourceRef)) {
             processState = SystemConstant.PROCESS_START;
         }
         // 更新任务节点相关信息
-        flowService.updateBusinessTaskData(table, tableId, businessKey, taskIds, taskNames, processState);
+        flowService.updateBusinessTaskData(table, tableId, businessKey, taskIds, taskNames, taskKeys, String.join(",", assigneeIds), String.join(",", assigneeNames), processState, null);
+    }
+
+    /**
+     * 撤回任务
+     *
+     * @param processInstanceId
+     * @param businessKey
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public void recallNode(String processInstanceId, String businessKey, String lastAssignee) {
+        Integer processState = SystemConstant.PROCESS_APPROVING;
+        UsersDto userInfo = ShiroUtils.build().getUserInfo();
+        // 判断当前人是不是上一审批人
+        if (!userInfo.getUserId().equals(lastAssignee)) {
+            throw new BusinessException("上一处理人不是当前用户，无权限操作");
+        }
+        List<Task> taskList = taskService.createTaskQuery().processInstanceId(processInstanceId).processInstanceBusinessKey(businessKey).active().list();
+        Map<String, Object> map = new HashedMap();
+        String sourceRef = "";
+        map.put("approval_comments", userInfo.getUserName() + "自主撤回");
+        // 去重
+        Set<Task> taskSet = new TreeSet<>((o1, o2) -> o1.getId().compareTo(o2.getId()));
+        taskSet.addAll(taskList);
+        List<Task> tasks = new ArrayList<>(taskSet);
+        if (!StringUtils.isEmpty(tasks) && tasks.size() > 0) {
+            for (Task task : tasks) {
+                Execution execution = runtimeService.createExecutionQuery().executionId(task.getExecutionId()).singleResult();
+                // 获取当前节点的activityId,即xml中每个标签的ID
+                String currentActivityId = execution.getActivityId();
+                BpmnModel bpmnModel = repositoryService.getBpmnModel(task.getProcessDefinitionId());
+                FlowNode flowNode = (FlowNode) bpmnModel.getFlowElement(currentActivityId);
+                SequenceFlow sequenceFlow = flowNode.getIncomingFlows().get(0);
+                // 获取上一个节点的activityId
+                sourceRef = sequenceFlow.getSourceRef();
+
+                taskService.setAssignee(task.getId(), userInfo.getUserId());
+                taskService.setVariablesLocal(task.getId(), map);
+                // 流程回退到上一个节点，审批人继续审批
+                runtimeService.createChangeActivityStateBuilder().processInstanceId(processInstanceId)
+                        .moveActivityIdTo(currentActivityId, sourceRef).changeState();
+            }
+        } else {
+            // 所有任务都无法完成的情况，则没有权限
+            throw new BusinessException("流程已审批，无法撤回");
+        }
+
+        // 获取当前流程变量
+        Map<String, Object> variables = runtimeService.getVariables(processInstanceId);
+        // 更新相关联的业务表数据
+        String table = variables.get("table").toString();
+        String tableId = variables.get("table_id").toString();
+        // 获取当前任务节点
+        List<Task> list = taskService.createTaskQuery().processInstanceId(processInstanceId).includeIdentityLinks().active().list();
+        String taskIds = list.stream().map(Task::getId).collect(Collectors.joining(","));
+        String taskNames = list.stream().map(Task::getName).collect(Collectors.joining(","));
+        String taskKeys = list.stream().map(Task::getTaskDefinitionKey).collect(Collectors.joining(","));
+        List<String> assigneeIds = getTaskAssigneeIds(list);
+        List<String> assigneeNames = getTaskAssigneeNames(list);
+        // 撤回到第一个节点
+        if ("sq".equals(sourceRef)) {
+            processState = SystemConstant.PROCESS_START;
+        }
+        // 更新任务节点相关信息
+        flowService.updateBusinessTaskData(table, tableId, businessKey, taskIds, taskNames, taskKeys, String.join(",", assigneeIds), String.join(",", assigneeNames), processState, null);
     }
 
     /**
@@ -403,14 +504,14 @@ public class FlowableService {
                             // 第一个申请节点，如果设置的是sqr
                             String sqr = String.valueOf(historyService.createHistoricVariableInstanceQuery().processInstanceId(processInstanceId).variableName("sqr").singleResult().getValue());
                             Users assignee = usersService.getById(sqr);
-                            if(!StringUtils.isEmpty(assignee)) {
+                            if (!StringUtils.isEmpty(assignee)) {
                                 flow.setAssignee(assignee.getUserName());
                             }
                         } else {
                             // 设置指定处理人不为空
                             if (!StringUtils.isEmpty(((UserTask) flowElement).getAssignee())) {
                                 Users assignee = usersService.getById(((UserTask) flowElement).getAssignee());
-                                if(!StringUtils.isEmpty(assignee)) {
+                                if (!StringUtils.isEmpty(assignee)) {
                                     flow.setAssignee(assignee.getUserName());
                                 }
                             }
@@ -423,7 +524,7 @@ public class FlowableService {
                                     for (int i = 0; i < users.size(); i++) {
                                         if (i == 0) {
                                             assignee += users.get(i).getUserName();
-                                        }else {
+                                        } else {
                                             assignee += "," + users.get(i).getUserName();
                                         }
                                     }
@@ -439,7 +540,7 @@ public class FlowableService {
                                     for (int i = 0; i < roles.size(); i++) {
                                         if (i == 0) {
                                             assignee += roles.get(i).getRoleName();
-                                        }else {
+                                        } else {
                                             assignee += "," + roles.get(i).getRoleName();
                                         }
                                     }
@@ -447,7 +548,7 @@ public class FlowableService {
                                 flow.setAssignee(assignee);
                             }
                         }
-                        flow.setNodeNameAndUserName(flow.getNodeName()+":"+ flow.getAssignee());
+                        flow.setNodeNameAndUserName(flow.getNodeName() + ":" + flow.getAssignee());
                         flowList.add(flow);
                     }
                     if (flowElement instanceof SubProcess) {
@@ -456,15 +557,15 @@ public class FlowableService {
             }
         }
         List<HistoricTaskInstance> historicTaskList = historyService.createHistoricTaskInstanceQuery().processInstanceId(processInstanceId).orderByTaskCreateTime().asc().list();
-        for (int i = 0; i < historicTaskList.size() ; i++) {
+        for (int i = 0; i < historicTaskList.size(); i++) {
             // 最后一个判断当前最后的流程是否已经结束，未结束的不放入结果 是因为当前节点还未审批，所有使用流程图中的审批人或者候选人或候选组
-            if((i == (historicTaskList.size()-1)) && StringUtils.isEmpty(historicTaskList.get(i).getEndTime())){
+            if ((i == (historicTaskList.size() - 1)) && StringUtils.isEmpty(historicTaskList.get(i).getEndTime())) {
                 continue;
             }
             HistoricTaskInstance historicTask = historicTaskList.get(i);
             HistoricVariableInstance variableInstance = historyService.createHistoricVariableInstanceQuery().taskId(historicTask.getId()).variableName("approval_comments").singleResult();
             String approvalComments = "";
-            if(!StringUtils.isEmpty(variableInstance)){
+            if (!StringUtils.isEmpty(variableInstance)) {
                 // variableInstance 可能会出现null的情况，因为当前节点会出现在historyService里面，但是还没有审批
                 approvalComments = String.valueOf(variableInstance.getValue());
             }
@@ -473,7 +574,7 @@ public class FlowableService {
             flow.setNodeName(historicTask.getName());
             flow.setApprovalComments(approvalComments);
             Users assignee = usersService.getById(historicTask.getAssignee());
-            if(!StringUtils.isEmpty(assignee)) {
+            if (!StringUtils.isEmpty(assignee)) {
                 flow.setAssignee(assignee.getUserName());
             }
             flow.setNodeNameAndUserName(flow.getNodeName() + ":" + flow.getAssignee());
@@ -499,5 +600,90 @@ public class FlowableService {
             }
         }
         return result;
+    }
+
+    /**
+     * 获取任务的处理人id,list为当前流程同一时间需要处理的任务列表
+     *
+     * @param list
+     * @return
+     */
+    public List<String> getTaskAssigneeIds(List<Task> list) {
+        List<String> result = new ArrayList<>();
+        for (Task task : list) {
+            if (!StringUtils.isEmpty(task.getAssignee())) {
+                result.add(task.getAssignee());
+                continue;
+            }
+            List<IdentityLinkEntityImpl> identityLinks = (List<IdentityLinkEntityImpl>) task.getIdentityLinks();
+            if (CollectionUtil.isNotEmpty(identityLinks)) {
+                for (IdentityLinkEntityImpl identity : identityLinks) {
+                    if (!StringUtils.isEmpty(identity.getUserId())) {
+                        result.add(identity.getUserId());
+                    } else if (!StringUtils.isEmpty(identity.getGroupId())) {
+                        result.add(identity.getGroupId());
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 获取任务的处理人名称或者角色名称,list为当前流程同一时间需要处理的任务列表
+     *
+     * @param list
+     * @return
+     */
+    public List<String> getTaskAssigneeNames(List<Task> list) {
+        List<String> result = new ArrayList<>();
+        for (Task task : list) {
+            if (!StringUtils.isEmpty(task.getAssignee())) {
+                Users user = usersService.getById(task.getAssignee());
+                result.add(user.getUserName());
+                continue;
+            }
+            List<IdentityLinkEntityImpl> identityLinks = (List<IdentityLinkEntityImpl>) task.getIdentityLinks();
+            if (CollectionUtil.isNotEmpty(identityLinks)) {
+                for (IdentityLinkEntityImpl identity : identityLinks) {
+                    if (!StringUtils.isEmpty(identity.getUserId())) {
+                        Users user = usersService.getById(identity.getUserId());
+                        result.add(user.getUserName());
+                    } else if (!StringUtils.isEmpty(identity.getGroupId())) {
+                        Roles role = rolesService.getById(identity.getGroupId());
+                        result.add(role.getRoleName());
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 检查当前数据处理人是否对应
+     * @param abstractEntity
+     */
+    public void checkFlowPermission(AbstractEntity abstractEntity) {
+        UsersDto userInfo = ShiroUtils.build().getUserInfo();
+        // 判断权限
+        if (!StringUtils.isEmpty(abstractEntity.getCurrentAssignee())) {
+            if (abstractEntity.getCurrentAssignee().indexOf(userInfo.getUserId()) > -1) {
+                return;
+            } else {
+                Set<String> roles = userInfo.getRoles();
+                boolean hasPermission = false;
+                for (String str : roles) {
+                    if(abstractEntity.getCurrentAssignee().indexOf(str)>-1){
+                        hasPermission = true;
+                    }
+                }
+                if(hasPermission){
+                    return;
+                }
+                throw new BusinessException("无权限操作");
+            }
+        } else {
+            throw new BusinessException("无权限操作");
+        }
     }
 }

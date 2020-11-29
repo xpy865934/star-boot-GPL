@@ -33,16 +33,16 @@ import java.util.stream.Collectors;
 public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Department> implements DepartmentService {
 
     @Autowired
-    private CompanyMapper companyMapper;
+    private DepartmentMapper departmentMapper;
 
     @Autowired
-    private DepartmentMapper departmentMapper;
+    private CompanyService companyService;
 
     @Override
     public List<CompanyDto> getDepartmentTree(String companyId) {
         List<CompanyDto> list = new ArrayList<>();
         // 查询公司列表
-        Company company = companyMapper.selectById(companyId);
+        Company company = companyService.getById(companyId);
         List<DepartmentDto> result = new ArrayList<>();
         if(!StringUtils.isEmpty(company)){
             // 查询所有的部门列表
@@ -67,6 +67,11 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
             list.add(companyDto);
         }
         return list;
+    }
+
+    @Override
+    public Department getByCodeAndCompanyCode(String departmentCode, String companyCode) {
+        return departmentMapper.getByCodeAndCompanyCode(departmentCode, companyCode);
     }
 
     private List<DepartmentDto> findByParentDepartmentId(List<DepartmentDto> list, String parentDepartmentId){

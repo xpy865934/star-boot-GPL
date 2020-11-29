@@ -1,5 +1,6 @@
 import Vue from 'vue'
 
+import './assets/icon/iconfont.css'
 import 'normalize.css/normalize.css' // A modern alternative to CSS resets
 
 import ElementUI from 'element-ui'
@@ -19,7 +20,7 @@ import '@/permission' // permission control
 
 import config from '@/config' // config
 
-import { isEmpty, isIntNum, isNumber, decimalPercentConvert, formatPercent, formatThousandth, translateFirstDict } from '@/utils/common'
+import { isEmpty, isIntNum, isNumber, decimalPercentConvert, formatPercent, formatThousandth, translateFirstDict, translateUserName } from '@/utils/common'
 
 // 自定义组件
 // 分页   // 暂时封装到了表格中，没有单独使用
@@ -49,6 +50,7 @@ Vue.prototype.$formatPercent = formatPercent
 Vue.prototype.$formatThousandth = formatThousandth
 Vue.prototype.$decimalPercentConvert = decimalPercentConvert
 Vue.prototype.$translateFirstDict = translateFirstDict
+Vue.prototype.$translateUserName = translateUserName
 
 // 重写$messgae
 Vue.prototype.$message = function(data) {
