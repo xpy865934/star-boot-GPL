@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.star.starboot.system.dao.SystemBhMapper">
+
+    <select id="selectOne" resultType="com.star.starboot.system.entity.SystemBh">
+        select * from t_system_bh
+        <where>
+            <if test="bhType != null and bhType != ''">
+                BH_TYPE = #{bhType}
+            </if>
+
+            <if test="dateTy != null and dateTy != ''">
+                AND BHRQ_TYPE = #{dateTy}
+            </if>
+        </where>
+    </select>
+</mapper>

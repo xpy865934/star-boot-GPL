@@ -44,6 +44,7 @@ export default {
     cancle: '取消',
     pleaseInput: '请输入',
     pleaseSelect: '请选择',
+    pleaseUpload: '请上传',
 
     addFailed: '新增失败!',
     editFailed: '修改失败!',

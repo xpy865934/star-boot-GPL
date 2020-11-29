@@ -34,6 +34,18 @@ public class SystemConstant {
 
     public static final String DATE_MONTH_PATTERN = "yyyy-MM";
 
+
+    /**
+     * 通用是否标记
+     */
+    public static final Integer COMMON_FLAG_TRUE = 1;
+    public static final Integer COMMON_FLAG_FALSE = 0;
+
+    /**
+     * 空串
+     */
+    public static final String NULL_STR = "";
+
     /**
      * 用户禁用
      */

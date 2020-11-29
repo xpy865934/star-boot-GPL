@@ -116,7 +116,6 @@ export default {
       immediate: true
     },
     row(v) {
-      this.viewForm = JSON.parse(JSON.stringify(v))
       if (v.processInstanceId) {
         this.$store.dispatch('app/getFLowNodes', { processInstanceId: v.processInstanceId }).then((res) => {
           this.flowNodeList = res
@@ -135,6 +134,8 @@ export default {
         }).catch(() => {
         })
       }
+      this.form = {}
+      this.viewForm = JSON.parse(JSON.stringify(v))
     }
   },
   mounted() {
