@@ -2,14 +2,16 @@ package com.star.starboot.config;
 
 import com.alibaba.druid.util.StringUtils;
 import com.star.starboot.config.shiro.*;
+import org.apache.shiro.authc.pam.AtLeastOneSuccessfulStrategy;
 import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.realm.Realm;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
-import org.apache.shiro.web.session.mgt.ServletContainerSessionManager;
 import org.crazycake.shiro.RedisCacheManager;
 import org.crazycake.shiro.RedisManager;
 import org.crazycake.shiro.RedisSessionDAO;
@@ -19,7 +21,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.servlet.Filter;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -96,9 +100,18 @@ public class ShiroConfig {
         // 建议
         // 使用一个Realm验证，通过继承UsernamePasswordToken类拓展，增加额外的变量来实现多种认证方式。
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
+        securityManager.setAuthenticator(modularRealmAuthenticator());
+
+        List<Realm> realms = new ArrayList<>();
+        // 统一角色权限控制realm
+        realms.add(authorizingRealm());
+        // 用户密码登录realm
+        realms.add(userPasswordRealm());
+        // 用户手机号验证码登录realm
+        realms.add(userPhoneRealm());
 
         // 授权realm
-        securityManager.setRealm(userPasswordRealm());
+        securityManager.setRealms(realms);
 
         // 自定义缓存实现 使用redis
         securityManager.setCacheManager(cacheManager());
@@ -108,7 +121,27 @@ public class ShiroConfig {
     }
 
     /**
-     * 密码登录realm
+     * 自定义的Realm管理，主要针对多realm
+     */
+    @Bean("myModularRealmAuthenticator")
+    public MyModularRealmAuthenticator modularRealmAuthenticator() {
+        MyModularRealmAuthenticator customizedModularRealmAuthenticator = new MyModularRealmAuthenticator();
+        // 设置realm判断条件
+        customizedModularRealmAuthenticator.setAuthenticationStrategy(new AtLeastOneSuccessfulStrategy());
+
+        return customizedModularRealmAuthenticator;
+    }
+
+    @Bean
+    public AuthorizingRealm authorizingRealm(){
+        AuthorizationRealm authorizationRealm = new AuthorizationRealm();
+        authorizationRealm.setName(LoginType.COMMON.getType());
+
+        return authorizationRealm;
+    }
+
+    /**
+     * 账号密码登录realm
      *
      * @return
      */
@@ -119,6 +152,21 @@ public class ShiroConfig {
         // 自定义的密码校验器
         userPasswordRealm.setCredentialsMatcher(credentialsMatcher());
         return userPasswordRealm;
+    }
+
+
+    /**
+     * 手机号密码登录realm
+     *
+     * @return
+     */
+    @Bean
+    public UserPhoneRealm userPhoneRealm() {
+        UserPhoneRealm userPhoneRealm = new UserPhoneRealm();
+        userPhoneRealm.setName(LoginType.USER_PHONE.getType());
+        // 自定义的密码校验器
+        userPhoneRealm.setCredentialsMatcher(credentialsMatcher());
+        return userPhoneRealm;
     }
 
     @Bean

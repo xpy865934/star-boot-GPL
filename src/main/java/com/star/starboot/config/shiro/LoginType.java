@@ -19,7 +19,7 @@ public enum LoginType {
      */
     USER_PASSWORD("user_password_realm"),
     /**
-     * 手机验证码登录
+     * 手机号码密码登录
      */
     USER_PHONE("user_phone_realm"),
     /**

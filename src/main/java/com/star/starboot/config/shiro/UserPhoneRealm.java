@@ -20,20 +20,20 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @Date: Created in 2019年06月11日 下午7:26
  */
 @Slf4j
-public class UserPasswordRealm extends AuthorizingRealm {
+public class UserPhoneRealm extends AuthorizingRealm {
 
     @Autowired
     private UsersService usersService;
 
     @Override
     public String getName() {
-        return LoginType.USER_PASSWORD.getType();
+        return LoginType.USER_PHONE.getType();
     }
 
     @Override
     public boolean supports(AuthenticationToken token) {
         if (token instanceof UserToken) {
-            return ((UserToken) token).getLoginType() == LoginType.USER_PASSWORD;
+            return ((UserToken) token).getLoginType() == LoginType.USER_PHONE;
         } else {
             return false;
         }
@@ -51,7 +51,6 @@ public class UserPasswordRealm extends AuthorizingRealm {
 
     /**
      * 授权
-     *
      * @param principalCollection
      * @return
      */
@@ -62,18 +61,19 @@ public class UserPasswordRealm extends AuthorizingRealm {
 
     /**
      * 认证信息.(身份验证) : Authentication 是用来验证用户身份
+     *
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-        log.info("---------------- 用户密码登录 ----------------------");
+        log.info("---------------- 手机号密码登录 ----------------------");
         UserToken token = (UserToken) authenticationToken;
-        // 用户工号
-        String userCode = token.getUsername();
+        // 用户手机号
+        String tel = token.getUsername();
         // 用户选择的公司
         String companyCode = token.getCompanyCode();
 
-        // 从数据库获取对应用户名密码的用户
-        UsersDto user = usersService.getUserByUserCodeAndCompanyCode(userCode, companyCode);
+        // 从数据库获取对应手机号密码的用户
+        UsersDto user = usersService.getUserByUserTelAndCompanyCode(tel,companyCode);
         if (user != null) {
             // 用户为禁用状态,1为禁用状态
             if (SystemConstant.USERFORBID.equals(user.getWorking().toString())) {
@@ -86,6 +86,6 @@ public class UserPasswordRealm extends AuthorizingRealm {
             );
             return authenticationInfo;
         }
-        throw new UnknownAccountException("工号不存在");
+        throw new UnknownAccountException("手机号不存在");
     }
 }

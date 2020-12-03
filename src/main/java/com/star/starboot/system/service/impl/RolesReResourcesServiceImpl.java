@@ -2,12 +2,11 @@ package com.star.starboot.system.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.star.starboot.common.utils.ShiroUtils;
-import com.star.starboot.config.shiro.UserPasswordRealm;
+import com.star.starboot.config.shiro.AuthorizationRealm;
+import com.star.starboot.system.dao.RolesReResourcesMapper;
 import com.star.starboot.system.dto.UsersDto;
 import com.star.starboot.system.entity.Resources;
 import com.star.starboot.system.entity.RolesReResources;
-import com.star.starboot.system.dao.RolesReResourcesMapper;
-import com.star.starboot.system.entity.Users;
 import com.star.starboot.system.service.RolesReResourcesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,7 +29,7 @@ public class RolesReResourcesServiceImpl extends ServiceImpl<RolesReResourcesMap
     private RolesReResourcesMapper reResourcesMapper;
 
     @Autowired
-    private UserPasswordRealm userPasswordRealm;
+    private AuthorizationRealm authorizationRealm;
 
     @Override
     public List<Resources> getResourcesByRoleTid(String roleId) {
@@ -56,6 +55,6 @@ public class RolesReResourcesServiceImpl extends ServiceImpl<RolesReResourcesMap
         this.saveBatch(list);
 
         // 更新缓存权限
-        userPasswordRealm.updateShiroUserAuthorizationInfo();
+        authorizationRealm.updateShiroUserAuthorizationInfo();
     }
 }
