@@ -10,6 +10,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 
 import '@/styles/index.scss' // global css
 
+import VCharts from 'v-charts'
 import App from './App'
 import store from './store'
 import router from './router'
@@ -38,6 +39,8 @@ Vue.use(KFormDesign)
 Vue.use(ElementUI, {
   i18n: (key, value) => i18n.t(key, value)
 })
+
+Vue.use(VCharts)
 
 /**
  * 注册全局变量
