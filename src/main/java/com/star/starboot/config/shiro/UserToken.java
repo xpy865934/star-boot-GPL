@@ -24,8 +24,6 @@ public class UserToken extends UsernamePasswordToken {
     private String appId;
     private String appkey;
 
-    // TODO 由于是demo方法，此处微信只传一个code参数，其他参数根据实际情况添加
-
 
     public UserToken(LoginType loginType, final String userCode, final String password, String companyCode, String clientId, String appId, String appkey) {
         super(userCode, password);

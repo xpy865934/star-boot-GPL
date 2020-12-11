@@ -10,6 +10,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 
 import '@/styles/index.scss' // global css
 
+import VCharts from 'v-charts'
 import App from './App'
 import store from './store'
 import router from './router'
@@ -20,7 +21,7 @@ import '@/permission' // permission control
 
 import config from '@/config' // config
 
-import { isEmpty, isIntNum, isNumber, decimalPercentConvert, formatPercent, formatThousandth, translateFirstDict, translateUserName } from '@/utils/common'
+import { isEmpty, isIntNum, isNumber, decimalPercentConvert, formatPercent, formatThousandth, translateFirstDict, translateUserName, getFileUrl, add, subtract, multiply, divide } from '@/utils/common'
 
 // 自定义组件
 // 分页   // 暂时封装到了表格中，没有单独使用
@@ -39,6 +40,8 @@ Vue.use(ElementUI, {
   i18n: (key, value) => i18n.t(key, value)
 })
 
+Vue.use(VCharts)
+
 /**
  * 注册全局变量
  */
@@ -51,6 +54,12 @@ Vue.prototype.$formatThousandth = formatThousandth
 Vue.prototype.$decimalPercentConvert = decimalPercentConvert
 Vue.prototype.$translateFirstDict = translateFirstDict
 Vue.prototype.$translateUserName = translateUserName
+Vue.prototype.$getFileUrl = getFileUrl
+// 加减乘除
+Vue.prototype.$add = add
+Vue.prototype.$subtract = subtract
+Vue.prototype.$multiply = multiply
+Vue.prototype.$divide = divide
 
 // 重写$messgae
 Vue.prototype.$message = function(data) {

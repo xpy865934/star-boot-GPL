@@ -11,7 +11,6 @@ import com.star.starboot.system.dao.UsersMapper;
 import com.star.starboot.system.dto.UsersDto;
 import com.star.starboot.system.entity.Department;
 import com.star.starboot.system.entity.Users;
-import com.star.starboot.system.entity.UsersReRoles;
 import com.star.starboot.system.service.DepartmentService;
 import com.star.starboot.system.service.UsersReRolesService;
 import com.star.starboot.system.service.UsersService;
@@ -57,6 +56,13 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
         usersDto.setPassword(encrpty[1]);
 
         // 判断用户工号是否已经存在
+//        LambdaQueryWrapper<Users> wrapper = new LambdaQueryWrapper();
+//        wrapper.eq(Users::getUserCode,usersDto.getUserCode());
+//        List list = usersMapper.selectList(wrapper);
+//        if(!StringUtils.isEmpty(list) && list.size()>0){
+//            throw  new BusinessException("用户名已经存在");
+//        }
+
         UsersDto user = usersMapper.getUserByUserCodeAndCompanyCode(usersDto.getUserCode(), usersDto.getCompanyCode());
         if(!StringUtils.isEmpty(user)){
             throw  new BusinessException("用户名已经存在");
@@ -70,10 +76,10 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
         usersMapper.insert(usersDto);
 
         // 设置默认角色
-        UsersReRoles usersReRoles = new UsersReRoles();
-        usersReRoles.setUserId(usersDto.getUserId());
-        usersReRoles.setRoleId("e38e757154d8f746944b69f040065645");
-        usersReRolesService.save(usersReRoles);
+//        UsersReRoles usersReRoles = new UsersReRoles();
+//        usersReRoles.setUserId(usersDto.getUserId());
+//        usersReRoles.setRoleId("e38e757154d8f746944b69f040065645");
+//        usersReRolesService.save(usersReRoles);
     }
 
     @Override
@@ -102,5 +108,10 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
     @Override
     public List<UsersDto> getByIds(List<String> userIds) {
         return usersMapper.getByIds(userIds);
+    }
+
+    @Override
+    public UsersDto getUserByUserTelAndCompanyCode(String tel, String companyCode) {
+        return usersMapper.getUserByUserTelAndCompanyCode(tel, companyCode);
     }
 }

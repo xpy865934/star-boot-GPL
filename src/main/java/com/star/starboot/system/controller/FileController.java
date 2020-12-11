@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,30 +35,27 @@ public class FileController {
 
     /**
      * 上传文件
+     *
      * @return
      */
     @ApiOperation("上传文件")
     @PostMapping("/upload")
     @SysLog(description = "上传文件")
-    public Result upload(@RequestParam MultipartFile file, @RequestParam String parentDictName){
-        try {
-            File upload = fileService.upload(file,parentDictName);
-            return Result.success(upload);
-        } catch (RuntimeException e){
-            log.error(e.getMessage(),e);
-            return Result.create(ResultCode.ERROR_UPLOAD_FAILED);
-        }
+    public Result upload(@RequestParam MultipartFile file, @RequestParam @Nullable String parentDictName) {
+        File upload = fileService.upload(file, parentDictName);
+        return Result.success(upload);
     }
 
 
     /**
      * 下载文件
+     *
      * @return
      */
     @ApiOperation("下载文件")
     @GetMapping("/downloadFile")
     @SysLog(description = "下载文件")
-    public ResponseEntity<byte[]> downloadFile(String fileId, String token, HttpServletRequest request, HttpServletResponse response){
-        return fileService.download(fileId,request,response);
+    public ResponseEntity<byte[]> downloadFile(String fileId, String token, HttpServletRequest request, HttpServletResponse response) {
+        return fileService.download(fileId, request, response);
     }
 }

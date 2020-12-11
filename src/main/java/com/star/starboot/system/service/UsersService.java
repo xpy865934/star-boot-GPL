@@ -58,4 +58,12 @@ public interface UsersService extends IService<Users> {
      * @return
      */
     List<UsersDto> getByIds(List<String> userIds);
+
+    /**
+     * 根据公司工号和手机号查询用户
+     * @param tel
+     * @param companyCode
+     * @return
+     */
+    UsersDto getUserByUserTelAndCompanyCode(String tel, String companyCode);
 }

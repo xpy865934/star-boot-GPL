@@ -1,5 +1,6 @@
 package com.star.starboot.common.controller;
 
+import cn.hutool.core.lang.Validator;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.star.starboot.annotation.SysLog;
@@ -91,8 +92,14 @@ public class CommonController extends  AbstractController{
         String clientId = param.getString("clientId");
         String appId = param.getString("appId");
         String appKey = param.getString("appKey");
-        UserToken token = new UserToken(LoginType.USER_PASSWORD, userCode, password,companyCode,clientId,appId,appKey);
-        return shiroLogin(token);
+        // 判断是否是账号或者手机号登陆
+        if(Validator.isMobile(userCode)){
+            UserToken token = new UserToken(LoginType.USER_PHONE, userCode, password,companyCode,clientId,appId,appKey);
+            return shiroLogin(token);
+        } else {
+            UserToken token = new UserToken(LoginType.USER_PASSWORD, userCode, password,companyCode,clientId,appId,appKey);
+            return shiroLogin(token);
+        }
     }
 
     public Result shiroLogin(UserToken token){
@@ -148,7 +155,7 @@ public class CommonController extends  AbstractController{
      * 退出登录
      * @return
      */
-    @RequestMapping("/loginOut")
+    @RequestMapping("/logout")
     @SysLog(description = "退出登录")
     public Result logout(){
         SecurityUtils.getSubject().logout();

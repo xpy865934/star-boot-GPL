@@ -8,7 +8,7 @@ import com.star.starboot.common.controller.AbstractController;
 import com.star.starboot.common.enums.ResultCode;
 import com.star.starboot.common.utils.ShiroUtils;
 import com.star.starboot.common.vo.Result;
-import com.star.starboot.config.shiro.UserPasswordRealm;
+import com.star.starboot.config.shiro.AuthorizationRealm;
 import com.star.starboot.system.dto.UsersDto;
 import com.star.starboot.system.service.UsersService;
 import io.swagger.annotations.ApiOperation;
@@ -40,7 +40,7 @@ public class UsersController extends AbstractController {
     private UsersService usersService;
 
     @Autowired
-    private UserPasswordRealm userPasswordRealm;
+    private AuthorizationRealm authorizationRealm;
 
     /**
      * 分页获取用户信息
@@ -68,7 +68,7 @@ public class UsersController extends AbstractController {
     public Result getUserInfo(){
         UsersDto userInfo = ShiroUtils.build().getUserInfo();
         if(!StringUtils.isEmpty(userInfo)){
-            SimpleAuthorizationInfo authorizationInfo = userPasswordRealm.getUserAuthorizationInfo(SecurityUtils.getSubject().getPrincipals());
+            SimpleAuthorizationInfo authorizationInfo = authorizationRealm.getUserAuthorizationInfo(SecurityUtils.getSubject().getPrincipals());
             if(!StringUtils.isEmpty(authorizationInfo.getRoles())){
                 userInfo.setRoles(authorizationInfo.getRoles());
             }

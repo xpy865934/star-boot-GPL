@@ -28,7 +28,7 @@
     </div>
     <div>
       <el-divider content-position="center">业务数据</el-divider>
-      <component :is="currentWindow" :row="viewForm" :disabled="true" action="view" />
+      <component :is="currentWindow" :row="viewForm" :disabled="true" :action="action" />
     </div>
     <div v-if="!disabled" slot="footer">
       <el-button :size="buttonSize" @click="cancle">关闭</el-button>
@@ -116,7 +116,6 @@ export default {
       immediate: true
     },
     row(v) {
-      this.viewForm = JSON.parse(JSON.stringify(v))
       if (v.processInstanceId) {
         this.$store.dispatch('app/getFLowNodes', { processInstanceId: v.processInstanceId }).then((res) => {
           this.flowNodeList = res
@@ -135,6 +134,8 @@ export default {
         }).catch(() => {
         })
       }
+      this.form = {}
+      this.viewForm = JSON.parse(JSON.stringify(v))
     }
   },
   mounted() {

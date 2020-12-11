@@ -34,6 +34,18 @@ public class SystemConstant {
 
     public static final String DATE_MONTH_PATTERN = "yyyy-MM";
 
+
+    /**
+     * 通用是否标记
+     */
+    public static final Integer COMMON_FLAG_TRUE = 1;
+    public static final Integer COMMON_FLAG_FALSE = 0;
+
+    /**
+     * 空串
+     */
+    public static final String NULL_STR = "";
+
     /**
      * 用户禁用
      */
@@ -54,6 +66,26 @@ public class SystemConstant {
      * 普通消息
      */
     public static final Integer NORMALMSG = 1;
+
+    /**
+     * 流程消息
+     */
+    public static final Integer FLOWABLEMSG = 2;
+
+    /**
+     * APP消息
+     */
+    public static final String MSG_APP = "MSG_APP";
+
+    /**
+     * 系统消息
+     */
+    public static final String MSG_SYSTEM = "MSG_SYSTEM";
+
+    /**
+     * 邮件消息
+     */
+    public static final String MSG_EMAIL = "MSG_EMAIL";
 
     /**
      * 注册用户  判断需要：IOS

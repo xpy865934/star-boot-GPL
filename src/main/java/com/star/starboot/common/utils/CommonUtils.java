@@ -116,4 +116,15 @@ public class CommonUtils {
         DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
         return fmt.print(localDateTime);
     }
+
+
+    /**
+     * 补0
+     * @param size
+     * @param value
+     * @return
+     */
+    public static String fillZero(int size, int value) {
+        return String.format("%0" + size + "d", value);
+    }
 }

@@ -42,21 +42,17 @@ public class DepartmentController extends AbstractController {
 
     /**
      * 获取所有的组织架构信息树形菜单
+     *
      * @return
      */
     @ApiOperation(value = "获取所有的组织架构信息树形菜单")
     @GetMapping("/getDepartmentTree")
     @RequiresPermissions("department_getDepartmentsTree")
     @SysLog(description = "获取所有的组织架构信息树形菜单")
-    public Result getDepartmentTree(){
+    public Result getDepartmentTree() {
         UsersDto userInfo = ShiroUtils.build().getUserInfo();
-        try {
-            List<CompanyDto> result = departmentService.getDepartmentTree(userInfo.getCompanyId());
-            return Result.success(result);
-        } catch (RuntimeException e){
-            log.error(e.getMessage(),e);
-            return Result.create(ResultCode.ERROR_QUERY_FAILED);
-        }
+        List<CompanyDto> result = departmentService.getDepartmentTree(userInfo.getCompanyId());
+        return Result.success(result);
     }
 }
 

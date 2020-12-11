@@ -47,4 +47,12 @@ public interface UsersMapper extends BaseMapper<Users> {
      * @return
      */
     List<UsersDto> getByIds(@Param("userIds") List<String> userIds);
+
+    /**
+     * 根据公司工号和手机号查询用户
+     * @param tel
+     * @param companyCode
+     * @return
+     */
+    UsersDto getUserByUserTelAndCompanyCode(@Param("tel") String tel, @Param("companyCode") String companyCode);
 }
