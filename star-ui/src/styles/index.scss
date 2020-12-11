@@ -100,6 +100,9 @@ span.bank15
 .el-checkbox__input.is-disabled+span.el-checkbox__label{
   color: #000;
 }
+.el-radio__input.is-disabled.is-checked .el-radio__inner::after{
+  background-color: #000;
+}
 
 .el-steps{
   overflow-x: auto;

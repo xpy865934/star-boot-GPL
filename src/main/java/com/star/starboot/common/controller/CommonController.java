@@ -155,7 +155,7 @@ public class CommonController extends  AbstractController{
      * 退出登录
      * @return
      */
-    @RequestMapping("/loginOut")
+    @RequestMapping("/logout")
     @SysLog(description = "退出登录")
     public Result logout(){
         SecurityUtils.getSubject().logout();

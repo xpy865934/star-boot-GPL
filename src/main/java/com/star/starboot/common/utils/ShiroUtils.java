@@ -100,6 +100,7 @@ public class ShiroUtils {
         }catch(Exception e){
             log.error(e.getMessage());
             e.printStackTrace();
+//            throw new BusinessException(ResultCode.USER_INFO_LOSE_ERROR.getMsg());
         }finally{
         }
         return null;

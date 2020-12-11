@@ -28,7 +28,7 @@
     </div>
     <div>
       <el-divider content-position="center">业务数据</el-divider>
-      <component :is="currentWindow" :row="viewForm" :disabled="true" action="view" />
+      <component :is="currentWindow" :row="viewForm" :disabled="true" :action="action" />
     </div>
     <div v-if="!disabled" slot="footer">
       <el-button :size="buttonSize" @click="cancle">关闭</el-button>
