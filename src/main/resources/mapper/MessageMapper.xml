@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.star.starboot.system.dao.MessageMapper">
+
+
+    <select id="getUserMessagePager" resultType="com.star.starboot.system.entity.Message">
+        select msg.*,user.USER_NAME as fromName from t_message msg
+        left join t_users user on msg.FROM_ID = user.USER_ID
+        where msg.DELETED_CODE = 0 and msg.MEMBER_ID = #{message.memberId}
+        <if test="message.read!=null">
+            and msg.read = #{message.read}
+        </if>
+        <if test="message.title!=null and message.title !=''">
+            and msg.title like concat('%',#{message.title},'%')
+        </if>
+        <if test="message.message!=null and message.message !=''">
+            and msg.message like concat('%',#{message.message},'%')
+        </if>
+        order by msg.CREATE_AT desc
+    </select>
+
+    <select id="getUserMsgList" resultType="com.star.starboot.system.entity.Message">
+        select msg.*,user.USER_NAME as fromName from t_message msg
+        left join t_users user on msg.FROM_ID = user.USER_ID
+        where msg.DELETED_CODE = 0 and msg.MEMBER_ID = #{message.memberId}
+        order by msg.CREATE_AT desc
+    </select>
+    <select id="getMsgCount" resultType="java.util.Map">
+        select message.read,count(*) as count from t_message message where message.DELETED_CODE = 0 and message.MEMBER_ID = #{userId} group by message.read
+    </select>
+    <select id="getNotifyId" resultType="java.lang.Integer">
+        select distinct msg.notify_id from t_message msg
+        where msg.DELETED_CODE = 0 and msg.BIND_TABLE = #{bindTable} and msg.DATA_ID = #{dataId}
+    </select>
+    <select id="getMaxNotifyId" resultType="java.lang.Integer">
+        select IFNULL(max(msg.NOTIFY_ID),0) + 1 as notifyId from t_message msg
+        where msg.DELETED_CODE = 0
+    </select>
+</mapper>

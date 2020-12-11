@@ -68,6 +68,26 @@ public class SystemConstant {
     public static final Integer NORMALMSG = 1;
 
     /**
+     * 流程消息
+     */
+    public static final Integer FLOWABLEMSG = 2;
+
+    /**
+     * APP消息
+     */
+    public static final String MSG_APP = "MSG_APP";
+
+    /**
+     * 系统消息
+     */
+    public static final String MSG_SYSTEM = "MSG_SYSTEM";
+
+    /**
+     * 邮件消息
+     */
+    public static final String MSG_EMAIL = "MSG_EMAIL";
+
+    /**
      * 注册用户  判断需要：IOS
      */
     public static final Integer REGISTER = 1;
