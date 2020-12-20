@@ -1,4 +1,4 @@
-import { login, register, getUserInfo, loginOut, queryPager, deleteById } from '@/api/user'
+import { login, register, getUserInfo, logout, queryPager, deleteById, changePassword } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { getCurrentBrowser, getOs } from '../../utils/common'
 import { resetRouter } from '@/router'
@@ -140,9 +140,9 @@ const actions = {
    * 登出
    * @param {*} param0
    */
-  loginOut({ commit }) {
+  logout({ commit }) {
     return new Promise((resolve, reject) => {
-      loginOut()
+      logout()
         .then(response => {
           removeToken()
           commit('RESET_STATE')
@@ -182,6 +182,23 @@ const actions = {
   deleteById({ commit }, params) {
     return new Promise((resolve, reject) => {
       deleteById(params)
+        .then(response => {
+          resolve(response)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  },
+
+  /**
+   * 修改密码
+   * @param {*} param0
+   * @param {*} params
+   */
+  changePassword({ commit }, params) {
+    return new Promise((resolve, reject) => {
+      changePassword(params)
         .then(response => {
           resolve(response)
         })

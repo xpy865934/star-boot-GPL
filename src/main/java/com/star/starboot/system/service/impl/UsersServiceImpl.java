@@ -3,6 +3,7 @@ package com.star.starboot.system.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.star.starboot.common.enums.ResultCode;
 import com.star.starboot.common.utils.CommonUtils;
 import com.star.starboot.common.utils.ShiroUtils;
 import com.star.starboot.constant.SystemConstant;
@@ -14,6 +15,9 @@ import com.star.starboot.system.entity.Users;
 import com.star.starboot.system.service.DepartmentService;
 import com.star.starboot.system.service.UsersReRolesService;
 import com.star.starboot.system.service.UsersService;
+import org.apache.shiro.crypto.hash.DefaultHashService;
+import org.apache.shiro.crypto.hash.HashRequest;
+import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +25,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * <p>
@@ -113,5 +118,37 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
     @Override
     public UsersDto getUserByUserTelAndCompanyCode(String tel, String companyCode) {
         return usersMapper.getUserByUserTelAndCompanyCode(tel, companyCode);
+    }
+
+    @Override
+    public void changePassword(UsersDto usersDto) {
+        Users user = new Users();
+        UsersDto userInfo = ShiroUtils.build().getUserInfo();
+        // 修改
+        String salt = UUID.randomUUID().toString();
+        // 默认算法是SHA-512
+        DefaultHashService hashService = new DefaultHashService();
+
+        Users oldUser = usersMapper.selectById(userInfo.getUserId());
+        // 旧密码
+        HashRequest oldRequest = new HashRequest.Builder().setAlgorithmName("MD5")
+                .setSource(ByteSource.Util.bytes(usersDto.getOldPassword())).setSalt(ByteSource.Util.bytes(oldUser.getSalt()))
+                .setIterations(2).build();
+        String oldPassword = hashService.computeHash(oldRequest).toHex();
+
+        if(!oldUser.getPassword().equals(oldPassword)){
+            throw new BusinessException(ResultCode.ERROR_PASSWORD_CHANGE.getMsg());
+        }
+
+        // 新密码
+        HashRequest request = new HashRequest.Builder().setAlgorithmName("MD5")
+                .setSource(ByteSource.Util.bytes(usersDto.getPassword())).setSalt(ByteSource.Util.bytes(salt))
+                .setIterations(2).build();
+        String password = hashService.computeHash(request).toHex();
+
+        user.setUserId(userInfo.getUserId());
+        user.setSalt(salt);
+        user.setPassword(password);
+        usersMapper.updateById(user);
     }
 }

@@ -48,4 +48,13 @@ public class UsersDto extends Users {
      * 用户工号-公司代码   作为主键唯一
      */
     private String userCompanyCode;
+
+    /**
+     * 旧密码
+     */
+    private String oldPassword;
+    /**
+     * 部门名称
+     */
+    private String departmentName;
 }

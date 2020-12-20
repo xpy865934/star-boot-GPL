@@ -66,4 +66,10 @@ public interface UsersService extends IService<Users> {
      * @return
      */
     UsersDto getUserByUserTelAndCompanyCode(String tel, String companyCode);
+
+    /**
+     * 修改密码
+     * @param usersDto
+     */
+    void changePassword(UsersDto usersDto);
 }

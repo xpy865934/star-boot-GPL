@@ -58,7 +58,7 @@ router.beforeEach(async(to, from, next) => {
               })
           })
           .catch(err => {
-            store.dispatch('user/loginOut').then(() => {
+            store.dispatch('user/logout').then(() => {
               console.log(err)
               // Message.error('获取用户权限信息失败')
               next(`/login?redirect=${to.path}`)

@@ -21,7 +21,7 @@ import '@/permission' // permission control
 
 import config from '@/config' // config
 
-import { isEmpty, isIntNum, isNumber, decimalPercentConvert, formatPercent, formatThousandth, translateFirstDict, translateUserName, getFileUrl, add, subtract, multiply, divide } from '@/utils/common'
+import { isEmpty, isIntNum, isNumber, decimalPercentConvert, formatPercent, formatThousandth, translateFirstDict, translateUserName, getFileUrl, add, subtract, multiply, divide, accessAssignee } from '@/utils/common'
 
 // 自定义组件
 // 分页   // 暂时封装到了表格中，没有单独使用
@@ -55,6 +55,7 @@ Vue.prototype.$decimalPercentConvert = decimalPercentConvert
 Vue.prototype.$translateFirstDict = translateFirstDict
 Vue.prototype.$translateUserName = translateUserName
 Vue.prototype.$getFileUrl = getFileUrl
+Vue.prototype.$accessAssignee = accessAssignee
 // 加减乘除
 Vue.prototype.$add = add
 Vue.prototype.$subtract = subtract

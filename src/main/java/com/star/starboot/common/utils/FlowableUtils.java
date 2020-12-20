@@ -10,6 +10,7 @@ import com.star.starboot.system.entity.Flow;
 import com.star.starboot.system.entity.Roles;
 import com.star.starboot.system.entity.Users;
 import com.star.starboot.system.service.FlowService;
+import com.star.starboot.system.service.MessageService;
 import com.star.starboot.system.service.RolesService;
 import com.star.starboot.system.service.UsersService;
 import org.apache.commons.collections.CollectionUtils;
@@ -49,6 +50,9 @@ import java.util.stream.Stream;
  */
 @Service
 public class FlowableUtils {
+
+    @Autowired
+    private MessageService messageService;
 
     @Autowired
     private RuntimeService runtimeService;
@@ -105,9 +109,9 @@ public class FlowableUtils {
         String taskIds = list.stream().map(Task::getId).collect(Collectors.joining(","));
         String taskNames = list.stream().map(Task::getName).collect(Collectors.joining(","));
         String taskKeys = list.stream().map(Task::getTaskDefinitionKey).collect(Collectors.joining(","));
-        List<String> assigneeIds = getTaskAssigneeIds(list);
-        List<String> assigneeNames = getTaskAssigneeNames(list);
-        flowService.updateBusinessData(table, tableId, businessKey, processInstance.getProcessInstanceId(), processInstance.getProcessDefinitionId(), taskIds, taskNames, taskKeys, String.join(",", assigneeIds), String.join(",", assigneeNames), SystemConstant.PROCESS_START);
+        Map<String, String> taskAssigneeIds = getTaskAssigneeIds(list);
+        String assigneeNames = getTaskAssigneeNames(list);
+        flowService.updateBusinessData(table, tableId, businessKey, processInstance.getProcessInstanceId(), processInstance.getProcessDefinitionId(), taskIds, taskNames, taskKeys, taskAssigneeIds.get("assigneeIds"), assigneeNames, taskAssigneeIds.get("currentAssigneeType") ,SystemConstant.PROCESS_START);
         return processInstance;
     }
 
@@ -220,8 +224,8 @@ public class FlowableUtils {
         String taskIds = list.stream().map(Task::getId).collect(Collectors.joining(","));
         String taskNames = list.stream().map(Task::getName).collect(Collectors.joining(","));
         String taskKeys = list.stream().map(Task::getTaskDefinitionKey).collect(Collectors.joining(","));
-        List<String> assigneeIds = getTaskAssigneeIds(list);
-        List<String> assigneeNames = getTaskAssigneeNames(list);
+        Map<String, String> taskAssigneeIds = getTaskAssigneeIds(list);
+        String assigneeNames = getTaskAssigneeNames(list);
         // 更新任务节点相关信息
         if (StringUtils.isEmpty(taskIds)) {
             // 流程结束
@@ -230,7 +234,13 @@ public class FlowableUtils {
             // 流程结束后不允许撤回，设置上一审批人为null
             lastAssignee = null;
         }
-        flowService.updateBusinessTaskData(table, tableId, businessKey, taskIds, taskNames, taskKeys, String.join(",", assigneeIds), String.join(",", assigneeNames), processState, lastAssignee);
+        flowService.updateBusinessTaskData(table, tableId, businessKey, taskIds, taskNames, taskKeys, taskAssigneeIds.get("assigneeIds"), assigneeNames, taskAssigneeIds.get("currentAssigneeType"), processState, lastAssignee);
+
+
+        // 发送通知给下一审批人
+        List<String> msglist =  new ArrayList<String>();
+        msglist.add("35d3bedafa5b9bafd921666f3e58fa5d");
+        messageService.sendMessage(msglist,userId,1,"测试消息","测试消息","测试消息",null,null);
     }
 
     /**
@@ -304,14 +314,14 @@ public class FlowableUtils {
         String taskIds = list.stream().map(Task::getId).collect(Collectors.joining(","));
         String taskNames = list.stream().map(Task::getName).collect(Collectors.joining(","));
         String taskKeys = list.stream().map(Task::getTaskDefinitionKey).collect(Collectors.joining(","));
-        List<String> assigneeIds = getTaskAssigneeIds(list);
-        List<String> assigneeNames = getTaskAssigneeNames(list);
+        Map<String, String> taskAssigneeIds = getTaskAssigneeIds(list);
+        String assigneeNames = getTaskAssigneeNames(list);
         // 退回到第一个节点
         if ("sq".equals(sourceRef)) {
             processState = SystemConstant.PROCESS_START;
         }
         // 更新任务节点相关信息
-        flowService.updateBusinessTaskData(table, tableId, businessKey, taskIds, taskNames, taskKeys, String.join(",", assigneeIds), String.join(",", assigneeNames), processState, null);
+        flowService.updateBusinessTaskData(table, tableId, businessKey, taskIds, taskNames, taskKeys, taskAssigneeIds.get("assigneeIds"), assigneeNames, taskAssigneeIds.get("currentAssigneeType"), processState, null);
     }
 
     /**
@@ -368,14 +378,14 @@ public class FlowableUtils {
         String taskIds = list.stream().map(Task::getId).collect(Collectors.joining(","));
         String taskNames = list.stream().map(Task::getName).collect(Collectors.joining(","));
         String taskKeys = list.stream().map(Task::getTaskDefinitionKey).collect(Collectors.joining(","));
-        List<String> assigneeIds = getTaskAssigneeIds(list);
-        List<String> assigneeNames = getTaskAssigneeNames(list);
+        Map<String, String> taskAssigneeIds = getTaskAssigneeIds(list);
+        String assigneeNames = getTaskAssigneeNames(list);
         // 撤回到第一个节点
         if ("sq".equals(sourceRef)) {
             processState = SystemConstant.PROCESS_START;
         }
         // 更新任务节点相关信息
-        flowService.updateBusinessTaskData(table, tableId, businessKey, taskIds, taskNames, taskKeys, String.join(",", assigneeIds), String.join(",", assigneeNames), processState, null);
+        flowService.updateBusinessTaskData(table, tableId, businessKey, taskIds, taskNames, taskKeys, taskAssigneeIds.get("assigneeIds"), assigneeNames, taskAssigneeIds.get("currentAssigneeType"), processState, null);
     }
 
     /**
@@ -608,10 +618,14 @@ public class FlowableUtils {
      * @param list
      * @return
      */
-    public List<String> getTaskAssigneeIds(List<Task> list) {
+    public Map<String, String> getTaskAssigneeIds(List<Task> list) {
+        Map<String, String> map = new HashedMap();
+        // TODO 此处设置类型 未考虑到多节点会签，目前全部是一个节点按顺序执行，不会出现同一条数据多个任务节点
+        String type = null;
         List<String> result = new ArrayList<>();
         for (Task task : list) {
             if (!StringUtils.isEmpty(task.getAssignee())) {
+                type = "assignee";
                 result.add(task.getAssignee());
                 continue;
             }
@@ -619,14 +633,18 @@ public class FlowableUtils {
             if (CollectionUtil.isNotEmpty(identityLinks)) {
                 for (IdentityLinkEntityImpl identity : identityLinks) {
                     if (!StringUtils.isEmpty(identity.getUserId())) {
+                        type = "assignee";
                         result.add(identity.getUserId());
                     } else if (!StringUtils.isEmpty(identity.getGroupId())) {
+                        type = "candidate";
                         result.add(identity.getGroupId());
                     }
                 }
             }
         }
-        return result;
+        map.put("currentAssigneeType", type);
+        map.put("assigneeIds", String.join(",", result));
+        return map;
     }
 
     /**
@@ -635,7 +653,7 @@ public class FlowableUtils {
      * @param list
      * @return
      */
-    public List<String> getTaskAssigneeNames(List<Task> list) {
+    public String getTaskAssigneeNames(List<Task> list) {
         List<String> result = new ArrayList<>();
         for (Task task : list) {
             if (!StringUtils.isEmpty(task.getAssignee())) {
@@ -656,7 +674,7 @@ public class FlowableUtils {
                 }
             }
         }
-        return result;
+        return String.join(",", result);
     }
 
     /**

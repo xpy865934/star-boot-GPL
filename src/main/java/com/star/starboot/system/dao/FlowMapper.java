@@ -27,7 +27,7 @@ public interface FlowMapper extends BaseMapper<Flow> {
      */
     void updateBusinessData(@Param("table") String table, @Param("tableId") String tableId, @Param("businessKey") String businessKey,
                             @Param("processInstanceId") String processInstanceId, @Param("processDefinitionId") String processDefinitionId,
-                            @Param("taskIds") String taskIds, @Param("taskNames") String taskNames, @Param("taskKeys") String taskKeys, @Param("assigneeIds") String assigneeIds, @Param("assigneeNames") String assigneeNames, @Param("processState") Integer processState);
+                            @Param("taskIds") String taskIds, @Param("taskNames") String taskNames, @Param("taskKeys") String taskKeys, @Param("assigneeIds") String assigneeIds, @Param("assigneeNames") String assigneeNames, @Param("currentAssigneeType") String currentAssigneeType, @Param("processState") Integer processState);
 
     /**
      * 更新业务数据任务相关信息
@@ -38,5 +38,5 @@ public interface FlowMapper extends BaseMapper<Flow> {
      * @param taskNames
      */
     void updateBusinessTaskData(@Param("table") String table, @Param("tableId") String tableId, @Param("businessKey") String businessKey,
-                                @Param("taskIds") String taskIds, @Param("taskNames") String taskNames, @Param("taskKeys") String taskKeys, @Param("assigneeIds") String assigneeIds, @Param("assigneeNames") String assigneeNames, @Param("processState") Integer processState, @Param("assignee") String assignee);
+                                @Param("taskIds") String taskIds, @Param("taskNames") String taskNames, @Param("taskKeys") String taskKeys, @Param("assigneeIds") String assigneeIds, @Param("assigneeNames") String assigneeNames, @Param("currentAssigneeType") String currentAssigneeType, @Param("processState") Integer processState, @Param("assignee") String assignee);
 }

@@ -22,12 +22,12 @@ public class FlowServiceImpl extends ServiceImpl<FlowMapper, Flow> implements Fl
     private FlowMapper flowMapper;
 
     @Override
-    public void updateBusinessData(String table, String tableId, String businessKey, String processInstanceId, String processDefinitionId, String taskIds, String taskNames, String taskKeys, String assigneeIds, String assigneeNames, Integer processState) {
-        flowMapper.updateBusinessData(table, tableId, businessKey, processInstanceId, processDefinitionId, taskIds, taskNames, taskKeys, assigneeIds, assigneeNames, processState);
+    public void updateBusinessData(String table, String tableId, String businessKey, String processInstanceId, String processDefinitionId, String taskIds, String taskNames, String taskKeys, String assigneeIds, String assigneeNames, String currentAssigneeType, Integer processState) {
+        flowMapper.updateBusinessData(table, tableId, businessKey, processInstanceId, processDefinitionId, taskIds, taskNames, taskKeys, assigneeIds, assigneeNames, currentAssigneeType, processState);
     }
 
     @Override
-    public void updateBusinessTaskData(String table, String tableId, String businessKey, String taskIds, String taskNames, String taskKeys, String assigneeIds, String assigneeNames, Integer processState, String assignee) {
-        flowMapper.updateBusinessTaskData(table, tableId, businessKey, taskIds, taskNames, taskKeys, assigneeIds, assigneeNames, processState, assignee);
+    public void updateBusinessTaskData(String table, String tableId, String businessKey, String taskIds, String taskNames, String taskKeys, String assigneeIds, String assigneeNames, String currentAssigneeType, Integer processState, String assignee) {
+        flowMapper.updateBusinessTaskData(table, tableId, businessKey, taskIds, taskNames, taskKeys, assigneeIds, assigneeNames, currentAssigneeType, processState, assignee);
     }
 }
