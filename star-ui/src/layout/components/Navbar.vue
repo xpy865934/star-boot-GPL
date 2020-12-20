@@ -11,12 +11,33 @@
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
+          <el-dropdown-item divided>
+            <el-badge :value="msgUnReadCount">
+              <span style="display:block;" @click="readMsg">{{ $t('navbar.message') }}</span>
+            </el-badge>
+          </el-dropdown-item>
+          <el-dropdown-item divided>
+            <span style="display:block;" @click="changePassword">{{ $t('navbar.changePassword') }}</span>
+          </el-dropdown-item>
           <el-dropdown-item @click.native="logout">
-            <span style="display:block;">{{ this.$t('common.loginOut') }}</span>
+            <span style="display:block;">{{ this.$t('common.logout') }}</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
+    <!-- 审核 -->
+    <dialog-window
+      ref="changePasswordWindow"
+      current-window="changePasswordWindow"
+      :row="editRow"
+      :add-row-visible="addRowVisible"
+      :disabled="addRowDisabled"
+      :action="action"
+      :width="dialogWidth.small"
+      :body-scroll="false"
+      :is-flow="false"
+      @update="addRowUpdate(arguments)"
+    />
   </div>
 </template>
 
@@ -24,18 +45,33 @@
 import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
+import dialogWindow from '../../views/common/dialogWindow'
 
 export default {
   components: {
     Breadcrumb,
-    Hamburger
+    Hamburger,
+    dialogWindow
+  },
+  data() {
+    return {
+      // 用户控制新增修改
+      editRow: {},
+      // 显示新增修改对话框
+      addRowVisible: false,
+      // 控制表单是否可以操作
+      addRowDisabled: false,
+      action: '',
+      dialogWidth: this.$config.dialogWidth
+    }
   },
   computed: {
     ...mapGetters([
       'sidebar',
       'avatar',
       'userName',
-      'userCode'
+      'userCode',
+      'msgUnReadCount'
     ])
   },
   methods: {
@@ -43,8 +79,50 @@ export default {
       this.$store.dispatch('app/toggleSideBar')
     },
     async logout() {
-      await this.$store.dispatch('user/loginOut')
+      await this.$store.dispatch('user/logout')
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+    },
+    /**
+     * 显示消息框
+     */
+    readMsg() {
+      this.$router.push({ path: '/message' })
+    },
+    changePassword() {
+      this.editRow = {}
+      this.action = 'changePassword'
+      this.addRowVisible = true
+      this.addRowDisabled = false
+    },
+    addRowUpdate(value) {
+      // 将值拷贝一份，否则下方的更新可能会影响值
+      const val = JSON.parse(JSON.stringify(value))
+      // 第二个参数是传出来的值
+      if (val[1]) {
+        // 自己的处理逻辑
+        const bean = val[1]
+        // 修改
+        this.$store.dispatch('user/changePassword', bean).then((res) => {
+          // 第一个参数是显不显示对话框
+          this.addRowVisible = val[0]
+          // 清空
+          this.editRow = {} // 需要置空，否则会导致页面清空，但是变量里面的数据还在
+          this.$refs.changePasswordWindow.clearFields()
+          // 修改成功
+          this.$message({
+            type: 'success',
+            message: this.$t('common.changePasswordSuccess')
+          })
+          this.logout()
+        }).catch(() => {
+        })
+      } else {
+        // 第一个参数是显不显示对话框
+        this.addRowVisible = val[0]
+        // 清空
+        this.editRow = {} // 需要置空，否则会导致页面清空，但是变量里面的数据还在
+        this.$refs.changePasswordWindow.clearFields()
+      }
     }
   }
 }

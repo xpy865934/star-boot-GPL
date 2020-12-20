@@ -26,12 +26,12 @@ export function getUserInfo(params) {
 /**
  * 用户退出
  */
-export function loginOut() {
-  return request.get('/common/loginOut', {}, false)
+export function logout() {
+  return request.get('/common/logout', {}, false)
 }
 
 /**
- * 用户退出
+ * 用户分页查询
  */
 export function queryPager(params) {
   return request.post('/users/queryPager', params, false)
@@ -43,4 +43,11 @@ export function queryPager(params) {
  */
 export function deleteById(data) {
   return request.get('/users/deleteById/' + data.userId, {}, true)
+}
+
+/**
+ * 更新密码
+ */
+export function changePassword(params) {
+  return request.post('/users/changePassword', params, true)
 }

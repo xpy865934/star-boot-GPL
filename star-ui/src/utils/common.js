@@ -1,5 +1,6 @@
 // get brower
 import { getToken } from './auth'
+import store from '@/store'
 
 export function getCurrentBrowser() {
   const ua = navigator.userAgent.toLocaleLowerCase()
@@ -109,9 +110,9 @@ export function getFileUrl(url, fileId) {
            fileId +
            '&token=' +
            getToken() +
-           '&client=client:' +
+           '&client=' +
            getCurrentBrowser() +
-           '&os=os:' +
+           '&os=' +
            getOs()
   )
 }
@@ -423,4 +424,33 @@ export function multiply(a, b) {
 export function divide(a, b) {
   // 除
   return operation(a, b, 'divide')
+}
+
+/**
+ * 判断当前是否是处理人
+ * @param {*} assignees
+ * @param {*} assigneeeType
+ */
+export function accessAssignee(assignees, assigneeeType) {
+  var userId = store.getters.userId
+  var roles = store.getters.roles
+  if (assigneeeType && assignees) {
+    if (assigneeeType === 'assignee') {
+      return assignees.indexOf(userId) > -1
+    } else if (assigneeeType === 'candidate') {
+      var assigneesArray = assignees.split(',')
+      for (const assignee in assigneesArray) {
+        for (const role in roles) {
+          if (role === assignee) {
+            return true
+          }
+        }
+      }
+      return false
+    } else {
+      return false
+    }
+  } else {
+    return false
+  }
 }

@@ -68,6 +68,7 @@ public class UsersController extends AbstractController {
     public Result getUserInfo(){
         UsersDto userInfo = ShiroUtils.build().getUserInfo();
         if(!StringUtils.isEmpty(userInfo)){
+            // 该处不可删除，在ShiroUtils.build().getUserInfo();中虽然把角色和权限信息加入进去，但是部分时候获取的为空，所以此处不可以删除
             SimpleAuthorizationInfo authorizationInfo = authorizationRealm.getUserAuthorizationInfo(SecurityUtils.getSubject().getPrincipals());
             if(!StringUtils.isEmpty(authorizationInfo.getRoles())){
                 userInfo.setRoles(authorizationInfo.getRoles());
@@ -107,5 +108,17 @@ public class UsersController extends AbstractController {
         return Result.success(list);
     }
 
+
+    /**
+     * 修改密码
+     * @return
+     */
+    @ApiOperation(value = "修改密码")
+    @PostMapping("/changePassword")
+    @SysLog(description = "修改密码")
+    public Result changePassword(@RequestBody UsersDto usersDto){
+        usersService.changePassword(usersDto);
+        return Result.success();
+    }
 }
 

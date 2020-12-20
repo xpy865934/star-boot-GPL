@@ -75,6 +75,12 @@ public class AbstractEntity implements Serializable {
     private String currentAssigneeNames;
 
     /**
+     * 当前处理人类型 assignee  candidate
+     */
+    @TableField("CURRENT_ASSIGNEE_TYPE")
+    private String currentAssigneeType;
+
+    /**
      * 当前任务keys
      */
     @TableField("TASK_KEYS")
