@@ -7,14 +7,14 @@
         select msg.*,user.USER_NAME as fromName from t_message msg
         left join t_users user on msg.FROM_ID = user.USER_ID
         where msg.DELETED_CODE = 0 and msg.MEMBER_ID = #{message.memberId}
-        <if test="message.read!=null">
-            and msg.read = #{message.read}
+        <if test="message.messageRead!=null">
+            and msg.MESSAGE_READ = #{message.messageRead}
         </if>
         <if test="message.title!=null and message.title !=''">
             and msg.title like concat('%',#{message.title},'%')
         </if>
-        <if test="message.message!=null and message.message !=''">
-            and msg.message like concat('%',#{message.message},'%')
+        <if test="message.sysMessage!=null and message.sysMessage !=''">
+            and msg.SYS_MESSAGE like concat('%',#{message.sysMessage},'%')
         </if>
         order by msg.CREATE_AT desc
     </select>
@@ -26,7 +26,7 @@
         order by msg.CREATE_AT desc
     </select>
     <select id="getMsgCount" resultType="java.util.Map">
-        select message.read,count(*) as count from t_message message where message.DELETED_CODE = 0 and message.MEMBER_ID = #{userId} group by message.read
+        select message.MESSAGE_READ,count(*) as count from t_message message where message.DELETED_CODE = 0 and message.MEMBER_ID = #{userId} group by message.MESSAGE_READ
     </select>
     <select id="getNotifyId" resultType="java.lang.Integer">
         select distinct msg.notify_id from t_message msg
