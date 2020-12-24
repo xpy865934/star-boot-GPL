@@ -14,7 +14,16 @@ export default {
     dict: '数据字典',
     syslog: '系统日志',
     department: '组织架构',
-    resources: '菜单管理'
+    resources: '菜单管理',
+    customerHouseInfo: '住宅信息',
+    customerHousePlan: '方案设计',
+    contractManagement: '合同管理',
+    afterSalesManagement: '售后管理',
+    contractInfo: '合同信息',
+    afterSalesInfo: '售后信息',
+    equipment: '设备管理',
+    afterSalesCommission: '售后提成',
+    message: '消息'
   },
   common: {
     searchCondition: '查询条件',
@@ -204,5 +213,96 @@ export default {
     cCode: '公司',
     thirdparty: '第三方登录',
     thirdpartyTips: '本地不能模拟，请结合自己业务进行模拟！！！'
+  },
+  /**
+   * 售后管理
+   */
+  afterSales: {
+    type: '类型',
+    orderDate: '预约日期',
+    reportUser: '报修人',
+    classify: '分类',
+    submitContent: '报修内容',
+    repairUser: '维修人',
+    allocMaster: '分配师傅',
+    updateRepairContent: '施工',
+    workingHoursCost: '工时费',
+    amountReceivable: '应收金额',
+    amountReceived: '实收金额',
+    oldPhoto: '施工前',
+    newPhoto: '施工后',
+    replaceContent: '更换的配件',
+    replaceCost: '配件支出',
+    repairContent: '施工内容',
+    otherPhoto: '其他图片',
+    afterSalesCode: '售后编号',
+    submitImg: '报修图片',
+    submitDate: '报修日期',
+    period: '是否过保',
+    allocUser: '派单人',
+    repairProcess: '维修进度',
+    doorCost: '上门费',
+    repairCost: '维修费',
+    installCost: '安装费',
+    materialCost: '材料费',
+    maintainCost: '保养费',
+    sfTotal: '合计',
+    nextMaintain: '下次保养',
+    workerSold: '工人提成',
+    afterSalesSold: '售后提成',
+    salesManSold: '业务员提成',
+    cost: '成本',
+    remark: '备注',
+    verifyRepairContent: '提成',
+    profit: '利润',
+    repairDate: '维修日期'
+  },
+  /**
+   * 设备管理
+   */
+  equipment: {
+    brand: '品牌',
+    equipmentCode: '设备编号',
+    machineType: '机种',
+    type: '类型',
+    model: '型号',
+    unit: '单位',
+    specs: '规格',
+    standingStock: '常备库存',
+    remark: '备注',
+    addPrice: '价格',
+    aprice: 'A价格',
+    dprice: 'D价格',
+    dquotedPrice: 'D供价',
+    createAt: '创建时间',
+    viewPrice: '记录',
+    equipmentUnique: '设备名称'
+  },
+  /**
+   * 提成
+   */
+  commission: {
+    paymentDate: '日期',
+    soldUserId: '提成人员',
+    money: '金额',
+    content: '提成内容',
+    settle: '是否已结清',
+    settleClear: '结清',
+    settleDate: '结清时间',
+    settleUserId: '操作人'
+  },
+  /**
+   * 消息
+   */
+  message: {
+    status: '状态',
+    title: '标题',
+    secondTitle: '二级标题',
+    fromId: '发送人',
+    sysMessage: '内容',
+    memberId: '接收人',
+    oneRead: '一键已读',
+    readTime: '读取时间',
+    messageRead: '已读'
   }
 }

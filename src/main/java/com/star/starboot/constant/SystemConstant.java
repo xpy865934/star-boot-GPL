@@ -12,6 +12,47 @@ package com.star.starboot.constant;
 public class SystemConstant {
     // 流程图
     public static final String KHGL  = "KHGL";
+    /**
+     * 方案设计
+     */
+    public static final String DESIGN  = "DESIGN";
+    /**
+     * 项目流程
+     */
+    public static final String PROJECT = "PROJECT";
+    /**
+     * 售后流程
+     */
+    public static final String AFTERSALES = "AFTERSALES";
+
+    /**
+     * 售后流程节点
+     */
+    public enum  AFTERSALESNODES {
+        /**
+         * 维修
+         */
+        wx("wx"),
+
+        /**
+         * 分配安装师傅
+         */
+        fpazsf("fpazsf"),
+
+        /**
+         * 审核
+         */
+        sh("sh");
+        /**
+         * 节点名称
+         */
+        private String name;
+
+        AFTERSALESNODES(String name) {
+            this.name = name;
+        }
+
+    }
 
     /**
      * 流程状态  1  申请  2  审批中  3 结束
@@ -20,6 +61,86 @@ public class SystemConstant {
     public static final Integer PROCESS_APPROVING = 2;
     public static final Integer PROCESS_COMPLETE = 3;
 
+    /**
+     * 配置表及方案设计类型
+     */
+    public static final String CUSTOMER_PLAN = "customerPlan";
+    public static final String CONFIG_TABLE = "configTable";
+    public static final String PLAN_DRAW = "planDraw";
+
+    /**
+     * 项目状态
+     */
+    public enum  ProjectStatus {
+        /**
+         * 申请
+         */
+        CREATE("1", "申请"),
+        /**
+         * 设计
+         */
+        DESIGN("2", "设计");
+
+        /**
+         * 项目状态代码
+         */
+        private String status;
+        /**
+         * 项目状态名
+         */
+        private String name;
+
+
+        public String getStatus() {
+            return status;
+        }
+
+        ProjectStatus(String status, String name) {
+            this.status = status;
+            this.name = name;
+        }
+
+    }
+
+    /**
+     * 提成类型
+     */
+    public enum  CommissionType {
+        /**
+         * 售后提成
+         */
+        AFTERSALES("01", "售后提成");
+
+        /**
+         * 提成类型代码
+         */
+        private String status;
+        /**
+         * 提成类型名称
+         */
+        private String name;
+
+
+        public String getStatus() {
+            return status;
+        }
+
+        CommissionType(String status, String name) {
+            this.status = status;
+            this.name = name;
+        }
+
+    }
+
+    /**
+     * 已结清
+     */
+    public static final String SETTLE_CLEAR = "02";
+
+    /**
+     * 未结清
+     */
+    public static final String NO_SETTLE_CLEAR = "01";
 
     /**
      * 年月日格式化
@@ -54,7 +175,7 @@ public class SystemConstant {
     /**
      * 在职
      */
-    public static final Integer WORKING =0;
+    public static final String WORKING = "01";
 
 
     /**
