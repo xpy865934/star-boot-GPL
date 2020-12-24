@@ -151,4 +151,33 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
         user.setPassword(password);
         usersMapper.updateById(user);
     }
+
+    @Override
+    public void insertOrUpdate(UsersDto usersDto) {
+        UsersDto userInfo = ShiroUtils.build().getUserInfo();
+        if(StringUtils.isEmpty(usersDto.getUserId())){
+            // 保存
+            usersDto.setCreateBy(userInfo.getUserId());
+            // 设置默认密码
+            // 默认算法是SHA-512
+            DefaultHashService hashService = new DefaultHashService();
+
+            // 如果是注册用户   判断需要：IOS
+            String defaultPassword = "123456";
+            // 设置加密方式、加密对象、盐值
+            HashRequest request = new HashRequest.Builder().setAlgorithmName("MD5")
+                    .setSource(ByteSource.Util.bytes(defaultPassword)).setSalt(ByteSource.Util.bytes("888888"))
+                    .setIterations(2).build();
+            String initPassword = hashService.computeHash(request).toHex();
+            usersDto.setSalt("888888");
+            usersDto.setPassword(initPassword);
+
+        }
+        this.saveOrUpdate(usersDto);
+    }
+
+    @Override
+    public UsersDto queryById(String userId) {
+        return usersMapper.queryById(userId);
+    }
 }

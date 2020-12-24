@@ -1,10 +1,20 @@
 package com.star.starboot.system.controller;
 
 
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.star.starboot.annotation.SysLog;
 import com.star.starboot.common.controller.AbstractController;
+import com.star.starboot.common.vo.Result;
+import com.star.starboot.system.dto.UsersReRolesDto;
+import com.star.starboot.system.entity.UsersReRoles;
+import com.star.starboot.system.service.UsersReRolesService;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
@@ -16,7 +26,39 @@ import com.star.starboot.common.controller.AbstractController;
  */
 @RestController
 @RequestMapping("/usersReRoles")
+@CrossOrigin
+@Slf4j
 public class UsersReRolesController extends AbstractController {
 
+    @Autowired
+    private UsersReRolesService usersReRolesService;
+
+
+    /**
+     * 获取用户所有的角色信息
+     * @return
+     */
+    @ApiOperation("获取用户所有的角色信息")
+    @PostMapping("/getRolesByUserId")
+    @SysLog(description = "获取用户所有的角色信息")
+    public Result getRolesByUserId(@RequestBody UsersReRolesDto usersReRolesDto){
+        LambdaQueryWrapper<UsersReRoles> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(UsersReRoles::getUserId, usersReRolesDto.getUserId());
+        List<UsersReRoles> list = usersReRolesService.list(wrapper);
+        return Result.success(list);
+    }
+
+    /**
+     * 保存用户和角色关系
+     * @return
+     */
+    @ApiOperation("保存用户和角色关系")
+    @PostMapping("/save")
+    @RequiresPermissions("usersReRoles_save")
+    @SysLog(description = "保存用户和角色关系")
+    public Result save(@RequestBody UsersReRolesDto usersReRolesDto){
+        usersReRolesService.inserOrUpdate(usersReRolesDto);
+        return Result.success();
+    }
 }
 

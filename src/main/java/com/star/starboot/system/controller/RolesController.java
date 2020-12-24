@@ -108,5 +108,17 @@ public class RolesController extends AbstractController {
         rolesReResourcesService.save(roleId,checked);
         return Result.success();
     }
+
+    /**
+     * 获取该公司下所有的角色信息 不分页
+     * @return
+     */
+    @ApiOperation(value = "获取该公司下所有的角色信息 不分页")
+    @PostMapping("/getListByCompantId")
+    @SysLog(description = "获取该公司下所有的角色信息 不分页")
+    public Result getListByCompantId(@RequestBody RolesDto rolesDto){
+        List<RolesDto> list = rolesService.getListByCompantId(rolesDto.getCompanyId());
+        return Result.success(list);
+    }
 }
 

@@ -1,6 +1,4 @@
-import {
-  getDepartmentTree
-} from '@/api/department'
+import { getDepartmentTree, getListByCompanyId } from '@/api/department'
 
 const getDefaultState = () => {
   return {}
@@ -19,6 +17,22 @@ const actions = {
   getDepartmentTree({ commit }, params) {
     return new Promise((resolve, reject) => {
       getDepartmentTree(params)
+        .then(response => {
+          const data = response.data
+          resolve(data)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  },
+  /**
+   * 根据公司查询部门列表
+   * @param {*} params
+   */
+  getListByCompanyId({ commit }, params) {
+    return new Promise((resolve, reject) => {
+      getListByCompanyId(params)
         .then(response => {
           const data = response.data
           resolve(data)

@@ -51,3 +51,26 @@ export function deleteById(data) {
 export function changePassword(params) {
   return request.post('/users/changePassword', params, true)
 }
+
+/**
+ * 保存用户
+ * @param {*} params
+ */
+export function save(params) {
+  return request.post('/users/save', params, false)
+}
+
+/**
+ * 修改用户
+ * @param {*} params
+ */
+export function update(params) {
+  return request.post('/users/update', params, false)
+}
+
+/**
+ * 用户分页查询
+ */
+export function queryById(params) {
+  return request.get('/users/queryById/' + params.userId, {}, false)
+}

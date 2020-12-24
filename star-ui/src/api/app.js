@@ -31,3 +31,11 @@ export function downloadFile(params) {
   window.open(url)
 }
 
+/**
+ * 根据所有公司列表
+ * @param {*} params
+ */
+export function getCompanyList(params) {
+  return request.post('/company/getList', params, true)
+}
+

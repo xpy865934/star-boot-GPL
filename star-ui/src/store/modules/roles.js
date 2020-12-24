@@ -1,4 +1,4 @@
-import { queryPager, deleteById, save, update, getResourcesByRoleTid, updateRoleResources } from '@/api/roles'
+import { queryPager, deleteById, save, update, getResourcesByRoleTid, updateRoleResources, getRoleListByCompanyId, getRolesByUserId, saveUserReRoles } from '@/api/roles'
 
 const getDefaultState = () => {
   return {}
@@ -97,6 +97,55 @@ const actions = {
         .then(response => {
           const data = response.data
           resolve(data)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  },
+  /**
+   * 根据公司id获取角色列表
+   * @param {*} param0
+   * @param {*} params
+   */
+  getRoleListByCompanyId({ commit }, params) {
+    return new Promise((resolve, reject) => {
+      getRoleListByCompanyId(params)
+        .then(response => {
+          const data = response.data
+          resolve(data)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  },
+  /**
+   * 根据用户id获取角色信息
+   * @param {*} param0
+   * @param {*} params
+   */
+  getRolesByUserId({ commit }, params) {
+    return new Promise((resolve, reject) => {
+      getRolesByUserId(params)
+        .then(response => {
+          const data = response.data
+          resolve(data)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  },
+  /**
+   * 保存用户角色资源
+   * @param {*} params
+   */
+  saveUserReRoles({ commit }, params) {
+    return new Promise((resolve, reject) => {
+      saveUserReRoles(params)
+        .then(response => {
+          resolve(response)
         })
         .catch(error => {
           reject(error)

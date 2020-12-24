@@ -41,4 +41,11 @@ public interface RolesService extends IService<Roles> {
      * @return
      */
     List<RolesDto> getByIds(List<String> candidateGroups);
+
+    /**
+     * 获取公司下面的角色信息
+     * @param companyId
+     * @return
+     */
+    List<RolesDto> getListByCompantId(String companyId);
 }

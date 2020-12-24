@@ -135,8 +135,18 @@ export default {
     userName: '姓名',
     tel: '联系方式',
     email: '邮箱',
+    userSex: '性别',
     lastLoginIp: '最后一次登录ip',
-    lastLoginDate: '最后一次登录日期'
+    lastLoginDate: '最后一次登录日期',
+    companyPosition: '职务',
+    birthday: '出生日期',
+    credentialsCode: '身份证号码',
+    qq: 'qq',
+    wx: '微信',
+    working: '在职情况',
+    company: '公司',
+    department: '部门',
+    role: '角色'
   },
   // 角色管理
   roles: {

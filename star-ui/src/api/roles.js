@@ -42,3 +42,27 @@ export function getResourcesByRoleTid(params) {
 export function updateRoleResources(params) {
   return request.post('/roles/updateRoleResources', params, true)
 }
+
+/**
+ * 根据公司id获取角色列表
+ * @param {*} params
+ */
+export function getRoleListByCompanyId(params) {
+  return request.post('/roles/getListByCompantId', params, true)
+}
+
+/**
+ * 根据用户id获取角色信息
+ * @param {*} params
+ */
+export function getRolesByUserId(params) {
+  return request.post('/usersReRoles/getRolesByUserId', params, true)
+}
+
+/**
+ * 保存用户角色信息
+ * @param {*} params
+ */
+export function saveUserReRoles(params) {
+  return request.post('/usersReRoles/save', params, true)
+}
