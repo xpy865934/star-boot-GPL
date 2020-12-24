@@ -39,7 +39,7 @@ public class MessageController extends AbstractController {
      * @return
      */
     @ApiOperation(value = "分页获取该用户的个人消息")
-    @PostMapping("/getUserMessageList")
+    @PostMapping("/getUserMessagePager")
     @SysLog(description = "分页获取该用户的个人消息")
     public Result getUserMessagePager(@RequestBody JSONObject param) {
         Integer current = param.getInteger("current");

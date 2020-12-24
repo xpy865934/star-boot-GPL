@@ -102,10 +102,10 @@ public class Users extends AbstractEntity {
     @TableField("PASSWORD_CHANGE")
     private Date passwordChange;
     /**
-     * 在职情况  1 离职 0 在职
+     * 在职情况  02 离职 01 在职
      */
     @TableField("WORKING")
-    private Integer working;
+    private String working;
     /**
      * 盐
      */

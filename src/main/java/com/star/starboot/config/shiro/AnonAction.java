@@ -27,6 +27,23 @@ public class AnonAction {
         put("/users/getUserInfo*", "anon");
         put("/users/queryList*", "anon");
         put("/firstDict/getFirstDictAll*", "anon");
+        put("/customerHouses/getHousesByCustomerInfoId*", "anon");
+        put("/customerHouses/queryCustomerHousesInfo*", "anon");
+        put("/customerInfo/checkTel*", "anon");
+        put("/customerHousesProject/queryVersion*", "anon");
+        put("/customerHousesProject/queryPlanAndConfigTable*", "anon");
+        put("/afterSales/queryById*", "anon");
+        put("/equipment/queryById*", "anon");
+        put("/appConfig/getAppVersion*", "anon");
+        put("/appConfig/downloadAppUpdate*", "anon");
+        put("/commission/queryTotalByUserId*", "anon");
+        put("/company/getList*", "anon");
+        put("/department/getListByCompanyId*", "anon");
+        put("/users/queryById*", "anon");
+        put("/roles/getListByCompantId*", "anon");
+        put("/usersReRoles/getRolesByUserId*", "anon");
+        put("/websocket/*", "anon");
+        put("/commission/queryUserCommissionPager*", "anon");
 
         // 下面shiro不拦截，交给FLowableLoginAdapter去拦截进行操作
         put("/app/**", "anon");

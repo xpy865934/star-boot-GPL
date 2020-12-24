@@ -1,4 +1,4 @@
-import { login, register, getUserInfo, logout, queryPager, deleteById, changePassword } from '@/api/user'
+import { login, register, getUserInfo, logout, queryPager, deleteById, changePassword, update, save, queryById } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { getCurrentBrowser, getOs } from '../../utils/common'
 import { resetRouter } from '@/router'
@@ -201,6 +201,54 @@ const actions = {
       changePassword(params)
         .then(response => {
           resolve(response)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  },
+  /**
+     * 修改用户
+     * @param {*} param0
+     * @param {*} params
+     */
+  update({ commit }, params) {
+    return new Promise((resolve, reject) => {
+      update(params)
+        .then(response => {
+          resolve(response)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  },
+  /**
+     * 保存用户
+     * @param {*} param0
+     * @param {*} params
+     */
+  save({ commit }, params) {
+    return new Promise((resolve, reject) => {
+      save(params)
+        .then(response => {
+          resolve(response)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  },
+  /**
+   * 根据id查询
+   * @param {*} params
+   */
+  queryById({ commit }, params) {
+    return new Promise((resolve, reject) => {
+      queryById(params)
+        .then(response => {
+          const data = response.data
+          resolve(data)
         })
         .catch(error => {
           reject(error)

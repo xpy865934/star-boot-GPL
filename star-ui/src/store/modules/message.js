@@ -1,4 +1,4 @@
-import { getDepartmentTree, getListByCompanyId } from '@/api/department'
+import { getUserMessagePager, upadteUserMessageRead, updateAllRead } from '@/api/message'
 
 const getDefaultState = () => {
   return {}
@@ -11,12 +11,12 @@ const mutations = {
 
 const actions = {
   /**
-   * 查询组织架构树
+   * 分页查询
    * @param {*} params
    */
-  getDepartmentTree({ commit }, params) {
+  getUserMessagePager({ commit }, params) {
     return new Promise((resolve, reject) => {
-      getDepartmentTree(params)
+      getUserMessagePager(params)
         .then(response => {
           const data = response.data
           resolve(data)
@@ -27,15 +27,29 @@ const actions = {
     })
   },
   /**
-   * 根据公司查询部门列表
+   * 更新消息为已读
    * @param {*} params
    */
-  getListByCompanyId({ commit }, params) {
+  upadteUserMessageRead({ commit }, params) {
     return new Promise((resolve, reject) => {
-      getListByCompanyId(params)
+      upadteUserMessageRead(params)
         .then(response => {
-          const data = response.data
-          resolve(data)
+          resolve(response)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  },
+  /**
+   * 一键已读
+   * @param {*} params
+   */
+  updateAllRead({ commit }, params) {
+    return new Promise((resolve, reject) => {
+      updateAllRead(params)
+        .then(response => {
+          resolve(response)
         })
         .catch(error => {
           reject(error)

@@ -40,4 +40,9 @@ public class RolesServiceImpl extends ServiceImpl<RolesMapper, Roles> implements
     public List<RolesDto> getByIds(List<String> candidateGroups) {
         return rolesMapper.getByIds(candidateGroups);
     }
+
+    @Override
+    public List<RolesDto> getListByCompantId(String companyId) {
+        return rolesMapper.getListByCompantId(companyId);
+    }
 }

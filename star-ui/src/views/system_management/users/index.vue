@@ -23,6 +23,9 @@
         </el-row>
       </el-collapse-item>
     </el-collapse>
+    <el-row class="collapse-next-row">
+      <el-button v-if="$access('users_save')" :type="addButton" :size="buttonSize" @click="add">{{ $t('common.newAdd') }}</el-button>
+    </el-row>
     <x-table
       id="xTable"
       :total="total"
@@ -35,12 +38,20 @@
       @handleIndexChange="handleIndexChange"
       @handleSelectionChange="handleSelectionChange"
     />
+    <user-management-add ref="addUserManagement" :row="editRow" :add-row-visible="addRowVisible" :disabled="addRowDisabled" @update="addRowUpdate(arguments)" />
+    <user-management-role-add ref="addUserManagementRole" :row="editRowRole" :add-row-visible="addRowVisibleRole" @update="addRowUpdateRole(arguments)" />
   </div>
 </template>
 
 <script>
+import userManagementAdd from './window'
+import userManagementRoleAdd from './roleAddWindow'
 export default {
   name: 'Users',
+  components: {
+    userManagementAdd,
+    userManagementRoleAdd
+  },
   data() {
     return {
       urlList: {
@@ -50,6 +61,17 @@ export default {
       activeNames: ['1'],
       // 搜索form
       searchForm: {},
+      // 用户控制新增修改
+      editRow: {},
+      // 显示新增修改对话框
+      addRowVisible: false,
+      // 控制表单是否可以操作
+      addRowDisabled: false,
+
+      // 角色数据
+      editRowRole: {},
+      addRowVisibleRole: false,
+
       // 表格数据
       tableData: [],
       // table 的参数
@@ -129,10 +151,29 @@ export default {
         fixed: 'right',
         list: [
           {
+            // 查看
+            label: this.$t('common.view'),
+            type: 'primary',
+            icon: 'el-icon-view',
+            show: true,
+            method: (index, row) => {
+              // 查看
+              this.editRow = row
+              this.addRowVisible = true
+              this.addRowDisabled = true
+            }
+          },
+          {
             // 编辑
             label: this.$t('common.edit'),
             type: 'primary',
-            show: false,
+            showFun: (index, row) => {
+              if (this.$access('users_update')) {
+                return true
+              } else {
+                return false
+              }
+            },
             icon: 'el-icon-edit',
             method: (index, row) => {
               // 编辑
@@ -142,11 +183,29 @@ export default {
             }
           },
           {
+            // 分配角色
+            label: this.$t('users.role'),
+            type: 'primary',
+            showFun: (index, row) => {
+              if (this.$access('usersReRoles_save')) {
+                return true
+              } else {
+                return false
+              }
+            },
+            icon: 'el-icon-edit',
+            method: (index, row) => {
+              // 分配角色
+              this.editRowRole = row
+              this.addRowVisibleRole = true
+            }
+          },
+          {
             // 删除
             label: this.$t('common.delete'),
             type: 'danger',
             showFun: (index, row) => {
-              if (this.$access('usersDeleted')) {
+              if (this.$access('users_deleteById')) {
                 return true
               } else {
                 return false
@@ -192,6 +251,11 @@ export default {
 
   },
   methods: {
+    add() {
+      this.editRow = {}
+      this.addRowVisible = true
+      this.addRowDisabled = false
+    },
     /**
      * 查询
      */
@@ -240,6 +304,85 @@ export default {
       * 选中
       */
     handleSelectionChange(val) {
+    },
+    addRowUpdate(value) {
+      // 将值拷贝一份，否则下方的更新可能会影响值
+      const val = JSON.parse(JSON.stringify(value))
+      // 第二个参数是传出来的值
+      if (val[1]) {
+        // 自己的处理逻辑
+        const bean = val[1]
+        if (bean.userId) {
+          // 修改
+          this.$store.dispatch('user/update', bean).then((res) => {
+            // 第一个参数是显不显示对话框
+            this.addRowVisible = val[0]
+            // 清空
+            this.editRow = {} // 需要置空，否则会导致页面清空，但是变量里面的数据还在
+            this.$refs.addUserManagement.clearFields()
+            // 修改成功
+            this.$message({
+              type: 'success',
+              message: this.$t('common.editSuccess')
+            })
+            // 刷新数据
+            this.getPagerData(this.pagination.pageIndex, this.pagination.pageSize, this.searchForm)
+          }).catch(() => {
+          })
+        } else {
+          // 新增
+          this.$store.dispatch('user/save', bean).then((res) => {
+            // 第一个参数是显不显示对话框
+            this.addRowVisible = val[0]
+            // 清空
+            this.editRow = {} // 需要置空，否则会导致页面清空，但是变量里面的数据还在
+            this.$refs.addUserManagement.clearFields()
+            // 新增成功
+            this.$message({
+              type: 'success',
+              message: this.$t('common.addSuccess')
+            })
+            // 刷新数据
+            this.getPagerData(this.pagination.pageIndex, this.pagination.pageSize, this.searchForm)
+          }).catch(() => {
+          })
+        }
+      } else {
+        // 第一个参数是显不显示对话框
+        this.addRowVisible = val[0]
+        // 清空
+        this.editRow = {} // 需要置空，否则会导致页面清空，但是变量里面的数据还在
+        this.$refs.addUserManagement.clearFields()
+      }
+    },
+    addRowUpdateRole(value) {
+      // 将值拷贝一份，否则下方的更新可能会影响值
+      const val = JSON.parse(JSON.stringify(value))
+      // 第二个参数是传出来的值
+      if (val[1]) {
+        // 自己的处理逻辑
+        const bean = val[1]
+        // 修改角色信息
+        this.$store.dispatch('roles/saveUserReRoles', { userId: bean.userId, roles: bean.roles }).then((res) => {
+          // 第一个参数是显不显示对话框
+          this.addRowVisibleRole = val[0]
+          // 清空
+          this.editRowRole = {} // 需要置空，否则会导致页面清空，但是变量里面的数据还在
+          this.$refs.addUserManagementRole.clearFields()
+          // 修改成功
+          this.$message({
+            type: 'success',
+            message: this.$t('common.editSuccess')
+          })
+        }).catch(() => {
+        })
+      } else {
+        // 第一个参数是显不显示对话框
+        this.addRowVisibleRole = val[0]
+        // 清空
+        this.editRowRole = {} // 需要置空，否则会导致页面清空，但是变量里面的数据还在
+        this.$refs.addUserManagementRole.clearFields()
+      }
     }
   }
 }

@@ -93,6 +93,7 @@ public class AppMessageSendImpl  implements MessageSend {
             }
 
             SingleMessage message = new SingleMessage();
+            message.setStrategyJson("{\"default\":4,\"ios\":4,\"st\":4}");
             message.setOffline(true);
             message.setOfflineExpireTime(1000 * 60 * 60 * 24);  // 时间单位为毫秒
 
@@ -155,6 +156,7 @@ public class AppMessageSendImpl  implements MessageSend {
 //        alertMsg.addLocArg("loc-ary1");
 //        alertMsg.setLaunchImage("调用已经在应用程序中绑定的图形文件名");
         // iOS8.2以上版本支持
+        alertMsg.setSubtitle(pushMessage.getSecondTitle());
         alertMsg.setTitle(pushMessage.getTitle());
 //        alertMsg.setTitleLocKey("自定义通知标题");
 //        alertMsg.addTitleLocArg("自定义通知标题组");

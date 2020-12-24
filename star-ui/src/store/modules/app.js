@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie'
-import { getFirstDictAll, getUserList, getFLowNodes, downloadFile } from '@/api/app'
+import { getFirstDictAll, getUserList, getFLowNodes, downloadFile, getCompanyList } from '@/api/app'
 
 const state = {
   sidebar: {
@@ -10,7 +10,8 @@ const state = {
   },
   device: 'desktop',
   firstDict: {},
-  userList: []
+  userList: [],
+  companyList: []
 }
 
 const mutations = {
@@ -43,6 +44,9 @@ const mutations = {
   },
   SET_USER_LIST: (state, userList) => {
     state.userList = userList
+  },
+  SET_COMPANY_LIST: (state, companyList) => {
+    state.companyList = companyList
   }
 }
 
@@ -125,9 +129,25 @@ const actions = {
         })
     })
   },
+  // 获取公司列表
+  getCompanyList({ commit }, params) {
+    return new Promise((resolve, reject) => {
+      getCompanyList(params)
+        .then(response => {
+          const data = response.data
+          commit('SET_COMPANY_LIST', data)
+          resolve(data)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  },
   initStore(params) {
     this.dispatch('app/getFirstDictAll', {})
     this.dispatch('app/getUserList', {})
+    this.dispatch('app/getCompanyList', {})
+    this.dispatch('customerHouses/queryCustomerHousesInfo', {})
   }
 }
 

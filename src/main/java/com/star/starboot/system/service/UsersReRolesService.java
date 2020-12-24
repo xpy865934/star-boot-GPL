@@ -1,6 +1,7 @@
 package com.star.starboot.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.star.starboot.system.dto.UsersReRolesDto;
 import com.star.starboot.system.entity.UsersReRoles;
 
 /**
@@ -13,4 +14,9 @@ import com.star.starboot.system.entity.UsersReRoles;
  */
 public interface UsersReRolesService extends IService<UsersReRoles> {
 
+    /**
+     * 保存
+     * @param usersReRolesDto
+     */
+    void inserOrUpdate(UsersReRolesDto usersReRolesDto);
 }

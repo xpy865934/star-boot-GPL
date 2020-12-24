@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.star.starboot.system.dto.UsersDto;
 import com.star.starboot.system.entity.Users;
+import org.flowable.spring.security.UserDto;
 
 import java.util.List;
 
@@ -72,4 +73,17 @@ public interface UsersService extends IService<Users> {
      * @param usersDto
      */
     void changePassword(UsersDto usersDto);
+
+    /**
+     * 保存用户信息
+     * @param usersDto
+     */
+    void insertOrUpdate(UsersDto usersDto);
+
+    /**
+     * 根据id查询
+     * @param userId
+     * @return
+     */
+    UsersDto queryById(String userId);
 }

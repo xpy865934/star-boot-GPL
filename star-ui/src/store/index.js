@@ -11,6 +11,13 @@ import dict from './modules/dict'
 import syslog from './modules/syslog'
 import department from './modules/department'
 import resources from './modules/resources'
+import customerInfo from './modules/customerInfo'
+import customerHouses from './modules/customerHouses'
+import customerHousesProject from './modules/customerHousesProject'
+import afterSales from './modules/afterSales'
+import equipment from './modules/equipment'
+import commission from './modules/commission'
+import message from './modules/message'
 
 Vue.use(Vuex)
 
@@ -25,7 +32,14 @@ const store = new Vuex.Store({
     dict,
     department,
     syslog,
-    tagsView
+    tagsView,
+    customerInfo,
+    customerHouses,
+    customerHousesProject,
+    afterSales,
+    equipment,
+    commission,
+    message
   },
   getters
 })

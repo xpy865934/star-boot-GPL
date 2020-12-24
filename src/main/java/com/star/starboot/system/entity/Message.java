@@ -3,7 +3,9 @@ package com.star.starboot.system.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.star.starboot.common.entity.AbstractEntity;
+import com.star.starboot.constant.SystemConstant;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -44,12 +46,13 @@ public class Message extends AbstractEntity {
     /**
      * 是否已读  1 已读 0 未读
      */
-    @TableField("READ")
-    private Integer read;
+    @TableField("MESSAGE_READ")
+    private Integer messageRead;
     /**
      * 阅读时间
      */
     @TableField("READ_TIME")
+    @JsonFormat(pattern = SystemConstant.FULL_DATE_PATTERN, timezone = "GMT+8")
     private Date readTime;
     /**
      * APP消息内容

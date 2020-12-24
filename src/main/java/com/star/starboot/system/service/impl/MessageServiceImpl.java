@@ -56,7 +56,7 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
         Message msg = new Message();
         msg.setMessageId(message.getMessageId());
         msg.setReadTime(new Date());
-        msg.setRead(1);
+        msg.setMessageRead(1);
         messageMapper.updateById(msg);
     }
 
@@ -67,7 +67,7 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
         wrapper.eq(Message::getMemberId, usersDto.getUserId());
         Message msg = new Message();
         msg.setReadTime(new Date());
-        msg.setRead(1);
+        msg.setMessageRead(1);
         messageMapper.update(msg, wrapper);
     }
 
@@ -119,6 +119,7 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
                 // 发送消息
                 Message message = new Message();
                 message.setTitle(title);
+                message.setSecondTitle(secondTitle);
                 message.setAppMessage(content);
                 message.setSysMessage(content);
                 message.setEmailMessage(content);

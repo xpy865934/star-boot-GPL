@@ -1,12 +1,18 @@
 package com.star.starboot.system.controller;
 
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import com.alibaba.fastjson.JSONObject;
+import com.star.starboot.annotation.SysLog;
 import com.star.starboot.common.controller.AbstractController;
+import com.star.starboot.common.vo.Result;
+import com.star.starboot.system.entity.Company;
+import com.star.starboot.system.service.CompanyService;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
@@ -22,5 +28,19 @@ import com.star.starboot.common.controller.AbstractController;
 @Slf4j
 public class CompanyController extends AbstractController {
 
+    @Autowired
+    private CompanyService companyService;
+
+    /**
+     * 获取所有的公司信息
+     * @return
+     */
+    @ApiOperation("获取所有的公司列表，不分页")
+    @PostMapping("/getList")
+    @SysLog(description = "获取所有的公司列表，不分页")
+    public Result getList(@RequestBody JSONObject param){
+        List<Company> list = companyService.list();
+        return Result.success(list);
+    }
 }
 

@@ -120,5 +120,44 @@ public class UsersController extends AbstractController {
         usersService.changePassword(usersDto);
         return Result.success();
     }
+
+
+    /**
+     * 保存用户信息
+     * @return
+     */
+    @ApiOperation(value = "保存用户信息")
+    @PostMapping("/save")
+    @RequiresPermissions("users_save")
+    @SysLog(description = "保存用户信息")
+    public Result save(@RequestBody UsersDto usersDto){
+        usersService.insertOrUpdate(usersDto);
+        return Result.success();
+    }
+
+    /**
+     * 更新用户信息
+     * @return
+     */
+    @ApiOperation(value = "更新用户信息")
+    @PostMapping("/update")
+    @RequiresPermissions("users_update")
+    @SysLog(description = "更新用户信息")
+    public Result update(@RequestBody UsersDto usersDto){
+        usersService.insertOrUpdate(usersDto);
+        return Result.success();
+    }
+
+    /**
+     * 根据id获取信息
+     * @return
+     */
+    @ApiOperation(value = "根据id获取信息")
+    @GetMapping("/queryById/{userId}")
+    @SysLog(description = "根据id获取信息")
+    public Result queryById(@PathVariable String userId){
+        UsersDto usersDto =  usersService.queryById(userId);
+        return Result.success(usersDto);
+    }
 }
 
