@@ -12,9 +12,9 @@
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
           <el-dropdown-item divided>
-            <el-badge :value="msgUnReadCount">
-              <span style="display:block;" @click="readMsg">{{ $t('navbar.message') }}</span>
-            </el-badge>
+            <!-- <el-badge :value="msgUnReadCount"> -->
+            <span style="display:block;" @click="readMsg">{{ $t('navbar.message') }}</span>
+            <!-- </el-badge> -->
           </el-dropdown-item>
           <el-dropdown-item divided>
             <span style="display:block;" @click="changePassword">{{ $t('navbar.changePassword') }}</span>
@@ -46,6 +46,7 @@ import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
 import dialogWindow from '../../views/common/dialogWindow'
+import { Notification } from 'element-ui'
 
 export default {
   components: {
@@ -71,8 +72,12 @@ export default {
       'avatar',
       'userName',
       'userCode',
-      'msgUnReadCount'
+      'msgUnReadCount',
+      'userId'
     ])
+  },
+  mounted() {
+    this.openWebsocket()
   },
   methods: {
     toggleSideBar() {
@@ -122,6 +127,38 @@ export default {
         // 清空
         this.editRow = {} // 需要置空，否则会导致页面清空，但是变量里面的数据还在
         this.$refs.changePasswordWindow.clearFields()
+      }
+    },
+    openWebsocket() {
+      var socket = null
+      if (typeof (WebSocket) === 'undefined') {
+        console.log('您的浏览器不支持WebSocket')
+      } else {
+        console.log('您的浏览器支持WebSocket')
+        var url = process.env.VUE_APP_BASE_API.substring(5)
+        socket = new WebSocket('ws:' + url + '/websocket/' + this.userId)
+        // 打开
+        socket.onopen = function() {
+          console.log('已打开')
+          socket.send('来自客户端的消息：' + new Date())
+        }
+        // 获的消息
+        socket.onmessage = function(msg) {
+          console.log(msg)
+          Notification({
+            title: '成功',
+            message: msg.data,
+            type: 'success'
+          })
+        }
+        // 关闭
+        socket.onclose = function() {
+          console.log('socket已关闭')
+        }
+        // 发生错误
+        socket.onerror = function() {
+          console.log('socket发生错误')
+        }
       }
     }
   }

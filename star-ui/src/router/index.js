@@ -49,7 +49,6 @@ export const constantRoutes = [
     component: () => import('@/views/404'),
     hidden: true
   },
-
   {
     path: '/',
     component: Layout,
@@ -60,6 +59,20 @@ export const constantRoutes = [
         name: 'dashboard',
         component: () => import('@/views/dashboard/index'),
         meta: { title: 'dashboard', icon: 'dashboard', noCache: true, affix: true }
+      }
+    ]
+  },
+  {
+    path: '/message',
+    component: Layout,
+    redirect: '/message',
+    hidden: true,
+    children: [
+      {
+        path: '/message',
+        component: () => import('@/views/message/message'),
+        name: 'message',
+        meta: { title: 'message' }
       }
     ]
   }
@@ -165,6 +178,18 @@ export const asyncRoutes = [
         access: ['ureportDesigner'],
         meta: {
           title: 'ureportDesigner'
+          // if do not set roles, means: this page does not require permission
+        }
+      },
+      // 售后提成
+      {
+        path: '/after_sales_commission',
+        component: () =>
+          import('@/views/afterSalesInfo/afterSalesCommission'),
+        name: 'afterSalesCommission',
+        access: ['afterSalesCommission'],
+        meta: {
+          title: 'afterSalesCommission'
           // if do not set roles, means: this page does not require permission
         }
       }
