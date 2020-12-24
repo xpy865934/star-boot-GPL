@@ -9,10 +9,8 @@ import com.star.starboot.system.dto.UsersDto;
 import com.star.starboot.system.entity.Flow;
 import com.star.starboot.system.entity.Roles;
 import com.star.starboot.system.entity.Users;
-import com.star.starboot.system.service.FlowService;
-import com.star.starboot.system.service.MessageService;
-import com.star.starboot.system.service.RolesService;
-import com.star.starboot.system.service.UsersService;
+import com.star.starboot.system.entity.UsersReRoles;
+import com.star.starboot.system.service.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.map.HashedMap;
 import org.flowable.bpmn.model.Process;
@@ -23,6 +21,7 @@ import org.flowable.engine.RepositoryService;
 import org.flowable.engine.RuntimeService;
 import org.flowable.engine.TaskService;
 import org.flowable.engine.history.HistoricProcessInstance;
+import org.flowable.engine.history.HistoricProcessInstanceQuery;
 import org.flowable.engine.runtime.Execution;
 import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.engine.runtime.ProcessInstanceBuilder;
@@ -34,6 +33,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -74,6 +75,9 @@ public class FlowableUtils {
 
     @Autowired
     private RolesService rolesService;
+
+    @Autowired
+    private UsersReRolesService usersReRolesService;
 
     /**
      * * 启动流程
@@ -236,11 +240,23 @@ public class FlowableUtils {
         }
         flowService.updateBusinessTaskData(table, tableId, businessKey, taskIds, taskNames, taskKeys, taskAssigneeIds.get("assigneeIds"), assigneeNames, taskAssigneeIds.get("currentAssigneeType"), processState, lastAssignee);
 
-
         // 发送通知给下一审批人
-        List<String> msglist =  new ArrayList<String>();
-        msglist.add("35d3bedafa5b9bafd921666f3e58fa5d");
-        messageService.sendMessage(msglist,userId,1,"测试消息","测试消息","测试消息",null,null);
+        Map<String, String> msgMap = this.generateAppMsg(processInstanceId, businessKey);
+        List<String> toslist = new ArrayList<>();
+        if("candidate".equals(taskAssigneeIds.get("currentAssigneeType"))){
+            List<String> roleslist = Arrays.asList(taskAssigneeIds.get("assigneeIds").split(","));
+            for (String roleId: roleslist) {
+                LambdaQueryWrapper<UsersReRoles> wrapper = new LambdaQueryWrapper<>();
+                wrapper.eq(UsersReRoles::getRoleId, roleId);
+                List<UsersReRoles> usersReRoles = usersReRolesService.list(wrapper);
+                for (UsersReRoles usersReRole :usersReRoles) {
+                    toslist.add(usersReRole.getUserId());
+                }
+            }
+        } else  if("assignee".equals(taskAssigneeIds.get("currentAssigneeType"))){
+            toslist = Arrays.asList(taskAssigneeIds.get("assigneeIds").split(","));
+        }
+        messageService.sendMessage(toslist,userId,SystemConstant.FLOWABLEMSG,msgMap.get("title"),msgMap.get("secondTitle"),msgMap.get("content"),msgMap.get("bindTable"),msgMap.get("dataId"));
     }
 
     /**
@@ -322,6 +338,24 @@ public class FlowableUtils {
         }
         // 更新任务节点相关信息
         flowService.updateBusinessTaskData(table, tableId, businessKey, taskIds, taskNames, taskKeys, taskAssigneeIds.get("assigneeIds"), assigneeNames, taskAssigneeIds.get("currentAssigneeType"), processState, null);
+
+        // 发送通知给下一审批人
+        Map<String, String> msgMap = this.generateAppMsg(processInstanceId, businessKey);
+        List<String> toslist = new ArrayList<>();
+        if("candidate".equals(taskAssigneeIds.get("currentAssigneeType"))){
+            List<String> roleslist = Arrays.asList(taskAssigneeIds.get("assigneeIds").split(","));
+            for (String roleId: roleslist) {
+                LambdaQueryWrapper<UsersReRoles> wrapper = new LambdaQueryWrapper<>();
+                wrapper.eq(UsersReRoles::getRoleId, roleId);
+                List<UsersReRoles> usersReRoles = usersReRolesService.list(wrapper);
+                for (UsersReRoles usersReRole :usersReRoles) {
+                    toslist.add(usersReRole.getUserId());
+                }
+            }
+        } else  if("assignee".equals(taskAssigneeIds.get("currentAssigneeType"))){
+            toslist = Arrays.asList(taskAssigneeIds.get("assigneeIds").split(","));
+        }
+        messageService.sendMessage(toslist,userId,SystemConstant.FLOWABLEMSG,msgMap.get("title"),msgMap.get("secondTitle"),msgMap.get("content"),msgMap.get("bindTable"),msgMap.get("dataId"));
     }
 
     /**
