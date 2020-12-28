@@ -1,5 +1,6 @@
 package com.star.starboot.system.service.impl;
 
+import cn.hutool.json.JSONUtil;
 import com.star.starboot.config.WebSocketServer;
 import com.star.starboot.constant.SystemConstant;
 import com.star.starboot.system.entity.Message;
@@ -22,6 +23,6 @@ public class SystemMessageSendImpl implements MessageSend {
 
     @Override
     public void sendMsg(List<String> tos, Message msg, String from) {
-        WebSocketServer.sendMsg(tos,msg.getSysMessage());
+        WebSocketServer.sendMsg(tos, JSONUtil.toJsonStr(msg));
     }
 }

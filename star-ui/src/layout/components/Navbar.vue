@@ -143,11 +143,12 @@ export default {
           socket.send('来自客户端的消息：' + new Date())
         }
         // 获的消息
-        socket.onmessage = function(msg) {
-          console.log(msg)
+        socket.onmessage = function(res) {
+          console.log(res)
+          const msg = JSON.parse(res.data)
           Notification({
-            title: '成功',
-            message: msg.data,
+            title: msg.title,
+            message: msg.sysMessage,
             type: 'success'
           })
         }

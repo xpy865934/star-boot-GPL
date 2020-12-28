@@ -212,4 +212,14 @@ public class SystemConstant {
      * 注册用户  判断需要：IOS
      */
     public static final Integer REGISTER = 1;
+
+    /**
+     * 流程提交通过
+     */
+    public static final String APPROVAL = "提交";
+
+    /**
+     * 流程提交退回
+     */
+    public static final String BACK = "退回";
 }

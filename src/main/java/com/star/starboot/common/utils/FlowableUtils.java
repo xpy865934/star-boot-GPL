@@ -1,8 +1,11 @@
 package com.star.starboot.common.utils;
 
 import cn.hutool.core.collection.CollectionUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.star.starboot.common.entity.AbstractEntity;
 import com.star.starboot.constant.SystemConstant;
+import com.star.starboot.customer.dto.CustomerHousesProjectDto;
+import com.star.starboot.customer.service.CustomerHousesProjectService;
 import com.star.starboot.exception.BusinessException;
 import com.star.starboot.system.dto.RolesDto;
 import com.star.starboot.system.dto.UsersDto;
@@ -21,7 +24,6 @@ import org.flowable.engine.RepositoryService;
 import org.flowable.engine.RuntimeService;
 import org.flowable.engine.TaskService;
 import org.flowable.engine.history.HistoricProcessInstance;
-import org.flowable.engine.history.HistoricProcessInstanceQuery;
 import org.flowable.engine.runtime.Execution;
 import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.engine.runtime.ProcessInstanceBuilder;
@@ -33,8 +35,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -241,7 +241,7 @@ public class FlowableUtils {
         flowService.updateBusinessTaskData(table, tableId, businessKey, taskIds, taskNames, taskKeys, taskAssigneeIds.get("assigneeIds"), assigneeNames, taskAssigneeIds.get("currentAssigneeType"), processState, lastAssignee);
 
         // 发送通知给下一审批人
-        Map<String, String> msgMap = this.generateAppMsg(processInstanceId, businessKey);
+        Map<String, String> msgMap = this.generateAppMsg(processInstanceId, businessKey, SystemConstant.APPROVAL);
         List<String> toslist = new ArrayList<>();
         if("candidate".equals(taskAssigneeIds.get("currentAssigneeType"))){
             List<String> roleslist = Arrays.asList(taskAssigneeIds.get("assigneeIds").split(","));
@@ -340,7 +340,7 @@ public class FlowableUtils {
         flowService.updateBusinessTaskData(table, tableId, businessKey, taskIds, taskNames, taskKeys, taskAssigneeIds.get("assigneeIds"), assigneeNames, taskAssigneeIds.get("currentAssigneeType"), processState, null);
 
         // 发送通知给下一审批人
-        Map<String, String> msgMap = this.generateAppMsg(processInstanceId, businessKey);
+        Map<String, String> msgMap = this.generateAppMsg(processInstanceId, businessKey, SystemConstant.BACK);
         List<String> toslist = new ArrayList<>();
         if("candidate".equals(taskAssigneeIds.get("currentAssigneeType"))){
             List<String> roleslist = Arrays.asList(taskAssigneeIds.get("assigneeIds").split(","));
@@ -737,5 +737,41 @@ public class FlowableUtils {
         } else {
             throw new BusinessException("无权限操作");
         }
+    }
+
+    /**
+     * 生成app发送的消息
+     * @return
+     */
+    private Map<String, String> generateAppMsg(String processInstanceId,String businessKey, String type){
+        Map<String, String> result = new HashedMap();
+        result.put("title","");
+        result.put("secondTitle","");
+        result.put("content","");
+        result.put("bindTable","");
+        result.put("dataId",businessKey);
+        HistoricProcessInstance historicProcessInstance = historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
+        String processDefinitionKey = historicProcessInstance.getProcessDefinitionKey();
+        switch (processDefinitionKey){
+            case SystemConstant.AFTERSALES:
+                AfterSalesService afterSalesService = ContextUtils.getBean(AfterSalesService.class);
+                AfterSalesDto afterSalesDto = afterSalesService.queryById(businessKey);
+                result.put("title",type + "-售后服务:" + afterSalesDto.getTaskNames());
+                result.put("secondTitle",afterSalesDto.getCustomerUnique());
+                result.put("content","(" + afterSalesDto.getCustomerUnique()+")有新的售后服务需要您处理，请及时登录系统处理！");
+                result.put("bindTable","t_after_sales");
+                break;
+            case SystemConstant.PROJECT:
+                CustomerHousesProjectService customerHousesProjectService = ContextUtils.getBean(CustomerHousesProjectService.class);
+                CustomerHousesProjectDto customerHousesProjectDto = customerHousesProjectService.queryById(businessKey);
+                result.put("title",type + "-" +customerHousesProjectDto.getTaskNames());
+                result.put("secondTitle",customerHousesProjectDto.getCustomerUnique());
+                result.put("content","(" + customerHousesProjectDto.getCustomerUnique()+")有新的项目流程需要您处理，请及时登录系统处理！");
+                result.put("bindTable","t_customer_houses_project");
+                break;
+            default:
+                break;
+        }
+        return result;
     }
 }
