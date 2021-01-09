@@ -616,6 +616,7 @@ public class FlowableUtils {
             Flow flow = new Flow();
             flow.setNodeId(historicTask.getTaskDefinitionKey());
             flow.setNodeName(historicTask.getName());
+            flow.setEndTime(historicTask.getEndTime());
             flow.setApprovalComments(approvalComments);
             Users assignee = usersService.getById(historicTask.getAssignee());
             if (!StringUtils.isEmpty(assignee)) {
