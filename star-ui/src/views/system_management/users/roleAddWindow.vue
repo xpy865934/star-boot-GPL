@@ -66,7 +66,7 @@ export default {
       rolesList: [],
       rules: {
         roles: [
-          { type: Array, required: true, message: this.$t('common.pleaseSelect') + this.$t('users.role'), trigger: 'change' }
+          { type: 'array', required: true, message: this.$t('common.pleaseSelect') + this.$t('users.role'), trigger: 'change' }
         ]
       }
     }
@@ -125,6 +125,9 @@ export default {
     },
     getUserRoleList(userId) {
       this.$store.dispatch('roles/getRolesByUserId', { userId: userId }).then((data) => {
+        if (this.$isEmpty(this.form.roles)) {
+          this.form.roles = []
+        }
         for (let i = 0; i < data.length; i++) {
           this.form.roles.push(data[i].roleId)
         }
