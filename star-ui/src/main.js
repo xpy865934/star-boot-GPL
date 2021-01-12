@@ -6,7 +6,7 @@ import 'normalize.css/normalize.css' // A modern alternative to CSS resets
 import ElementUI from 'element-ui'
 // import locale from 'element-ui/lib/locale/lang/zh-CN' // lang i18n
 import { Message } from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
+// import 'element-ui/lib/theme-chalk/index.css'
 
 import '@/styles/index.scss' // global css
 
@@ -32,9 +32,9 @@ import XTable from './xcomponents/XTable'
 Vue.use(XTable)
 
 // k-form-design
-import KFormDesign from 'k-form-design'
-import 'k-form-design/lib/k-form-design.css'
-Vue.use(KFormDesign)
+// import KFormDesign from 'k-form-design'
+// import 'k-form-design/lib/k-form-design.css'
+// Vue.use(KFormDesign)
 
 Vue.use(ElementUI, {
   i18n: (key, value) => i18n.t(key, value)

@@ -5,6 +5,18 @@ const defaultSettings = require('./src/settings.js')
 function resolve(dir) {
   return path.join(__dirname, dir)
 }
+const cdn = {
+  css: [
+    // element-ui css
+    'https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/theme-chalk/index.css'
+  ],
+  js: [
+    // vue must at first!
+    'https://cdn.bootcss.com/vue/2.6.10/vue.min.js',
+    // element-ui js
+    'https://cdn.bootcss.com/element-ui/2.13.2/index.js'
+  ]
+}
 
 const name = defaultSettings.title || 'vue Admin Template' // page title
 
@@ -46,9 +58,33 @@ module.exports = {
       alias: {
         '@': resolve('src')
       }
+    },
+    externals: {
+      vue: 'Vue',
+      'element-ui': 'ELEMENT',
+      'vue-router': 'VueRouter'
     }
   },
   chainWebpack(config) {
+    const cdn = {
+      css: [
+        // element-ui css
+        'https://unpkg.com/element-ui/lib/theme-chalk/index.css'
+      ],
+      js: [
+        // vue must at first!
+        'https://unpkg.com/vue/dist/vue.js',
+        // element-ui js
+        'https://unpkg.com/element-ui/lib/index.js',
+        // vue-router
+        'https://cdn.bootcss.com/vue-router/3.0.6/vue-router.min.js'
+      ]
+    }
+    config.plugin('html').tap(args => {
+      args[0].cdn = cdn
+      return args
+    })
+
     // it can improve the speed of the first screen, it is recommended to turn on preload
     config.plugin('preload').tap(() => [
       {
@@ -81,6 +117,10 @@ module.exports = {
       .end()
 
     config.when(process.env.NODE_ENV !== 'development', config => {
+      config.plugin('html').tap(args => {
+        args[0].cdn = cdn
+        return args
+      })
       config
         .plugin('ScriptExtHtmlWebpackPlugin')
         .after('html')
