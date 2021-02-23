@@ -268,6 +268,10 @@ public class FlowableUtils {
     @Transactional(rollbackFor = Exception.class)
     public void complete(AbstractEntity abstractEntity, String businessKey, String approvalComments) {
         checkFlowPermission(abstractEntity);
+        if(StringUtils.isEmpty(approvalComments)){
+            // 如果提交时不带意见，默认意见通过
+            approvalComments = "通过";
+        }
         this.taskComplete(abstractEntity.getProcessInstanceId(),businessKey,approvalComments);
     }
 

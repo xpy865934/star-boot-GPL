@@ -23,7 +23,7 @@
       </el-col>
     </el-row>
     <div style="text-align:right">
-      <el-button type="primary" :size="buttonSize" @click="ok('submit')">提 交</el-button>
+      <el-button type="primary" :size="buttonSize" @click="ok('submit')">通 过</el-button>
       <el-button v-if="viewForm.processState !== this.$config.PROCESS_STATE.COMPLETE && viewForm.processState !== this.$config.PROCESS_STATE.CREATE" type="primary" :size="buttonSize" @click="ok('back')">退 回</el-button>
     </div>
     <div>
@@ -97,7 +97,7 @@ export default {
       flowNodeList: [],
       rules: {
         approvalComments: [
-          { required: true, message: this.$t('common.pleaseInput') + this.$t('common.approvalComments'), trigger: 'change' }
+          { required: false, message: this.$t('common.pleaseInput') + this.$t('common.approvalComments'), trigger: 'change' }
         ]
       }
     }
