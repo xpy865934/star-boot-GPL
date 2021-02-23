@@ -52,6 +52,7 @@
 </template>
 
 <script>
+import { timeFix } from '@/utils/common'
 export default {
   name: 'Login',
   data() {
@@ -110,6 +111,11 @@ export default {
           this.$store.dispatch('user/login', this.loginForm).then(() => {
             this.loading = false
             this.$router.push({ path: this.redirect || '/' })
+            this.$notify.success({
+              title: '欢迎',
+              message: `${timeFix()}，欢迎回来`,
+              duration: 2500
+            })
           }).catch(() => {
             this.loading = false
           })
