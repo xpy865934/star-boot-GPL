@@ -44,7 +44,7 @@ export default {
     recallSuccess: '撤回成功',
     recallFailed: '撤回失败',
     increaseSuccess: '添加成功',
-    submit: '提交',
+    submit: '通过',
     recall: '撤回',
     delete: '删除',
 
