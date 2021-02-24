@@ -38,9 +38,9 @@ public class FileController {
      *
      * @return
      */
-    @ApiOperation("上传文件")
+    @ApiOperation(value = "文件服务-上传文件", notes = "文件服务-上传文件")
     @PostMapping("/upload")
-    @SysLog(description = "上传文件")
+    @SysLog(description = "文件服务-上传文件")
     public Result upload(@RequestParam MultipartFile file, @RequestParam @Nullable String parentDictName) {
         File upload = fileService.upload(file, parentDictName);
         return Result.success(upload);
@@ -52,9 +52,9 @@ public class FileController {
      *
      * @return
      */
-    @ApiOperation("下载文件")
+    @ApiOperation(value = "文件服务-下载文件", notes = "文件服务-下载文件")
     @GetMapping("/downloadFile")
-    @SysLog(description = "下载文件")
+    @SysLog(description = "文件服务-下载文件")
     public ResponseEntity<byte[]> downloadFile(String fileId, String token, HttpServletRequest request, HttpServletResponse response) {
         return fileService.download(fileId, request, response);
     }

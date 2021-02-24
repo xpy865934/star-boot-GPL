@@ -43,10 +43,10 @@ public class RolesController extends AbstractController {
      * 分页获取角色信息
      * @return
      */
-    @ApiOperation(value = "分页获取角色信息")
+    @ApiOperation(value = "角色信息-分页获取角色信息", notes = "角色信息-分页获取角色信息")
     @PostMapping("/queryPager")
     @RequiresPermissions("roles_queryPager")
-    @SysLog(description = "分页获取角色信息")
+    @SysLog(description = "角色信息-分页获取角色信息")
     public Result queryPager(@RequestBody JSONObject param){
         Integer current = param.getInteger("current");
         Integer size = param.getInteger("size");
@@ -59,10 +59,10 @@ public class RolesController extends AbstractController {
      * 保存角色信息
      * @return
      */
-    @ApiOperation(value = "保存角色信息")
+    @ApiOperation(value = "角色信息-保存角色信息", notes = "角色信息-保存角色信息")
     @PostMapping("/save")
     @RequiresPermissions("roles_save")
-    @SysLog(description = "保存角色信息")
+    @SysLog(description = "角色信息-保存角色信息")
     public Result save(@RequestBody RolesDto rolesDto){
         rolesService.saveOrUpdate(rolesDto);
         return Result.success();
@@ -72,10 +72,10 @@ public class RolesController extends AbstractController {
      * 更新角色信息
      * @return
      */
-    @ApiOperation(value = "更新角色信息")
+    @ApiOperation(value = "角色信息-更新角色信息", notes = "角色信息-更新角色信息")
     @PostMapping("/update")
     @RequiresPermissions("roles_update")
-    @SysLog(description = "更新角色信息")
+    @SysLog(description = "角色信息-更新角色信息")
     public Result update(@RequestBody RolesDto rolesDto){
         rolesService.saveOrUpdate(rolesDto);
         return Result.success();
@@ -85,10 +85,10 @@ public class RolesController extends AbstractController {
      * 根据角色id获取角色资源信息
      * @return
      */
-    @ApiOperation(value = "根据角色id获取角色资源信息")
+    @ApiOperation(value = "角色信息-根据角色id获取角色资源信息", notes = "角色信息-根据角色id获取角色资源信息")
     @PostMapping("/getResourcesByRoleTid")
     @RequiresPermissions("roles_getResourcesByRoleTid")
-    @SysLog(description = "根据角色id获取角色资源信息")
+    @SysLog(description = "角色信息-根据角色id获取角色资源信息")
     public Result getResourcesByRoleTid(@RequestBody RolesDto rolesDto){
         List<Resources> resources = rolesReResourcesService.getResourcesByRoleTid(rolesDto.getRoleId());
         return Result.success(resources);
@@ -98,10 +98,10 @@ public class RolesController extends AbstractController {
      * 更新角色资源信息
      * @return
      */
-    @ApiOperation(value = "更新角色资源信息")
+    @ApiOperation(value = "角色信息-更新角色资源信息", notes = "角色信息-更新角色资源信息")
     @PostMapping("/updateRoleResources")
     @RequiresPermissions("roles_updateRoleResources")
-    @SysLog(description = "更新角色资源信息")
+    @SysLog(description = "角色信息-更新角色资源信息")
     public Result updateRoleResources(@RequestBody JSONObject param){
         String roleId = param.getString("roleId");
         List<String> checked = param.getJSONArray("checked").toJavaList(String.class);
@@ -113,9 +113,9 @@ public class RolesController extends AbstractController {
      * 获取该公司下所有的角色信息 不分页
      * @return
      */
-    @ApiOperation(value = "获取该公司下所有的角色信息 不分页")
+    @ApiOperation(value = "角色信息-获取该公司下所有的角色信息 不分页", notes = "角色信息-获取该公司下所有的角色信息 不分页")
     @PostMapping("/getListByCompantId")
-    @SysLog(description = "获取该公司下所有的角色信息 不分页")
+    @SysLog(description = "角色信息-获取该公司下所有的角色信息 不分页")
     public Result getListByCompantId(@RequestBody RolesDto rolesDto){
         List<RolesDto> list = rolesService.getListByCompantId(rolesDto.getCompanyId());
         return Result.success(list);

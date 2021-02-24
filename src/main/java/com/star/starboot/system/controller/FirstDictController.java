@@ -37,10 +37,10 @@ public class FirstDictController extends AbstractController {
      * 分页获取一级字典信息
      * @return
      */
-    @ApiOperation("分页获取一级字典信息")
+    @ApiOperation(value = "一级字典-分页获取一级字典信息", notes = "一级字典-分页获取一级字典信息")
     @PostMapping("/queryPager")
     @RequiresPermissions("firstDict_queryPager")
-    @SysLog(description = "分页获取一级字典信息")
+    @SysLog(description = "一级字典-分页获取一级字典信息")
     public Result queryPager(@RequestBody JSONObject param){
         Integer current = param.getInteger("current");
         Integer size = param.getInteger("size");
@@ -53,10 +53,10 @@ public class FirstDictController extends AbstractController {
      * 保存一级字典信息
      * @return
      */
-    @ApiOperation("保存一级字典信息")
+    @ApiOperation(value = "一级字典-保存一级字典信息", notes = "一级字典-保存一级字典信息")
     @PostMapping("/save")
     @RequiresPermissions("firstDict_save")
-    @SysLog(description = "保存一级字典信息")
+    @SysLog(description = "一级字典-保存一级字典信息")
     public Result save(@RequestBody FirstDictDto firstDictDto){
         firstDictService.saveOrUpdate(firstDictDto);
         return Result.success();
@@ -66,10 +66,10 @@ public class FirstDictController extends AbstractController {
      * 更新一级字典信息
      * @return
      */
-    @ApiOperation("更新一级字典信息")
+    @ApiOperation(value = "一级字典-更新一级字典信息", notes = "一级字典-更新一级字典信息")
     @PostMapping("/update")
     @RequiresPermissions("firstDict_update")
-    @SysLog(description = "更新一级字典信息")
+    @SysLog(description = "一级字典-更新一级字典信息")
     public Result update(@RequestBody FirstDictDto firstDictDto){
         firstDictService.saveOrUpdate(firstDictDto);
         return Result.success();
@@ -80,8 +80,8 @@ public class FirstDictController extends AbstractController {
      * @return
      */
     @PostMapping("/getFirstDictAll")
-    @ApiOperation("获取所有一级代码信息")
-    @SysLog(description = "获取所有一级代码信息")
+    @ApiOperation(value = "一级字典-获取所有一级代码信息", notes = "一级字典-获取所有一级代码信息")
+    @SysLog(description = "一级字典-获取所有一级代码信息")
     public Result getDict(@RequestBody FirstDictDto firstDictDto){
         List<FirstDictDto> list = firstDictService.getFirstDictAll();
         return Result.success(list);

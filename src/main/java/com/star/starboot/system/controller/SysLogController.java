@@ -35,10 +35,10 @@ public class SysLogController extends AbstractController {
      * 分页获取系统日志信息
      * @return
      */
-    @ApiOperation("分页获取系统日志信息")
+    @ApiOperation(value = "系统日志-分页获取系统日志信息", notes = "系统日志-分页获取系统日志信息")
     @PostMapping("/queryPager")
     @RequiresPermissions("sysLog_queryPager")
-    @SysLog(description = "分页获取字典信息")
+    @SysLog(description = "系统日志-分页获取系统日志信息")
     public Result queryPager(@RequestBody JSONObject param){
         Integer current = param.getInteger("current");
         Integer size = param.getInteger("size");

@@ -38,9 +38,9 @@ public class UsersReRolesController extends AbstractController {
      * 获取用户所有的角色信息
      * @return
      */
-    @ApiOperation("获取用户所有的角色信息")
+    @ApiOperation(value = "用户和角色关联关系-获取用户所有的角色信息", notes = "用户和角色关联关系-获取用户所有的角色信息")
     @PostMapping("/getRolesByUserId")
-    @SysLog(description = "获取用户所有的角色信息")
+    @SysLog(description = "用户和角色关联关系-获取用户所有的角色信息")
     public Result getRolesByUserId(@RequestBody UsersReRolesDto usersReRolesDto){
         LambdaQueryWrapper<UsersReRoles> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(UsersReRoles::getUserId, usersReRolesDto.getUserId());
@@ -52,10 +52,10 @@ public class UsersReRolesController extends AbstractController {
      * 保存用户和角色关系
      * @return
      */
-    @ApiOperation("保存用户和角色关系")
+    @ApiOperation(value = "用户和角色关联关系-保存用户和角色关系", notes = "用户和角色关联关系-保存用户和角色关系")
     @PostMapping("/save")
     @RequiresPermissions("usersReRoles_save")
-    @SysLog(description = "保存用户和角色关系")
+    @SysLog(description = "用户和角色关联关系-保存用户和角色关系")
     public Result save(@RequestBody UsersReRolesDto usersReRolesDto){
         usersReRolesService.inserOrUpdate(usersReRolesDto);
         return Result.success();

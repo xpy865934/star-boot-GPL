@@ -18,7 +18,7 @@ import java.util.Map;
 
 /**
  * <p>
- * 消息 前端控制器
+ * 消息管理 前端控制器
  * </p>
  *
  * @author xpy
@@ -38,9 +38,9 @@ public class MessageController extends AbstractController {
      *
      * @return
      */
-    @ApiOperation(value = "分页获取该用户的个人消息")
+    @ApiOperation(value = "消息管理-分页获取该用户的个人消息", notes = "消息管理-分页获取该用户的个人消息")
     @PostMapping("/getUserMessagePager")
-    @SysLog(description = "分页获取该用户的个人消息")
+    @SysLog(description = "消息管理-分页获取该用户的个人消息")
     public Result getUserMessagePager(@RequestBody JSONObject param) {
         Integer current = param.getInteger("current");
         Integer size = param.getInteger("size");
@@ -54,7 +54,7 @@ public class MessageController extends AbstractController {
      *
      * @return
      */
-    @ApiOperation(value = "不分页获取该用户的个人消息")
+    @ApiOperation(value = "消息管理-不分页获取该用户的个人消息", notes = "消息管理-不分页获取该用户的个人消息")
     @PostMapping("/getUserMsgList")
     @SysLog(description = "不分页获取该用户的个人消息")
     public Result getUserMsgList(@RequestBody JSONObject param) {
@@ -68,9 +68,9 @@ public class MessageController extends AbstractController {
      *
      * @return
      */
-    @ApiOperation(value = "更新消息为已读")
+    @ApiOperation(value = "消息管理-更新消息为已读", notes = "消息管理-更新消息为已读")
     @PostMapping("/upadteUserMessageRead")
-    @SysLog(description = "更新消息为已读")
+    @SysLog(description = "消息管理-更新消息为已读")
     public Result upadteUserMessageRead(@RequestBody JSONObject params) {
         Message message = JSONObject.parseObject(params.toJSONString(), Message.class);
         messageService.upadteUserMessageRead(message);
@@ -82,9 +82,9 @@ public class MessageController extends AbstractController {
      *
      * @return
      */
-    @ApiOperation(value = "更新所有消息为已读")
+    @ApiOperation(value = "消息管理-更新所有消息为已读", notes = "消息管理-更新所有消息为已读")
     @PostMapping("/updateAllRead")
-    @SysLog(description = "更新所有消息为已读")
+    @SysLog(description = "消息管理-更新所有消息为已读")
     public Result updateAllRead(@RequestBody JSONObject params) {
         Message message = JSONObject.parseObject(params.toJSONString(), Message.class);
         messageService.updateAllRead(message);
@@ -96,9 +96,9 @@ public class MessageController extends AbstractController {
      *
      * @return
      */
-    @ApiOperation(value = "获取消息数量")
+    @ApiOperation(value = "消息管理-获取消息数量", notes = "消息管理-获取消息数量")
     @PostMapping("/getMsgCount")
-    @SysLog(description = "获取消息数量")
+    @SysLog(description = "消息管理-获取消息数量")
     public Result getMsgCount(@RequestBody JSONObject params) {
         List<Map<String, Integer>> list = messageService.getMsgCount();
         return Result.success(list);

@@ -41,10 +41,10 @@ public class DepartmentController extends AbstractController {
      *
      * @return
      */
-    @ApiOperation(value = "获取所有的组织架构信息树形菜单")
+    @ApiOperation(value = "组织架构-获取所有的组织架构信息树形菜单", notes = "组织架构-获取所有的组织架构信息树形菜单")
     @GetMapping("/getDepartmentTree")
     @RequiresPermissions("department_getDepartmentsTree")
-    @SysLog(description = "获取所有的组织架构信息树形菜单")
+    @SysLog(description = "组织架构-获取所有的组织架构信息树形菜单")
     public Result getDepartmentTree() {
         UsersDto userInfo = ShiroUtils.build().getUserInfo();
         List<CompanyDto> result = departmentService.getDepartmentTree(userInfo.getCompanyId());
@@ -55,9 +55,9 @@ public class DepartmentController extends AbstractController {
      * 根据公司id获取部门列表
      * @return
      */
-    @ApiOperation(value = "根据公司id获取部门列表")
+    @ApiOperation(value = "组织架构-根据公司id获取部门列表", notes = "组织架构-根据公司id获取部门列表")
     @PostMapping("/getListByCompanyId")
-    @SysLog(description = "根据公司id获取部门列表")
+    @SysLog(description = "组织架构-根据公司id获取部门列表")
     public Result getListByCompanyId(@RequestBody Department department){
         LambdaQueryWrapper<Department> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Department::getCompanyId, department.getCompanyId());

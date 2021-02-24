@@ -18,7 +18,7 @@ import java.util.List;
 
 /**
  * <p>
- * 用户菜单功能资源表 前端控制器
+ * 用户菜单功能资源 前端控制器
  * </p>
  *
  * @author xpy
@@ -37,10 +37,10 @@ public class ResourcesController extends AbstractController {
      * 获取资源列表
      * @return
      */
-    @ApiOperation(value = "获取资源列表")
+    @ApiOperation(value = "用户菜单功能资源-获取资源列表", notes = "用户菜单功能资源-获取资源列表")
     @PostMapping("/queryList")
     @RequiresPermissions("resources_queryList")
-    @SysLog(description = "获取资源列表")
+    @SysLog(description = "用户菜单功能资源-获取资源列表")
     public Result queryList(@RequestBody JSONObject param){
         ResourcesDto resourcesDto = param.getObject("bean", ResourcesDto.class);
         List<ResourcesDto> list = resourcesService.queryList(resourcesDto);
@@ -51,10 +51,10 @@ public class ResourcesController extends AbstractController {
      * 保存菜单资源信息
      * @return
      */
-    @ApiOperation(value = "保存菜单资源信息")
+    @ApiOperation(value = "用户菜单功能资源-保存菜单资源信息", notes = "用户菜单功能资源-保存菜单资源信息")
     @PostMapping("/save")
     @RequiresPermissions("resources_save")
-    @SysLog(description = "保存菜单资源信息")
+    @SysLog(description = "用户菜单功能资源-保存菜单资源信息")
     public Result save(@RequestBody ResourcesDto resourcesDto){
         resourcesService.saveOrUpdate(resourcesDto);
         return Result.success();
@@ -64,10 +64,10 @@ public class ResourcesController extends AbstractController {
      * 更新菜单资源信息
      * @return
      */
-    @ApiOperation(value = "更新菜单资源信息")
+    @ApiOperation(value = "用户菜单功能资源-更新菜单资源信息", notes = "用户菜单功能资源-更新菜单资源信息")
     @PostMapping("/update")
     @RequiresPermissions("resources_update")
-    @SysLog(description = "更新菜单资源信息")
+    @SysLog(description = "用户菜单功能资源-更新菜单资源信息")
     public Result update(@RequestBody ResourcesDto resourcesDto){
         resourcesService.saveOrUpdate(resourcesDto);
         return Result.success();
@@ -77,10 +77,10 @@ public class ResourcesController extends AbstractController {
      * 更新资源是否启用
      * @return
      */
-    @ApiOperation(value = "更新资源是否启用")
+    @ApiOperation(value = "用户菜单功能资源-更新资源是否启用", notes = "用户菜单功能资源-更新资源是否启用")
     @PostMapping("/updateUsed")
     @RequiresPermissions("resources_updateUsed")
-    @SysLog(description = "更新资源是否启用")
+    @SysLog(description = "用户菜单功能资源-更新资源是否启用")
     public Result updateUsed(@RequestBody ResourcesDto resourcesDto){
         Resources resources = new Resources();
         resources.setResourcesId(resourcesDto.getResourcesId());
@@ -94,10 +94,10 @@ public class ResourcesController extends AbstractController {
      * 删除资源
      * @return
      */
-    @ApiOperation(value = "删除资源")
+    @ApiOperation(value = "用户菜单功能资源-删除资源", notes = "用户菜单功能资源-删除资源")
     @GetMapping("/deleteById/{resourceId}")
     @RequiresPermissions("resources_deleteById")
-    @SysLog(description = "删除资源")
+    @SysLog(description = "用户菜单功能资源-删除资源")
     public Result deleteById(@PathVariable String resourceId){
         resourcesService.deleteById(resourceId);
         return Result.success();

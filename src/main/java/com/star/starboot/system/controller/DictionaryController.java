@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
- * 系统字典表 前端控制器
+ * 系统字典 前端控制器
  * </p>
  *
  * @author xpy
@@ -35,10 +35,10 @@ public class DictionaryController extends AbstractController {
      * 分页获取字典信息
      * @return
      */
-    @ApiOperation("分页获取字典信息")
+    @ApiOperation(value = "系统字典-分页获取字典信息", notes = "系统字典-分页获取字典信息")
     @PostMapping("/queryPager")
     @RequiresPermissions("dictionary_queryPager")
-    @SysLog(description = "分页获取字典信息")
+    @SysLog(description = "系统字典-分页获取字典信息")
     public Result queryPager(@RequestBody JSONObject param){
         Integer current = param.getInteger("current");
         Integer size = param.getInteger("size");
@@ -51,10 +51,10 @@ public class DictionaryController extends AbstractController {
      * 保存字典信息
      * @return
      */
-    @ApiOperation("保存字典信息")
+    @ApiOperation(value = "系统字典-保存字典信息", notes = "系统字典-保存字典信息")
     @PostMapping("/save")
     @RequiresPermissions("dictionary_save")
-    @SysLog(description = "保存字典信息")
+    @SysLog(description = "系统字典-保存字典信息")
     public Result save(@RequestBody DictionaryDto dictionaryDto){
         dictionaryService.saveOrUpdate(dictionaryDto);
         return Result.success();
@@ -64,10 +64,10 @@ public class DictionaryController extends AbstractController {
      * 更新字典信息
      * @return
      */
-    @ApiOperation("更新字典信息")
+    @ApiOperation(value = "系统字典-更新字典信息", notes = "系统字典-更新字典信息")
     @PostMapping("/update")
     @RequiresPermissions("dictionary_update")
-    @SysLog(description = "更新字典信息")
+    @SysLog(description = "系统字典-更新字典信息")
     public Result update(@RequestBody DictionaryDto dictionaryDto){
         dictionaryService.saveOrUpdate(dictionaryDto);
         return Result.success();
