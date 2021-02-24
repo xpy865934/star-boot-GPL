@@ -35,9 +35,9 @@ public class CompanyController extends AbstractController {
      * 获取所有的公司信息
      * @return
      */
-    @ApiOperation("获取所有的公司列表，不分页")
+    @ApiOperation(value = "公司信息-获取所有的公司列表，不分页",notes = "公司信息-获取所有的公司列表，不分页")
     @PostMapping("/getList")
-    @SysLog(description = "获取所有的公司列表，不分页")
+    @SysLog(description = "公司信息-获取所有的公司列表，不分页")
     public Result getList(@RequestBody JSONObject param){
         List<Company> list = companyService.list();
         return Result.success(list);

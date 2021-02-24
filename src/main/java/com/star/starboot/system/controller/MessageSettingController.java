@@ -37,10 +37,10 @@ public class MessageSettingController extends AbstractController {
      *
      * @return
      */
-    @ApiOperation(value = "修改系统消息接收人配置")
+    @ApiOperation(value = "消息配置-修改系统消息接收人配置", notes = "消息配置-修改系统消息接收人配置")
     @PostMapping("/update")
     @RequiresPermissions("message_setting_update")
-    @SysLog(description = "修改系统消息接收人配置")
+    @SysLog(description = "消息配置-修改系统消息接收人配置")
     public Result update(@RequestBody JSONObject params) {
         MessageSetting messageSetting = JSONObject.parseObject(params.toJSONString(), MessageSetting.class);
         messageSettingService.saveOrUpdate(messageSetting);
@@ -53,10 +53,10 @@ public class MessageSettingController extends AbstractController {
      *
      * @return
      */
-    @ApiOperation(value = "分页获取消息配置列表")
+    @ApiOperation(value = "消息配置-分页获取消息配置列表", notes = "消息配置-分页获取消息配置列表")
     @PostMapping("/getList")
     @RequiresPermissions("message_setting_view")
-    @SysLog(description = "分页获取消息配置列表")
+    @SysLog(description = "消息配置-分页获取消息配置列表")
     public Result queryPager(@RequestBody JSONObject param) {
         Integer current = param.getInteger("current");
         Integer size = param.getInteger("size");
