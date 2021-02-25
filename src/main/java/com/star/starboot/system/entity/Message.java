@@ -96,5 +96,10 @@ public class Message extends AbstractEntity {
      */
     @TableField("NOTIFY_ID")
     private Integer notifyId;
+    /**
+     * 流程key
+     */
+    @TableField("PROCESS_KEY")
+    private String processKey;
 
 }
