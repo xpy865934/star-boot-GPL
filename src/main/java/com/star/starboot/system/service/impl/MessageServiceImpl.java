@@ -78,7 +78,7 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
     }
 
     @Override
-    public void sendMessage(List<String> tos, String from, Integer type, String title, String secondTitle, String content, String bindTable, String dataId) {
+    public void sendMessage(List<String> tos, String from, Integer type, String title, String secondTitle, String content, String bindTable, String dataId, String processKey) {
         // 构建消息
         List<Message> list = new ArrayList<>();
         if(!StringUtils.isEmpty(tos) && tos.size()>0){
@@ -108,6 +108,7 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
                 message.setBindTable(bindTable);
                 message.setDataId(dataId);
                 message.setNotifyId(notifyId);
+                message.setProcessKey(processKey);
                 list.add(message);
             }
 

@@ -59,7 +59,7 @@ public interface MessageService extends IService<Message> {
      * @param type 类型，默认是1 普通消息
      * @param content 消息内容
      */
-    void sendMessage(List<String> tos,String from,Integer type, String title, String secondTitle, String content, String bindTable , String dataId);
+    void sendMessage(List<String> tos,String from,Integer type, String title, String secondTitle, String content, String bindTable , String dataId, String processKey);
 
     /**
      * 发送系统消息

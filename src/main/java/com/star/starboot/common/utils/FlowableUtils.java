@@ -130,7 +130,7 @@ public class FlowableUtils {
     @Transactional(rollbackFor = Exception.class)
     public void startAndComplete(String processInstanceName, String processKey, String businessKey, Map<String, Object> map, String userId) {
         ProcessInstance processInstance = this.startProcess(processInstanceName, processKey, businessKey, map, userId);
-        this.taskComplete(processInstance.getProcessInstanceId(), businessKey, "同意");
+        this.taskComplete(processKey, processInstance.getProcessInstanceId(), businessKey, "同意");
     }
 
     /**
@@ -186,7 +186,7 @@ public class FlowableUtils {
      * @param approvalComments
      */
     @Transactional(rollbackFor = Exception.class)
-    public void taskComplete(String processInstanceId, String businessKey, String approvalComments) {
+    public void taskComplete(String processKey, String processInstanceId, String businessKey, String approvalComments) {
         String userId = ShiroUtils.build().getUserInfo().getUserId();
         Integer processState = SystemConstant.PROCESS_APPROVING;
         String lastAssignee = userId;
@@ -256,7 +256,7 @@ public class FlowableUtils {
         } else  if("assignee".equals(taskAssigneeIds.get("currentAssigneeType"))){
             toslist = Arrays.asList(taskAssigneeIds.get("assigneeIds").split(","));
         }
-        messageService.sendMessage(toslist,userId,SystemConstant.FLOWABLEMSG,msgMap.get("title"),msgMap.get("secondTitle"),msgMap.get("content"),msgMap.get("bindTable"),msgMap.get("dataId"));
+        messageService.sendMessage(toslist,userId,SystemConstant.FLOWABLEMSG,msgMap.get("title"),msgMap.get("secondTitle"),msgMap.get("content"),msgMap.get("bindTable"),msgMap.get("dataId"), processKey);
     }
 
     /**
@@ -266,9 +266,13 @@ public class FlowableUtils {
      * @param approvalComments
      */
     @Transactional(rollbackFor = Exception.class)
-    public void complete(AbstractEntity abstractEntity, String businessKey, String approvalComments) {
+    public void complete(AbstractEntity abstractEntity, String processKey, String businessKey, String approvalComments) {
         checkFlowPermission(abstractEntity);
-        this.taskComplete(abstractEntity.getProcessInstanceId(),businessKey,approvalComments);
+        if(StringUtils.isEmpty(approvalComments)){
+            // 如果提交时不带意见，默认意见通过
+            approvalComments = "通过";
+        }
+        this.taskComplete(processKey,abstractEntity.getProcessInstanceId(),businessKey,approvalComments);
     }
 
 
@@ -279,7 +283,7 @@ public class FlowableUtils {
      * @param approvalComments
      */
     @Transactional(rollbackFor = Exception.class)
-    public void backLastNode(AbstractEntity abstractEntity, String businessKey, String approvalComments) {
+    public void backLastNode(AbstractEntity abstractEntity, String processKey, String businessKey, String approvalComments) {
         checkFlowPermission(abstractEntity);
         Integer processState = SystemConstant.PROCESS_APPROVING;
         String processInstanceId = abstractEntity.getProcessInstanceId();
@@ -355,7 +359,7 @@ public class FlowableUtils {
         } else  if("assignee".equals(taskAssigneeIds.get("currentAssigneeType"))){
             toslist = Arrays.asList(taskAssigneeIds.get("assigneeIds").split(","));
         }
-        messageService.sendMessage(toslist,userId,SystemConstant.FLOWABLEMSG,msgMap.get("title"),msgMap.get("secondTitle"),msgMap.get("content"),msgMap.get("bindTable"),msgMap.get("dataId"));
+        messageService.sendMessage(toslist,userId,SystemConstant.FLOWABLEMSG,msgMap.get("title"),msgMap.get("secondTitle"),msgMap.get("content"),msgMap.get("bindTable"),msgMap.get("dataId"), processKey);
     }
 
     /**
