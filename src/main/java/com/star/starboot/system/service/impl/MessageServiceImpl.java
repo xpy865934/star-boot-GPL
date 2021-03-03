@@ -127,6 +127,7 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
                 message.setBindTable(bindTable);
                 message.setDataId(dataId);
                 message.setNotifyId(notifyId);
+                message.setProcessKey(processKey);
                 this.send(SystemConstant.MSG_SYSTEM, tos, from, message);
                 this.send(SystemConstant.MSG_APP, tos, from, message);
                 this.send(SystemConstant.MSG_EMAIL, tos, from, message);
