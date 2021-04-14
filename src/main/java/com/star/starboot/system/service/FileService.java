@@ -30,4 +30,22 @@ public interface FileService extends IService<File> {
      * @return
      */
     ResponseEntity download(String fileId, HttpServletRequest request, HttpServletResponse response);
+
+    /**
+     * 下载视频缩略图
+     * @param fileId
+     * @param request
+     * @param response
+     * @return
+     */
+    ResponseEntity<byte[]> downloadVideoThumb(String fileId, HttpServletRequest request, HttpServletResponse response);
+
+    /**
+     * 视频文件播放
+     * @param fileId
+     * @param request
+     * @param response
+     * @return
+     */
+    void videoFile(String fileId, HttpServletRequest request, HttpServletResponse response);
 }

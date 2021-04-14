@@ -1,6 +1,7 @@
 package com.star.starboot.system.service.impl;
 
 
+import cn.hutool.core.util.ArrayUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.gson.Gson;
 import com.qiniu.http.Response;
@@ -9,21 +10,28 @@ import com.qiniu.storage.Region;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
+import com.star.starboot.common.utils.CommonUtils;
 import com.star.starboot.common.utils.DateUtils;
+import com.star.starboot.common.utils.VideoUtils;
+import com.star.starboot.config.aliyunoss.AliYunOssStsUtils;
 import com.star.starboot.system.dao.FileMapper;
 import com.star.starboot.system.entity.File;
 import com.star.starboot.system.service.FileService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.compress.utils.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.DigestUtils;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,7 +39,10 @@ import java.io.*;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -46,6 +57,10 @@ import java.util.Date;
 @Transactional(rollbackFor = Exception.class)
 public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements FileService {
 
+    /**
+     * 是否开阿里云上传
+     */
+    private Boolean isAliOss = false;
     /**
      * 是否开启七牛云上传
      */
@@ -68,12 +83,62 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
 
     private String uploadRelativePath = java.io.File.separator + "upload_file" + java.io.File.separator;
 
+    /**
+     * 视频文件扩展名
+     */
+    private String[] extendFiles = new String[]{"mp4","avi", "wmv", "mpg", "mpeg", "mov", "rm", "ram", "swf", "flv", "rmvb"};
+
+    @Autowired
+    private AliYunOssStsUtils aliYunOssStsUtils;
+
     @Override
     public File upload(MultipartFile file, String parentDictName) {
         try {
             String newName = rename(file.getOriginalFilename());
 
-            if(isQiNiuYun){
+            if(isAliOss){
+                String dir = uploadRelativePath + java.io.File.separator + DateUtils.getCurrentYear() + java.io.File.separator
+                        + DateUtils.getCurrentMonth() + java.io.File.separator;
+                if(!StringUtils.isEmpty(parentDictName)){
+                    dir = dir + parentDictName + java.io.File.separator;
+                }
+                String dirName = AliYunOssStsUtils.OSS_ROOT_PATH.concat(dir + java.io.File.separator + newName);
+                String tmpDirName = uploadPhysicalPath + dir + java.io.File.separator + newName;
+
+                java.io.File newFile = new java.io.File(tmpDirName);
+                if (!newFile.getParentFile().exists()) {
+                    newFile.getParentFile().mkdirs();
+                }
+                newFile.createNewFile();
+                file.transferTo(newFile);
+
+                //上传  此处文件流只能被读取一次，再次读取会报错 文件找不到
+                aliYunOssStsUtils.uploadObjectToOss("1L",dirName,newFile);
+
+                File dbFile = new File();
+                dbFile.setAbsolutePath(AliYunOssStsUtils.OSS_ROOT_PATH);
+                dbFile.setFileSize(file.getSize());
+
+                // 文件类型
+                String extendName = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
+                dbFile.setFileType(extendName);
+                // 源名称
+                dbFile.setOldName(file.getOriginalFilename());
+                // 新名称
+                dbFile.setRealName(newName);
+                // 相对路径
+                dbFile.setRelativePath(dir);
+
+                // 判断是否是视频，视频需要生成缩略图
+                if(ArrayUtil.contains(extendFiles, extendName.toLowerCase())){
+                    generateThumb(dbFile);
+                }
+                fileMapper.insert(dbFile);
+
+                // 删除临时文件
+                newFile.delete();
+                return dbFile;
+            } else if(isQiNiuYun){
                 // 上传
                 upload(file.getBytes(),newName);
 
@@ -90,6 +155,12 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
                 dbFile.setRealName(newName);
                 // 相对路径
                 dbFile.setRelativePath(null);
+
+                // 判断是否是视频，视频需要生成缩略图
+                if(ArrayUtil.contains(extendFiles, extendName)){
+                    generateThumb(dbFile);
+                }
+
                 fileMapper.insert(dbFile);
                 return dbFile;
             } else {
@@ -119,6 +190,11 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
                 dbFile.setRealName(newName);
                 // 相对路径
                 dbFile.setRelativePath(dir);
+
+                // 判断是否是视频，视频需要生成缩略图
+                if(ArrayUtil.contains(extendFiles, extendName.toLowerCase())){
+                    generateThumb(dbFile);
+                }
                 fileMapper.insert(dbFile);
                 return dbFile;
             }
@@ -130,8 +206,23 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
     @Override
     public ResponseEntity download(String fileId, HttpServletRequest request, HttpServletResponse response) {
         com.star.starboot.system.entity.File file = fileMapper.selectById(fileId);
-
-        if(isQiNiuYun){
+        if(isAliOss){
+            // 阿里云下载
+            String urlStr = aliYunOssStsUtils.getOssSignUrl(AliYunOssStsUtils.OSS_ROOT_PATH + file.getRelativePath() + file.getRealName(), "1L");
+            try {
+                URL url = new URL(urlStr);
+                HttpHeaders headers = createDownloadFileHeaders(file.getOldName());
+                InputStream in = new BufferedInputStream(url.openStream());
+                byte[] buffer = FileCopyUtils.copyToByteArray(in);
+                return new ResponseEntity<byte[]>(buffer, headers, HttpStatus.OK);
+            } catch (FileNotFoundException e) {
+                log.error(e.getMessage());
+                return handlerDownloadFileException("要下载的文件不存在");
+            } catch (IOException e) {
+                log.error(e.getMessage());
+                return handlerDownloadFileException("下载失败，重新下载或联系管理员");
+            }
+        } else if(isQiNiuYun){
             // 七牛云下载
             try {
                 URL url = new URL("http://pzszb0ofy.bkt.clouddn.com/" + file.getRealName() + "-qcnt");
@@ -161,6 +252,155 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
                 return handlerDownloadFileException("下载失败，重新下载或联系管理员");
             }
         }
+    }
+
+    @Override
+    public ResponseEntity<byte[]> downloadVideoThumb(String fileId, HttpServletRequest request, HttpServletResponse response) {
+        com.star.starboot.system.entity.File file = fileMapper.selectById(fileId);
+
+        if(isAliOss){
+            // 阿里云下载
+            String urlStr = aliYunOssStsUtils.getOssSignUrl(AliYunOssStsUtils.OSS_ROOT_PATH + file.getRelativePath() + file.getThumb(), "1L");
+            try {
+                URL url = new URL(urlStr);
+                HttpHeaders headers = createDownloadFileHeaders(file.getOldName());
+                InputStream in = new BufferedInputStream(url.openStream());
+                byte[] buffer = FileCopyUtils.copyToByteArray(in);
+                return new ResponseEntity<byte[]>(buffer, headers, HttpStatus.OK);
+            } catch (FileNotFoundException e) {
+                log.error(e.getMessage());
+                return handlerDownloadFileException("要下载的文件不存在");
+            } catch (IOException e) {
+                log.error(e.getMessage());
+                return handlerDownloadFileException("下载失败，重新下载或联系管理员");
+            }
+        } else if(isQiNiuYun){
+            // 七牛云下载
+            try {
+                URL url = new URL("http://pzszb0ofy.bkt.clouddn.com/" + file.getRealName() + "-qcnt");
+                HttpHeaders headers = createDownloadFileHeaders(file.getOldName());
+                InputStream in = new BufferedInputStream(url.openStream());
+                byte[] buffer = FileCopyUtils.copyToByteArray(in);
+                return new ResponseEntity<byte[]>(buffer, headers, HttpStatus.OK);
+            } catch (FileNotFoundException e) {
+                log.error(e.getMessage());
+                return handlerDownloadFileException("要下载的文件不存在");
+            } catch (IOException e) {
+                log.error(e.getMessage());
+                return handlerDownloadFileException("下载失败，重新下载或联系管理员");
+            }
+        } else {
+            try {
+                java.io.File pFile = new java.io.File(uploadPhysicalPath + file.getRelativePath() + file.getThumb());
+                HttpHeaders headers = createDownloadFileHeaders(file.getThumb());
+                InputStream in = new FileInputStream(pFile);
+                byte[] buffer = FileCopyUtils.copyToByteArray(in);
+                return new ResponseEntity<byte[]>(buffer, headers, HttpStatus.OK);
+            } catch (FileNotFoundException e) {
+                log.error(e.getMessage());
+                return handlerDownloadFileException("要下载的文件不存在");
+            } catch (IOException e) {
+                log.error(e.getMessage());
+                return handlerDownloadFileException("下载失败，重新下载或联系管理员");
+            }
+        }
+    }
+
+    @Override
+    public void videoFile(String fileId, HttpServletRequest request, HttpServletResponse response) {
+        com.star.starboot.system.entity.File file = fileMapper.selectById(fileId);
+        if(isAliOss){
+            // 阿里云下载
+            String urlStr = aliYunOssStsUtils.getOssSignUrl(AliYunOssStsUtils.OSS_ROOT_PATH + file.getRelativePath() + file.getRealName(), "1L");
+            try {
+                URL url = new URL(urlStr);
+                InputStream in = new BufferedInputStream(url.openStream());
+                response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
+                response.setHeader("Content-Disposition", "attachment; filename="+file.getName().replace(" ", "_"));
+                IOUtils.copy(in, response.getOutputStream());
+                response.flushBuffer();
+            } catch (IOException e) {
+                log.error(e.getMessage());
+            }
+        } else if(isQiNiuYun){
+            // 七牛云下载
+            try {
+                URL url = new URL("http://pzszb0ofy.bkt.clouddn.com/" + file.getRealName() + "-qcnt");
+                InputStream in = new BufferedInputStream(url.openStream());
+                response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
+                response.setHeader("Content-Disposition", "attachment; filename="+file.getName().replace(" ", "_"));
+                IOUtils.copy(in, response.getOutputStream());
+                response.flushBuffer();
+            } catch (IOException e) {
+                log.error(e.getMessage());
+            }
+        } else {
+            try {
+                java.io.File pFile = new java.io.File(uploadPhysicalPath + file.getRelativePath() + file.getRealName());
+                InputStream in = new FileInputStream(pFile);
+                response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
+                response.setHeader("Content-Disposition", "attachment; filename="+file.getName().replace(" ", "_"));
+                IOUtils.copy(in, response.getOutputStream());
+                response.flushBuffer();
+            } catch (IOException e) {
+                log.error(e.getMessage());
+            }
+        }
+    }
+
+    public File generateThumb(File file) {
+        String realName = file.getRealName();
+        int index = realName.lastIndexOf(".");
+        String newName = file.getRealName().substring(0,index) + "-thumb.jpeg";
+        if(isAliOss){
+            // 获取视频文件的缩略图
+            String filePath = file.getAbsolutePath() + file.getRelativePath() + file.getRealName();
+            try {
+                InputStream thumbInputStream = VideoUtils.randomGrabberFfmpegVideoImg(filePath, null);
+
+                // 保存缩略图
+                String dirName = AliYunOssStsUtils.OSS_ROOT_PATH + file.getRelativePath() + newName;
+                String tmpDirName = file.getAbsolutePath() + file.getRelativePath() + newName;
+
+                java.io.File newFile = new java.io.File(tmpDirName);
+                if (!newFile.getParentFile().exists()) {
+                    newFile.getParentFile().mkdirs();
+                }
+                newFile.createNewFile();
+                CommonUtils.writeToLocal(dirName, thumbInputStream);
+                file.setThumb(newName);
+
+                aliYunOssStsUtils.uploadObjectToOss(String.valueOf(1L),dirName,newFile);
+
+                // 删除临时文件
+                newFile.delete();
+            } catch (Exception e) {
+                log.error("获取视频缩略图失败" + file.getRealName());
+                e.printStackTrace();
+            }
+        } else if(isQiNiuYun){
+           // TODO 七牛云获取视频缩略图文件
+        } else {
+            // 获取视频文件的缩略图
+            String filePath = file.getAbsolutePath() + file.getRelativePath() + file.getRealName();
+            try {
+                InputStream thumbInputStream = VideoUtils.randomGrabberFfmpegVideoImg(filePath, null);
+
+                // 保存缩略图
+                String dirName = file.getAbsolutePath() + file.getRelativePath() + newName;
+                java.io.File newFile = new java.io.File(dirName);
+                if (!newFile.getParentFile().exists()) {
+                    newFile.getParentFile().mkdirs();
+                }
+                newFile.createNewFile();
+                CommonUtils.writeToLocal(dirName, thumbInputStream);
+                file.setThumb(newName);
+            } catch (Exception e) {
+                log.error("获取视频缩略图失败" + file.getRealName());
+                e.printStackTrace();
+            }
+        }
+        return file;
     }
 
     private static ResponseEntity<byte[]> handlerDownloadFileException(String message) {

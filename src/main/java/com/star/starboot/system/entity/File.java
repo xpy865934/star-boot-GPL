@@ -56,6 +56,12 @@ public class File extends AbstractEntity {
     @TableField("RELATIVE_PATH")
     private String relativePath;
 
+    /**
+     * 缩略图
+     */
+    @TableField("THUMB")
+    private String thumb;
+
     public String  getName(){
         return oldName;
     }

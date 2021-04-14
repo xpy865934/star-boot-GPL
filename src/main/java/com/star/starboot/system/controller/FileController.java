@@ -58,4 +58,31 @@ public class FileController {
     public ResponseEntity<byte[]> downloadFile(String fileId, String token, HttpServletRequest request, HttpServletResponse response) {
         return fileService.download(fileId, request, response);
     }
+
+
+    /**
+     * 视频文件播放-暂时弃用，使用下载文件接口
+     *
+     * @return
+     */
+    @ApiOperation(value = "文件服务-视频文件播放", notes = "文件服务-视频文件播放")
+    @GetMapping("/videoFile")
+    @SysLog(description = "文件服务-视频文件播放")
+    @Deprecated
+    public void videoFile(String fileId, String token, HttpServletRequest request, HttpServletResponse response) {
+        fileService.videoFile(fileId, request, response);
+    }
+
+
+    /**
+     * 下载视频缩略图
+     *
+     * @return
+     */
+    @ApiOperation(value = "文件服务-下载视频缩略图", notes = "文件服务-下载视频缩略图")
+    @GetMapping("/downloadVideoThumb")
+    @SysLog(description = "文件服务-下载视频缩略图")
+    public ResponseEntity<byte[]> downloadVideoThumb(String fileId, String token, HttpServletRequest request, HttpServletResponse response) {
+        return fileService.downloadVideoThumb(fileId, request, response);
+    }
 }
