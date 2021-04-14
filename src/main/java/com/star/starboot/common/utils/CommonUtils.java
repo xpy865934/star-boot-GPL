@@ -1,6 +1,10 @@
 package com.star.starboot.common.utils;
 
 import ch.qos.logback.classic.gaffer.PropertyUtil;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.DefaultHashService;
 import org.apache.shiro.crypto.hash.HashRequest;
@@ -8,10 +12,11 @@ import org.apache.shiro.util.ByteSource;
 import org.joda.time.LocalDateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Properties;
 
 /**
@@ -127,4 +132,131 @@ public class CommonUtils {
     public static String fillZero(int size, int value) {
         return String.format("%0" + size + "d", value);
     }
+
+    /**
+     * 产生4位随机数(0000-9999)
+     *
+     * @return 4位随机数
+     */
+    public static String getFourRandom() {
+        return StringUtils.leftPad(new Random().nextInt(10000) + "", 4, "0");
+    }
+
+    /**
+     * 获取一定长度的随机字符串
+     * @param length 指定字符串长度
+     * @return 一定长度的字符串
+     */
+    public static String getRandomStringByLength(int length) {
+        String base = "abcdefghijklmnopqrstuvwxyz0123456789";
+        Random random = new Random();
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < length; i++) {
+            int number = random.nextInt(base.length());
+            sb.append(base.charAt(number));
+        }
+        return sb.toString();
+    }
+
+
+    /**
+     * 文件转换成MultipartFile
+     * @param picPath
+     * @return
+     */
+    private static MultipartFile getMulFileByPath(String picPath) {
+        FileItem fileItem = createFileItem(picPath);
+        MultipartFile mfile = new CommonsMultipartFile(fileItem);
+        return mfile;
+    }
+
+
+    /**
+     * 文件转换成MultipartFile
+     * @param fileInputStream
+     * @param extFile  文件后缀名
+     * @return
+     */
+    private static MultipartFile getMulFileByFileInputStream(FileInputStream fileInputStream, String extFile) {
+        FileItem fileItem = createFileItem(fileInputStream, extFile);
+        MultipartFile mfile = new CommonsMultipartFile(fileItem);
+        return mfile;
+    }
+
+    private static FileItem createFileItem(String filePath)
+    {
+        FileItemFactory factory = new DiskFileItemFactory(16, null);
+        String textFieldName = "textField";
+        int num = filePath.lastIndexOf(".");
+        String extFile = filePath.substring(num);
+        FileItem item = factory.createItem(textFieldName, "text/plain", true,
+                "thumb." + extFile);
+        File newfile = new File(filePath);
+        int bytesRead = 0;
+        byte[] buffer = new byte[8192];
+        try
+        {
+            FileInputStream fis = new FileInputStream(newfile);
+            OutputStream os = item.getOutputStream();
+            while ((bytesRead = fis.read(buffer, 0, 8192))
+                    != -1)
+            {
+                os.write(buffer, 0, bytesRead);
+            }
+            os.close();
+            fis.close();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return item;
+    }
+
+    private static FileItem createFileItem(FileInputStream fileInputStream, String extFile)
+    {
+        FileItemFactory factory = new DiskFileItemFactory(16, null);
+        String textFieldName = "textField";
+        FileItem item = factory.createItem(textFieldName, "text/plain", true,
+                "thumb." + extFile);
+        int bytesRead = 0;
+        byte[] buffer = new byte[8192];
+        try
+        {
+            FileInputStream fis = fileInputStream;
+            OutputStream os = item.getOutputStream();
+            while ((bytesRead = fis.read(buffer, 0, 8192))
+                    != -1)
+            {
+                os.write(buffer, 0, bytesRead);
+            }
+            os.close();
+            fis.close();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return item;
+    }
+
+
+    /**
+     * 将InputStream写入本地文件
+     * @param destination 写入本地目录
+     * @param input	输入流
+     * @throws IOException
+     */
+    public static void writeToLocal(String destination, InputStream input) throws IOException {
+        int index;
+        byte[] bytes = new byte[1024];
+        FileOutputStream downloadFile = new FileOutputStream(destination);
+        while ((index = input.read(bytes)) != -1) {
+            downloadFile.write(bytes, 0, index);
+            downloadFile.flush();
+        }
+        downloadFile.close();
+        input.close();
+    }
+
 }
