@@ -209,6 +209,11 @@ public class SystemConstant {
     public static final String MSG_EMAIL = "MSG_EMAIL";
 
     /**
+     * 微信消息
+     */
+    public static final String MSG_WECHAT = "MSG_WECHAT";
+
+    /**
      * 注册用户  判断需要：IOS
      */
     public static final Integer REGISTER = 1;
