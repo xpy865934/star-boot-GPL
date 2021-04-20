@@ -62,6 +62,12 @@ public class File extends AbstractEntity {
     @TableField("THUMB")
     private String thumb;
 
+    /**
+     * 存储类型 例如 SYSTEM 、OSS、  QINIU
+     */
+    @TableField("SAVE_TYPE")
+    private String saveType;
+
     public String  getName(){
         return oldName;
     }

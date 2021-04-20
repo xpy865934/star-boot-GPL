@@ -222,4 +222,19 @@ public class SystemConstant {
      * 流程提交退回
      */
     public static final String BACK = "退回";
+
+    /**
+     * 存储类型 服务器存储
+     */
+    public static final String SAVE_TYPE_SYSTEM = "SYSTEM";
+
+    /**
+     * 存储类型 阿里云OSS
+     */
+    public static final String SAVE_TYPE_OSS = "OSS";
+
+    /**
+     * 存储类型  七牛云存储
+     */
+    public static final String SAVE_TYPE_QINIU = "QINIU";
 }
