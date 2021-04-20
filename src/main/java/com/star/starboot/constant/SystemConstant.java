@@ -209,6 +209,11 @@ public class SystemConstant {
     public static final String MSG_EMAIL = "MSG_EMAIL";
 
     /**
+     * 微信消息
+     */
+    public static final String MSG_WECHAT = "MSG_WECHAT";
+
+    /**
      * 注册用户  判断需要：IOS
      */
     public static final Integer REGISTER = 1;
@@ -222,4 +227,19 @@ public class SystemConstant {
      * 流程提交退回
      */
     public static final String BACK = "退回";
+
+    /**
+     * 存储类型 服务器存储
+     */
+    public static final String SAVE_TYPE_SYSTEM = "SYSTEM";
+
+    /**
+     * 存储类型 阿里云OSS
+     */
+    public static final String SAVE_TYPE_OSS = "OSS";
+
+    /**
+     * 存储类型  七牛云存储
+     */
+    public static final String SAVE_TYPE_QINIU = "QINIU";
 }

@@ -14,6 +14,7 @@ import com.star.starboot.common.utils.CommonUtils;
 import com.star.starboot.common.utils.DateUtils;
 import com.star.starboot.common.utils.VideoUtils;
 import com.star.starboot.config.aliyunoss.AliYunOssStsUtils;
+import com.star.starboot.constant.SystemConstant;
 import com.star.starboot.system.dao.FileMapper;
 import com.star.starboot.system.entity.File;
 import com.star.starboot.system.service.FileService;
@@ -97,13 +98,13 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
             String newName = rename(file.getOriginalFilename());
 
             if(isAliOss){
-                String dir = uploadRelativePath + java.io.File.separator + DateUtils.getCurrentYear() + java.io.File.separator
+                String dir = uploadRelativePath + DateUtils.getCurrentYear() + java.io.File.separator
                         + DateUtils.getCurrentMonth() + java.io.File.separator;
                 if(!StringUtils.isEmpty(parentDictName)){
                     dir = dir + parentDictName + java.io.File.separator;
                 }
-                String dirName = AliYunOssStsUtils.OSS_ROOT_PATH.concat(dir + java.io.File.separator + newName);
-                String tmpDirName = uploadPhysicalPath + dir + java.io.File.separator + newName;
+                String dirName = AliYunOssStsUtils.OSS_ROOT_PATH.concat(dir + newName);
+                String tmpDirName = uploadPhysicalPath + dir + newName;
 
                 java.io.File newFile = new java.io.File(tmpDirName);
                 if (!newFile.getParentFile().exists()) {
@@ -128,6 +129,8 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
                 dbFile.setRealName(newName);
                 // 相对路径
                 dbFile.setRelativePath(dir);
+                // 存储类型
+                dbFile.setSaveType(SystemConstant.SAVE_TYPE_OSS);
 
                 // 判断是否是视频，视频需要生成缩略图
                 if(ArrayUtil.contains(extendFiles, extendName.toLowerCase())){
@@ -139,6 +142,12 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
                 newFile.delete();
                 return dbFile;
             } else if(isQiNiuYun){
+                String dir = uploadRelativePath + DateUtils.getCurrentYear() + java.io.File.separator
+                        + DateUtils.getCurrentMonth() + java.io.File.separator;
+                if(!StringUtils.isEmpty(parentDictName)){
+                    dir = dir + parentDictName + java.io.File.separator;
+                }
+                newName = uploadPhysicalPath + dir + newName;
                 // 上传
                 upload(file.getBytes(),newName);
 
@@ -155,6 +164,8 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
                 dbFile.setRealName(newName);
                 // 相对路径
                 dbFile.setRelativePath(null);
+                // 存储类型
+                dbFile.setSaveType(SystemConstant.SAVE_TYPE_QINIU);
 
                 // 判断是否是视频，视频需要生成缩略图
                 if(ArrayUtil.contains(extendFiles, extendName)){
@@ -164,12 +175,12 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
                 fileMapper.insert(dbFile);
                 return dbFile;
             } else {
-                String dir = uploadRelativePath + java.io.File.separator + DateUtils.getCurrentYear() + java.io.File.separator
+                String dir = uploadRelativePath + DateUtils.getCurrentYear() + java.io.File.separator
                         + DateUtils.getCurrentMonth() + java.io.File.separator;
                 if(!StringUtils.isEmpty(parentDictName)){
                     dir = dir + parentDictName + java.io.File.separator;
                 }
-                String dirName = uploadPhysicalPath + dir + java.io.File.separator + newName;
+                String dirName = uploadPhysicalPath + dir + newName;
                 java.io.File newFile = new java.io.File(dirName);
                 if (!newFile.getParentFile().exists()) {
                     newFile.getParentFile().mkdirs();
@@ -190,6 +201,8 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
                 dbFile.setRealName(newName);
                 // 相对路径
                 dbFile.setRelativePath(dir);
+                // 存储类型
+                dbFile.setSaveType(SystemConstant.SAVE_TYPE_SYSTEM);
 
                 // 判断是否是视频，视频需要生成缩略图
                 if(ArrayUtil.contains(extendFiles, extendName.toLowerCase())){
@@ -206,7 +219,8 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
     @Override
     public ResponseEntity download(String fileId, HttpServletRequest request, HttpServletResponse response) {
         com.star.starboot.system.entity.File file = fileMapper.selectById(fileId);
-        if(isAliOss){
+        String saveType = file.getSaveType();
+        if(isAliOss && SystemConstant.SAVE_TYPE_OSS.equals(saveType)){
             // 阿里云下载
             String urlStr = aliYunOssStsUtils.getOssSignUrl(AliYunOssStsUtils.OSS_ROOT_PATH + file.getRelativePath() + file.getRealName(), "1L");
             try {
@@ -222,7 +236,7 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
                 log.error(e.getMessage());
                 return handlerDownloadFileException("下载失败，重新下载或联系管理员");
             }
-        } else if(isQiNiuYun){
+        } else if(isQiNiuYun && SystemConstant.SAVE_TYPE_QINIU.equals(saveType)){
             // 七牛云下载
             try {
                 URL url = new URL("http://pzszb0ofy.bkt.clouddn.com/" + file.getRealName() + "-qcnt");
@@ -257,8 +271,8 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
     @Override
     public ResponseEntity<byte[]> downloadVideoThumb(String fileId, HttpServletRequest request, HttpServletResponse response) {
         com.star.starboot.system.entity.File file = fileMapper.selectById(fileId);
-
-        if(isAliOss){
+        String saveType = file.getSaveType();
+        if(isAliOss  && SystemConstant.SAVE_TYPE_OSS.equals(saveType)){
             // 阿里云下载
             String urlStr = aliYunOssStsUtils.getOssSignUrl(AliYunOssStsUtils.OSS_ROOT_PATH + file.getRelativePath() + file.getThumb(), "1L");
             try {
@@ -274,7 +288,7 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
                 log.error(e.getMessage());
                 return handlerDownloadFileException("下载失败，重新下载或联系管理员");
             }
-        } else if(isQiNiuYun){
+        } else if(isQiNiuYun && SystemConstant.SAVE_TYPE_QINIU.equals(saveType)){
             // 七牛云下载
             try {
                 URL url = new URL("http://pzszb0ofy.bkt.clouddn.com/" + file.getRealName() + "-qcnt");
@@ -309,7 +323,8 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
     @Override
     public void videoFile(String fileId, HttpServletRequest request, HttpServletResponse response) {
         com.star.starboot.system.entity.File file = fileMapper.selectById(fileId);
-        if(isAliOss){
+        String saveType = file.getSaveType();
+        if(isAliOss && SystemConstant.SAVE_TYPE_OSS.equals(saveType)){
             // 阿里云下载
             String urlStr = aliYunOssStsUtils.getOssSignUrl(AliYunOssStsUtils.OSS_ROOT_PATH + file.getRelativePath() + file.getRealName(), "1L");
             try {
@@ -322,7 +337,7 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
             } catch (IOException e) {
                 log.error(e.getMessage());
             }
-        } else if(isQiNiuYun){
+        } else if(isQiNiuYun  && SystemConstant.SAVE_TYPE_QINIU.equals(saveType)){
             // 七牛云下载
             try {
                 URL url = new URL("http://pzszb0ofy.bkt.clouddn.com/" + file.getRealName() + "-qcnt");
@@ -352,7 +367,8 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
         String realName = file.getRealName();
         int index = realName.lastIndexOf(".");
         String newName = file.getRealName().substring(0,index) + "-thumb.jpeg";
-        if(isAliOss){
+        String saveType = file.getSaveType();
+        if(isAliOss  && SystemConstant.SAVE_TYPE_OSS.equals(saveType)){
             // 获取视频文件的缩略图
             String filePath = file.getAbsolutePath() + file.getRelativePath() + file.getRealName();
             try {
@@ -378,7 +394,7 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
                 log.error("获取视频缩略图失败" + file.getRealName());
                 e.printStackTrace();
             }
-        } else if(isQiNiuYun){
+        } else if(isQiNiuYun && SystemConstant.SAVE_TYPE_QINIU.equals(saveType)){
            // TODO 七牛云获取视频缩略图文件
         } else {
             // 获取视频文件的缩略图

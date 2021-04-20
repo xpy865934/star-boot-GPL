@@ -45,7 +45,7 @@ import java.util.List;
 @EnableConfigurationProperties(AliYunOssConfig.class)
 public class AliYunOssStsUtils {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    public final static String OSS_ROOT_PATH = "root/";//根目录
+    public final static String OSS_ROOT_PATH = "root";//根目录
 
     @Autowired
     private AliYunOssConfig aliYunOssConfig;
