@@ -134,7 +134,7 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
 
                 // 判断是否是视频，视频需要生成缩略图
                 if(ArrayUtil.contains(extendFiles, extendName.toLowerCase())){
-                    generateThumb(dbFile);
+                    generateThumb(dbFile, tmpDirName);
                 }
                 fileMapper.insert(dbFile);
 
@@ -142,38 +142,8 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
                 newFile.delete();
                 return dbFile;
             } else if(isQiNiuYun){
-                String dir = uploadRelativePath + DateUtils.getCurrentYear() + java.io.File.separator
-                        + DateUtils.getCurrentMonth() + java.io.File.separator;
-                if(!StringUtils.isEmpty(parentDictName)){
-                    dir = dir + parentDictName + java.io.File.separator;
-                }
-                newName = uploadPhysicalPath + dir + newName;
-                // 上传
-                upload(file.getBytes(),newName);
-
-                File dbFile = new File();
-                dbFile.setAbsolutePath(null);
-                dbFile.setFileSize(file.getSize());
-
-                // 文件类型
-                String extendName = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
-                dbFile.setFileType(extendName);
-                // 源名称
-                dbFile.setOldName(file.getOriginalFilename());
-                // 新名称
-                dbFile.setRealName(newName);
-                // 相对路径
-                dbFile.setRelativePath(null);
-                // 存储类型
-                dbFile.setSaveType(SystemConstant.SAVE_TYPE_QINIU);
-
-                // 判断是否是视频，视频需要生成缩略图
-                if(ArrayUtil.contains(extendFiles, extendName)){
-                    generateThumb(dbFile);
-                }
-
-                fileMapper.insert(dbFile);
-                return dbFile;
+                // TODO 七牛云上传
+                return null;
             } else {
                 String dir = uploadRelativePath + DateUtils.getCurrentYear() + java.io.File.separator
                         + DateUtils.getCurrentMonth() + java.io.File.separator;
@@ -206,7 +176,7 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
 
                 // 判断是否是视频，视频需要生成缩略图
                 if(ArrayUtil.contains(extendFiles, extendName.toLowerCase())){
-                    generateThumb(dbFile);
+                    generateThumb(dbFile, null);
                 }
                 fileMapper.insert(dbFile);
                 return dbFile;
@@ -363,14 +333,20 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
         }
     }
 
-    public File generateThumb(File file) {
+    /**
+     * 生成视频文件缩略图
+     * @param file  文件
+     * @param realPath  文件在服务器的真实路径，对于远程上传，需要知道服务器临时文件的真实路径
+     * @return
+     */
+    public File generateThumb(File file, String realPath) {
         String realName = file.getRealName();
         int index = realName.lastIndexOf(".");
         String newName = file.getRealName().substring(0,index) + "-thumb.jpeg";
         String saveType = file.getSaveType();
         if(isAliOss  && SystemConstant.SAVE_TYPE_OSS.equals(saveType)){
             // 获取视频文件的缩略图
-            String filePath = file.getAbsolutePath() + file.getRelativePath() + file.getRealName();
+            String filePath = realPath;
             try {
                 InputStream thumbInputStream = VideoUtils.randomGrabberFfmpegVideoImg(filePath, null);
 
