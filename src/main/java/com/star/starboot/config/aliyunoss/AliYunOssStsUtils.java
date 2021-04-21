@@ -1,5 +1,8 @@
 package com.star.starboot.config.aliyunoss;
 
+import cn.hutool.core.date.DateUnit;
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.JSON;
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.common.auth.DefaultCredentialProvider;
@@ -13,12 +16,15 @@ import com.aliyuncs.http.MethodType;
 import com.aliyuncs.http.ProtocolType;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
+import com.star.starboot.common.utils.RedisUtil;
 import com.star.starboot.exception.BusinessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.io.*;
 import java.net.URL;
@@ -47,9 +53,14 @@ public class AliYunOssStsUtils {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     public final static String OSS_ROOT_PATH = "root";//根目录
 
+    @Value("${spring.redis.database}")
+    private int database;
+
     @Autowired
     private AliYunOssConfig aliYunOssConfig;
 
+    @Autowired
+    private RedisUtil redisUtil;
 
     /**
      * 根据子账号访问权限获取阿里云oss sts临时权限（临时访问凭证），该凭证可保存到缓存中
@@ -61,42 +72,49 @@ public class AliYunOssStsUtils {
     public AssumeRoleResponse getAssumeRole(String roleSessionName) throws Exception {
 
         try {
-            // 创建一个 Aliyun Acs Client, 用于发起 OpenAPI 请求
-            // 只有 RAM用户（子账号）才能调用 AssumeRole 接口
-            // 阿里云主账号的AccessKeys不能用于发起AssumeRole请求
-            // 请首先在RAM控制台创建一个RAM用户，并为这个用户创建AccessKeys
-            IClientProfile profile = DefaultProfile.getProfile("", aliYunOssConfig.getAccessKeyId(), aliYunOssConfig.getAccessKeySecret());
-            DefaultAcsClient client = new DefaultAcsClient(profile);
-            // 创建一个 AssumeRoleRequest 并设置请求参数
-            final AssumeRoleRequest request = new AssumeRoleRequest();
+            // 首先从redis中获取assumeRoleResponse
+            AssumeRoleResponse assumeRoleResponse = JSONUtil.toBean(redisUtil.get("AliOssAssumeRoleResponse", database), AssumeRoleResponse.class);
+            if (StringUtils.isEmpty(assumeRoleResponse) || StringUtils.isEmpty(assumeRoleResponse.getCredentials())) {
+                // 创建一个 Aliyun Acs Client, 用于发起 OpenAPI 请求
+                // 只有 RAM用户（子账号）才能调用 AssumeRole 接口
+                // 阿里云主账号的AccessKeys不能用于发起AssumeRole请求
+                // 请首先在RAM控制台创建一个RAM用户，并为这个用户创建AccessKeys
+                IClientProfile profile = DefaultProfile.getProfile("", aliYunOssConfig.getAccessKeyId(), aliYunOssConfig.getAccessKeySecret());
+                DefaultAcsClient client = new DefaultAcsClient(profile);
+                // 创建一个 AssumeRoleRequest 并设置请求参数
+                final AssumeRoleRequest request = new AssumeRoleRequest();
 //        request.setVersion(aliyunOssSTS_API_VERSION);
-            request.setMethod(MethodType.POST);
-            // 此处必须为 HTTPS
-            request.setProtocol(ProtocolType.HTTPS);
+                request.setMethod(MethodType.POST);
+                // 此处必须为 HTTPS
+                request.setProtocol(ProtocolType.HTTPS);
 
-            // RoleSessionName 是临时Token的会话名称，自己指定用于标识你的用户，主要用于审计，或者用于区分Token颁发给谁
-            // 但是注意RoleSessionName的长度和规则，不要有空格，只能有'-' '_' 字母和数字等字符
-            // 具体规则请参考API文档中的格式要求
-            // 临时Token的会话名称，自己指定用于标识你的用户，主要用于区分Token颁发给谁
-            // acs:ram::$accountID:role/$roleName
-            request.setRoleSessionName(roleSessionName);
-            // RoleArn 需要在 RAM 控制台上获取
-            request.setRoleArn(aliYunOssConfig.getRoleArn());
+                // RoleSessionName 是临时Token的会话名称，自己指定用于标识你的用户，主要用于审计，或者用于区分Token颁发给谁
+                // 但是注意RoleSessionName的长度和规则，不要有空格，只能有'-' '_' 字母和数字等字符
+                // 具体规则请参考API文档中的格式要求
+                // 临时Token的会话名称，自己指定用于标识你的用户，主要用于区分Token颁发给谁
+                // acs:ram::$accountID:role/$roleName
+                request.setRoleSessionName(roleSessionName);
+                // RoleArn 需要在 RAM 控制台上获取
+                request.setRoleArn(aliYunOssConfig.getRoleArn());
 
-            // 授权策略
-            //request.setPolicy(readJson(aliyunOssPolicyFile));
-            // 设置token时间（最小15分钟，最大1小时） The Min/Max value of DurationSeconds is 15min/1hr
-            //request.setDurationSeconds(60 * 60L);
-            // 发起请求，并得到response
+                // 授权策略
+                //request.setPolicy(readJson(aliyunOssPolicyFile));
+                // 设置token时间（最小15分钟，最大1小时） The Min/Max value of DurationSeconds is 15min/1hr
+                //request.setDurationSeconds(60 * 60L);
+                // 发起请求，并得到response
 
-            final AssumeRoleResponse assumeRoleResponse = client.getAcsResponse(request);
+                assumeRoleResponse = client.getAcsResponse(request);
+                logger.info("重新请求获取到的assumeRoleResponse:" +JSON.toJSONString(assumeRoleResponse));
+                String expiration = assumeRoleResponse.getCredentials().getExpiration();
+                Date expirationDate =  DateUtil.parse(expiration);
+                Long between = DateUtil.between(DateUtil.date(), expirationDate, DateUnit.SECOND);
+                redisUtil.setex("AliOssAssumeRoleResponse", JSON.toJSONString(assumeRoleResponse), between.intValue(), database);
+            }
             System.out.println("临时账号ID getAccessKeyId()=============" + assumeRoleResponse.getCredentials().getAccessKeyId());
             System.out.println("临时密码 getAccessKeySecret()=============" + assumeRoleResponse.getCredentials().getAccessKeySecret());
             System.out.println("临时token getSecurityToken()=============" + assumeRoleResponse.getCredentials().getSecurityToken());
             System.out.println("有效时间 getExpiration()=============" + assumeRoleResponse.getCredentials().getExpiration());
-
             logger.info("assumeRoleResponse ======\n{}", JSON.toJSONString(assumeRoleResponse));
-
             return assumeRoleResponse;
         } catch (Exception e) {
             throw e;
