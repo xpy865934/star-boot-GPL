@@ -4,8 +4,6 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.star.starboot.common.entity.AbstractEntity;
 import com.star.starboot.constant.SystemConstant;
-import com.star.starboot.customer.dto.CustomerHousesProjectDto;
-import com.star.starboot.customer.service.CustomerHousesProjectService;
 import com.star.starboot.exception.BusinessException;
 import com.star.starboot.system.dto.RolesDto;
 import com.star.starboot.system.dto.UsersDto;
@@ -759,20 +757,10 @@ public class FlowableUtils {
         String processDefinitionKey = historicProcessInstance.getProcessDefinitionKey();
         switch (processDefinitionKey){
             case SystemConstant.AFTERSALES:
-                AfterSalesService afterSalesService = ContextUtils.getBean(AfterSalesService.class);
-                AfterSalesDto afterSalesDto = afterSalesService.queryById(businessKey);
-                result.put("title",type + "-售后服务:" + afterSalesDto.getTaskNames());
-                result.put("secondTitle",afterSalesDto.getCustomerUnique());
-                result.put("content","(" + afterSalesDto.getCustomerUnique()+")有新的售后服务需要您处理，请及时登录系统处理！");
-                result.put("bindTable","t_after_sales");
+                // TODO 发送消息
                 break;
             case SystemConstant.PROJECT:
-                CustomerHousesProjectService customerHousesProjectService = ContextUtils.getBean(CustomerHousesProjectService.class);
-                CustomerHousesProjectDto customerHousesProjectDto = customerHousesProjectService.queryById(businessKey);
-                result.put("title",type + "-" +customerHousesProjectDto.getTaskNames());
-                result.put("secondTitle",customerHousesProjectDto.getCustomerUnique());
-                result.put("content","(" + customerHousesProjectDto.getCustomerUnique()+")有新的项目流程需要您处理，请及时登录系统处理！");
-                result.put("bindTable","t_customer_houses_project");
+                // TODO 发送消息
                 break;
             default:
                 break;

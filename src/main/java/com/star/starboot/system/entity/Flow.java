@@ -2,8 +2,12 @@ package com.star.starboot.system.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.star.starboot.constant.SystemConstant;
 import lombok.Data;
 import lombok.experimental.Accessors;
+
+import java.util.Date;
 
 /**
  * <p>
@@ -55,4 +59,10 @@ public class Flow{
      * 节点名称和审批人名称
      */
     public String nodeNameAndUserName;
+
+    /**
+     * 审批时间
+     */
+    @JsonFormat(pattern = SystemConstant.FULL_DATE_PATTERN, timezone = "GMT+8")
+    public Date endTime;
 }
