@@ -18,6 +18,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.util.Properties;
+import java.util.Random;
 
 /**
  * All rights Reserved, Designed By www.xpyvip.top
