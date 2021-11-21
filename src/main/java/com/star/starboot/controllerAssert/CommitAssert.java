@@ -10,5 +10,7 @@ package com.star.starboot.controllerAssert;
  * @Date: Created in 2020年12月03日 10:30 上午
  */
 public interface CommitAssert {
+
     void assertCommit(Object t);
+
 }
