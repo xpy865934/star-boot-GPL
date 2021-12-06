@@ -396,6 +396,13 @@
             <artifactId>ffmpeg-platform</artifactId>
             <version>4.1-1.4.4</version>
         </dependency>
+
+        <!-- 数据库密码加密 -->
+        <dependency>
+            <groupId>com.github.ulisesbocchio</groupId>
+            <artifactId>jasypt-spring-boot-starter</artifactId>
+            <version>3.0.3</version>
+        </dependency>
     </dependencies>
 
     <profiles>
