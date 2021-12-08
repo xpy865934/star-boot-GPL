@@ -2,6 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.star.starboot.system.dao.DepartmentMapper">
 
+    <resultMap id="resultMap" type="com.star.starboot.system.entity.Department">
+
+    </resultMap>
+
     <select id="getByCodeAndCompanyCode" resultType="com.star.starboot.system.entity.Department">
        select dept.* from t_department dept left join t_company company on dept.COMPANY_ID = dept.COMPANY_ID
         where dept.DELETED_CODE = 0 and company.DELETED_CODE = 0 and dept.DEPARTMENT_CODE = #{departmentCode}
