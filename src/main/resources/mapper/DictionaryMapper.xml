@@ -2,6 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.star.starboot.system.dao.DictionaryMapper">
 
+    <resultMap id="resultMap" type="com.star.starboot.system.entity.Dictionary">
+
+    </resultMap>
+
     <select id="queryPage" resultType="com.star.starboot.system.dto.DictionaryDto">
         select dict.* from t_dictionary dict where dict.DELETED_CODE = 0
         <if test="dictionaryDto.dictCode != null and dictionaryDto.dictCode != ''">
