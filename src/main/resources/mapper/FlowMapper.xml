@@ -2,6 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.star.starboot.system.dao.FlowMapper">
 
+    <resultMap id="resultMap" type="com.star.starboot.system.entity.Flow">
+
+    </resultMap>
+
     <update id="updateBusinessData" statementType="PREPARED">
         update ${table} set PROCESS_INSTANCE_ID = #{processInstanceId},PROCESS_DEFINITION_ID=#{processDefinitionId},
         TASK_IDS=#{taskIds},TASK_NAMES=#{taskNames}, PROCESS_STATE=#{processState}, TASK_KEYS=#{taskKeys}, CURRENT_ASSIGNEE=#{assigneeIds}, CURRENT_ASSIGNEE_NAMES=#{assigneeNames}, CURRENT_ASSIGNEE_TYPE=#{currentAssigneeType},
