@@ -2,6 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.star.starboot.system.dao.MessageMapper">
 
+    <resultMap id="resultMap" type="com.star.starboot.system.entity.Message">
+
+    </resultMap>
 
     <select id="getUserMessagePager" resultType="com.star.starboot.system.entity.Message">
         select msg.*,user.USER_NAME as fromName from t_message msg
