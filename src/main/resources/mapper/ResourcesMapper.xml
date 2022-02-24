@@ -2,6 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.star.starboot.system.dao.ResourcesMapper">
 
+    <resultMap id="resultMap" type="com.star.starboot.system.entity.MessageSetting">
+
+    </resultMap>
+
     <select id="queryList" resultType="com.star.starboot.system.dto.ResourcesDto">
         SELECT * FROM t_resources res where res.DELETED_CODE = 0 and res.COMPANY_ID = #{companyId} order by pxh asc
     </select>
