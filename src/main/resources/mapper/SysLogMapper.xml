@@ -2,6 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.star.starboot.system.dao.SysLogMapper">
 
+    <resultMap id="resultMap" type="com.star.starboot.system.entity.SysLog">
+
+    </resultMap>
+
     <select id="queryPage" resultType="com.star.starboot.system.entity.SysLog">
         select log.* from t_sys_log log where log.DELETED_CODE = 0
         <if test="sysLog.userCode != null and sysLog.userCode != ''">
