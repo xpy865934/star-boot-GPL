@@ -2,6 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.star.starboot.uploaddata.dao.UploadDataMapper">
 
+    <resultMap id="resultMap" type="com.star.starboot.uploaddata.entity.UploadData">
+
+    </resultMap>
+
     <sql id="base_query">
         <if test='uploadDataDto.userId != null and uploadDataDto.userId != ""'>
             and uploadData.USER_ID = #{uploadDataDto.userId}
