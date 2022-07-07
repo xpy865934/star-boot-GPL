@@ -2,6 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.star.starboot.system.dao.UsersMapper">
 
+    <resultMap id="resultMap" type="com.star.starboot.system.entity.Users">
+
+    </resultMap>
+
     <sql id="base_query">
         <if test='usersDto.userCode != null and usersDto.userCode != ""'>
             and users.USER_CODE LIKE concat('%',#{usersDto.userCode},'%')
