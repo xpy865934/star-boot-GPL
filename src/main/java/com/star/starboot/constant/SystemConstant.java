@@ -242,4 +242,9 @@ public class SystemConstant {
      * 存储类型  七牛云存储
      */
     public static final String SAVE_TYPE_QINIU = "QINIU";
+
+    /**
+     * 日志操作类型 logAction 查询
+     */
+    public static final int LOg_ACTION_QUERY = 1;
 }
