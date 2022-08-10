@@ -33,6 +33,7 @@ import java.util.Date;
 @CrossOrigin
 @Slf4j
 public class UserBasicInfoController extends AbstractController {
+
     @Autowired
     private UserBasicInfoService userBasicInfoService;
 
