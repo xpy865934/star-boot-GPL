@@ -3,6 +3,6 @@
 <mapper namespace="com.star.starboot.system.dao.CompanyMapper">
 
     <resultMap id="resultMap" type="com.star.starboot.system.entity.Company">
-
+        <result property="companyName" column="COMPANY_NAME" />
     </resultMap>
 </mapper>
