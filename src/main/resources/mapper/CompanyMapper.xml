@@ -4,5 +4,6 @@
 
     <resultMap id="resultMap" type="com.star.starboot.system.entity.Company">
         <result property="companyName" column="COMPANY_NAME" />
+        <result property="companyCode" column="COMPANY_CODE" />
     </resultMap>
 </mapper>
