@@ -45,7 +45,7 @@ import java.util.Map;
 public class SystemSettingController extends AbstractController {
 
 
-    @Value("${sega.file.root}")
+    @Value("${starboot.file.root}")
     private String fjPath;
 
     /**
@@ -57,8 +57,8 @@ public class SystemSettingController extends AbstractController {
     /**
      * SpringBoot获取当前版本号
      */
-    @Value("${sega.sega-version}")
-    private String segaVersion;
+    @Value("${starboot.starboot-version}")
+    private String starbootVersion;
 
     /**
      * 获取服务器配置信息
@@ -71,7 +71,7 @@ public class SystemSettingController extends AbstractController {
     public Result sysLog_querySystemConfig(){
         // 版本号
         Map<String, String> result = new HashMap<>();
-        result.put("segaVersion", segaVersion);
+        result.put("starbootVersion", starbootVersion);
 
         // 运行的配置文件
         String activeProfile = ContextUtils.getApplicationContext().getEnvironment().getActiveProfiles()[0];

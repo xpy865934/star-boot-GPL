@@ -1,3 +1,13 @@
 jasypt:
   encryptor:
     password: 123456
+
+starboot:
+  file:
+    root: '/startboot/'
+    starboot-version: 'v1.0.0'
+
+spring:
+  profiles:
+    active: dev
+
