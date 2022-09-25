@@ -1,33 +1,29 @@
 package com.star.starboot.system.controller;
 
 
-import ch.qos.logback.core.util.ContextUtil;
 import cn.hutool.core.date.BetweenFormater;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.star.starboot.annotation.SysLog;
 import com.star.starboot.common.controller.AbstractController;
 import com.star.starboot.common.utils.ContextUtils;
 import com.star.starboot.common.vo.Result;
-import com.star.starboot.system.dto.UsersReRolesDto;
-import com.star.starboot.system.entity.UsersReRoles;
-import com.star.starboot.system.service.UsersReRolesService;
 import com.sun.management.OperatingSystemMXBean;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import sun.management.ManagementFactoryHelper;
 
 import java.io.File;
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
