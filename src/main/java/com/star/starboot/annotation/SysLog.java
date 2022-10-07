@@ -23,10 +23,10 @@ public @interface SysLog {
     /**
      * 日志类型 1 登录日志 2 操作日志 3 定时任务
      */
-    int logType() default -1;
+    int logType() default 2;
 
     /**
      * 日志操作类型 1 查询 2 添加 3 更新 4 删除 5 导入 6 导出
      */
-    int logAction() default -1;
+    int logAction() default 1;
 }
