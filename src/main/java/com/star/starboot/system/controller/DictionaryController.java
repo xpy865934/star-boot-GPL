@@ -54,7 +54,7 @@ public class DictionaryController extends AbstractController {
     @ApiOperation(value = "系统字典-保存字典信息", notes = "系统字典-保存字典信息")
     @PostMapping("/save")
     @RequiresPermissions("dictionary_save")
-    @SysLog(description = "系统字典-保存字典信息")
+    @SysLog(description = "系统字典-保存字典信息", logAction = 2)
     public Result save(@RequestBody DictionaryDto dictionaryDto){
         dictionaryService.saveOrUpdate(dictionaryDto);
         return Result.success();
@@ -67,7 +67,7 @@ public class DictionaryController extends AbstractController {
     @ApiOperation(value = "系统字典-更新字典信息", notes = "系统字典-更新字典信息")
     @PostMapping("/update")
     @RequiresPermissions("dictionary_update")
-    @SysLog(description = "系统字典-更新字典信息")
+    @SysLog(description = "系统字典-更新字典信息", logAction = 3)
     public Result update(@RequestBody DictionaryDto dictionaryDto){
         dictionaryService.saveOrUpdate(dictionaryDto);
         return Result.success();
