@@ -40,7 +40,7 @@ public class FileController {
      */
     @ApiOperation(value = "文件服务-上传文件", notes = "文件服务-上传文件")
     @PostMapping("/upload")
-    @SysLog(description = "文件服务-上传文件")
+    @SysLog(description = "文件服务-上传文件", logAction = 2)
     public Result upload(@RequestParam MultipartFile file, @RequestParam @Nullable String parentDictName) {
         File upload = fileService.upload(file, parentDictName);
         return Result.success(upload);
