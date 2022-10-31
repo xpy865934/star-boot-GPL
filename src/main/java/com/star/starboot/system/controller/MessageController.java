@@ -70,7 +70,7 @@ public class MessageController extends AbstractController {
      */
     @ApiOperation(value = "消息管理-更新消息为已读", notes = "消息管理-更新消息为已读")
     @PostMapping("/upadteUserMessageRead")
-    @SysLog(description = "消息管理-更新消息为已读")
+    @SysLog(description = "消息管理-更新消息为已读", logAction = 3)
     public Result upadteUserMessageRead(@RequestBody JSONObject params) {
         Message message = JSONObject.parseObject(params.toJSONString(), Message.class);
         messageService.upadteUserMessageRead(message);
@@ -84,7 +84,7 @@ public class MessageController extends AbstractController {
      */
     @ApiOperation(value = "消息管理-更新所有消息为已读", notes = "消息管理-更新所有消息为已读")
     @PostMapping("/updateAllRead")
-    @SysLog(description = "消息管理-更新所有消息为已读")
+    @SysLog(description = "消息管理-更新所有消息为已读", logAction = 3)
     public Result updateAllRead(@RequestBody JSONObject params) {
         Message message = JSONObject.parseObject(params.toJSONString(), Message.class);
         messageService.updateAllRead(message);
