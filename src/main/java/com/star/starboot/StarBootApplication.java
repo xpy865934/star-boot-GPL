@@ -5,6 +5,7 @@ import com.star.starboot.config.flowable.ApplicationConfiguration;
 import com.star.starboot.config.flowable.DatabaseAutoConfiguration;
 import org.flowable.ui.admin.domain.generator.MinimalDataGenerator;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
@@ -36,7 +37,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class StarBootApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
-        SpringApplication.run(StarBootApplication.class, args);
+        SpringApplication springApplication = new SpringApplication(StarBootApplication.class);
+        springApplication.setBannerMode(Banner.Mode.CONSOLE);
+        springApplication.run(args);
     }
 
     @Override//为了打包springboot项目

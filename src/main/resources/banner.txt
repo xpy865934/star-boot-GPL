@@ -1,0 +1,11 @@
+   _____ _______       _____    ____   ____   ____ _______
+  / ____|__   __|/\   |  __ \  |  _ \ / __ \ / __ \__   __|
+ | (___    | |  /  \  | |__) | | |_) | |  | | |  | | | |
+  \___ \   | | / /\ \ |  _  /  |  _ <| |  | | |  | | | |
+  ____) |  | |/ ____ \| | \ \  | |_) | |__| | |__| | | |
+ |_____/   |_/_/    \_\_|  \_\ |____/ \____/ \____/  |_|
+
+${AnsiColor.BRIGHT_GREEN}
+Star Boot Version: ${star-boot.version} ${star-boot.formatted-version}
+Spring Boot Version: ${spring-boot.version}${spring-boot.formatted-version}
+${AnsiColor.BLACK}
