@@ -12,7 +12,7 @@
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
 
     <!-- 日志最大的历史 30天 -->
-    <property name="maxHistory" value="365"/>
+    <property name="maxHistory" value="30"/>
 
     <!-- 配置项， 通过此节点配置日志输出位置（控制台、文件、数据库）、输出格式等-->
     <!-- ConsoleAppender代表输出到控制台 -->
