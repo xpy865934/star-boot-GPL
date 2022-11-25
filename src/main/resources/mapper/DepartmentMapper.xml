@@ -3,7 +3,8 @@
 <mapper namespace="com.star.starboot.system.dao.DepartmentMapper">
 
     <resultMap id="resultMap" type="com.star.starboot.system.entity.Department">
-
+        <result property="departmentCode" column="DEPARTMENT_CODE" />
+        <result property="departmentName" column="DEPARTMENT_NAME" />
     </resultMap>
 
     <select id="getByCodeAndCompanyCode" resultType="com.star.starboot.system.entity.Department">
