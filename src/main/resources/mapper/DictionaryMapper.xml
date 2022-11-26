@@ -3,7 +3,8 @@
 <mapper namespace="com.star.starboot.system.dao.DictionaryMapper">
 
     <resultMap id="resultMap" type="com.star.starboot.system.entity.Dictionary">
-
+        <result property="dictName" column="DICT_NAME" />
+        <result property="dictDs" column="DICT_DS" />
     </resultMap>
 
     <select id="queryPage" resultType="com.star.starboot.system.dto.DictionaryDto">
