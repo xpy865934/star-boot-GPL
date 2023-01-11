@@ -6,6 +6,7 @@
         <result property="firstDictId" column="FIRST_DICT_ID" />
         <result property="firstDictCode" column="FIRST_DICT_CODE" />
         <result property="firstDictDs" column="FIRST_DICT_DS" />
+        <result property="dictId" column="DICT_ID" />
     </resultMap>
 
     <select id="queryPage" resultType="com.star.starboot.system.dto.FirstDictDto">
