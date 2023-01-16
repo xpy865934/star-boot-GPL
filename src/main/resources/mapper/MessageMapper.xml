@@ -3,7 +3,7 @@
 <mapper namespace="com.star.starboot.system.dao.MessageMapper">
 
     <resultMap id="resultMap" type="com.star.starboot.system.entity.Message">
-
+        <result property="messageId" column="MESSAGE_ID" />
     </resultMap>
 
     <select id="getUserMessagePager" resultType="com.star.starboot.system.entity.Message">
