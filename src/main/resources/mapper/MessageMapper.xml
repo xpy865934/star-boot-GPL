@@ -6,6 +6,7 @@
         <result property="messageId" column="MESSAGE_ID" />
         <result property="memberId" column="MEMBER_ID" />
         <result property="type" column="TYPE" />
+        <result property="messageRead" column="MESSAGE_READ" />
     </resultMap>
 
     <select id="getUserMessagePager" resultType="com.star.starboot.system.entity.Message">
