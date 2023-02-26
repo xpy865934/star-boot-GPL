@@ -8,6 +8,9 @@
         <result property="type" column="TYPE" />
         <result property="messageRead" column="MESSAGE_READ" />
         <result property="readTime" column="READ_TIME" />
+        <result property="appMessage" column="APP_MESSAGE" />
+        <result property="sysMessage" column="SYS_MESSAGE" />
+        <result property="emailMessage" column="EMAIL_MESSAGE" />
     </resultMap>
 
     <select id="getUserMessagePager" resultType="com.star.starboot.system.entity.Message">
