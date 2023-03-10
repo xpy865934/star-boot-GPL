@@ -11,6 +11,11 @@
         <result property="appMessage" column="APP_MESSAGE" />
         <result property="sysMessage" column="SYS_MESSAGE" />
         <result property="emailMessage" column="EMAIL_MESSAGE" />
+        <result property="fromId" column="FROM_ID" />
+        <result property="title" column="TITLE" />
+        <result property="secondTitle" column="SECOND_TITLE" />
+        <result property="bindTable" column="BIND_TABLE" />
+        <result property="dataId" column="DATA_ID" />
     </resultMap>
 
     <select id="getUserMessagePager" resultType="com.star.starboot.system.entity.Message">
