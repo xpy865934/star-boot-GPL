@@ -16,6 +16,8 @@
         <result property="secondTitle" column="SECOND_TITLE" />
         <result property="bindTable" column="BIND_TABLE" />
         <result property="dataId" column="DATA_ID" />
+        <result property="notifyId" column="NOTIFY_ID" />
+        <result property="processKey" column="PROCESS_KEY" />
     </resultMap>
 
     <select id="getUserMessagePager" resultType="com.star.starboot.system.entity.Message">
