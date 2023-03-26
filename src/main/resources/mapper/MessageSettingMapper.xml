@@ -3,7 +3,8 @@
 <mapper namespace="com.star.starboot.system.dao.MessageSettingMapper">
 
     <resultMap id="resultMap" type="com.star.starboot.system.entity.MessageSetting">
-
+        <result property="messageSettingId" column="MESSAGE_SETTING_ID" />
+        <result property="memberId" column="MEMBER_ID" />
     </resultMap>
 
     <select id="queryPage" resultType="com.star.starboot.system.entity.MessageSetting">
