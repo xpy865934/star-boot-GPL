@@ -5,6 +5,9 @@
     <resultMap id="resultMap" type="com.star.starboot.system.entity.MessageSetting">
         <result property="messageSettingId" column="MESSAGE_SETTING_ID" />
         <result property="memberId" column="MEMBER_ID" />
+        <result property="memberName" column="MEMBER_NAME" />
+        <result property="name" column="NAME" />
+        <result property="key" column="KEY" />
     </resultMap>
 
     <select id="queryPage" resultType="com.star.starboot.system.entity.MessageSetting">
