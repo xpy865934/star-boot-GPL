@@ -2,8 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.star.starboot.system.dao.ResourcesMapper">
 
-    <resultMap id="resultMap" type="com.star.starboot.system.entity.MessageSetting">
-
+    <resultMap id="resultMap" type="com.star.starboot.system.entity.Resources">
+        <result property="resourcesId" column="RESOURCES_ID" />
+        <result property="resourcesNum" column="RESOURCES_NUM" />
+        <result property="resourcesName" column="RESOURCES_NAME" />
     </resultMap>
 
     <select id="queryList" resultType="com.star.starboot.system.dto.ResourcesDto">
