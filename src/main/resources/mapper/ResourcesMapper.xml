@@ -6,6 +6,8 @@
         <result property="resourcesId" column="RESOURCES_ID" />
         <result property="resourcesNum" column="RESOURCES_NUM" />
         <result property="resourcesName" column="RESOURCES_NAME" />
+        <result property="resourcesType" column="RESOURCES_TYPE" />
+        <result property="resourcesImg" column="RESOURCES_IMG" />
     </resultMap>
 
     <select id="queryList" resultType="com.star.starboot.system.dto.ResourcesDto">
