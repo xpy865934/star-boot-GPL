@@ -10,6 +10,8 @@
         <result property="resourcesImg" column="RESOURCES_IMG" />
         <result property="resourcesDs" column="RESOURCES_DS" />
         <result property="resourcesMana" column="RESOURCES_MANA" />
+        <result property="parentResourcesNum" column="PARENT_RESOURCES_NUM" />
+        <result property="resourcesCode" column="RESOURCES_CODE" />
     </resultMap>
 
     <select id="queryList" resultType="com.star.starboot.system.dto.ResourcesDto">
