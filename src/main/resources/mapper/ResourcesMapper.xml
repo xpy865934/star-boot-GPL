@@ -12,6 +12,9 @@
         <result property="resourcesMana" column="RESOURCES_MANA" />
         <result property="parentResourcesNum" column="PARENT_RESOURCES_NUM" />
         <result property="resourcesCode" column="RESOURCES_CODE" />
+        <result property="CompanyId" column="COMPANY_ID" />
+        <result property="pxh" column="PXH" />
+        <result property="used" column="USED" />
     </resultMap>
 
     <select id="queryList" resultType="com.star.starboot.system.dto.ResourcesDto">
