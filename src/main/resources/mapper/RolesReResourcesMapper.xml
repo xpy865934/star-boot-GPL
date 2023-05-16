@@ -3,7 +3,9 @@
 <mapper namespace="com.star.starboot.system.dao.RolesReResourcesMapper">
 
     <resultMap id="resultMap" type="com.star.starboot.system.entity.RolesReResources">
-
+        <result property="rolesReResourcesId" column="ROLES_RE_RESOURCES_ID" />
+        <result property="resourcesId" column="RESOURCES_ID" />
+        <result property="roleId" column="ROLE_ID" />
     </resultMap>
 
     <delete id="deleteByRoleId">
