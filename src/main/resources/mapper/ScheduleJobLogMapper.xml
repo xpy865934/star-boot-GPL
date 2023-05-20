@@ -3,6 +3,8 @@
 <mapper namespace="com.star.starboot.quartz.dao.ScheduleJobLogMapper">
 
     <resultMap id="resultMap" type="com.star.starboot.quartz.entity.ScheduleJobLog">
-
+        <result property="scheduleJobLogId" column="SCHEDULE_JOB_LOG_ID" />
+        <result property="scheduleJobId" column="SCHEDULE_JOB_ID" />
+        <result property="name" column="NAME" />
     </resultMap>
 </mapper>
