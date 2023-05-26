@@ -3,6 +3,8 @@
 <mapper namespace="com.star.starboot.system.dao.SecondDictMapper">
 
     <resultMap id="resultMap" type="com.star.starboot.system.entity.SecondDict">
-
+        <result property="secondDictId" column="SECOND_DICT_ID" />
+        <result property="dictId" column="DICT_ID" />
+        <result property="firstDictId" column="FIRST_DICT_ID" />
     </resultMap>
 </mapper>
