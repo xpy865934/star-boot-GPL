@@ -6,5 +6,8 @@
         <result property="secondDictId" column="SECOND_DICT_ID" />
         <result property="dictId" column="DICT_ID" />
         <result property="firstDictId" column="FIRST_DICT_ID" />
+        <result property="secondCode" column="SECOND_CODE" />
+        <result property="secondName" column="SECOND_NAME" />
+        <result property="secondDs" column="SECOND_DS" />
     </resultMap>
 </mapper>
