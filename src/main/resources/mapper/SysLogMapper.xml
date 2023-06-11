@@ -3,7 +3,9 @@
 <mapper namespace="com.star.starboot.system.dao.SysLogMapper">
 
     <resultMap id="resultMap" type="com.star.starboot.system.entity.SysLog">
-
+        <result property="logId" column="LOG_ID" />
+        <result property="requireMethod" column="REQUIRE_METHOD" />
+        <result property="methodDesc" column="METHOD_DESC" />
     </resultMap>
 
     <select id="queryPage" resultType="com.star.starboot.system.entity.SysLog">
