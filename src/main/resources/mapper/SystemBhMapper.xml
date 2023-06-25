@@ -6,6 +6,7 @@
         <result property="systemBhId" column="SYSTEM_BH_ID" />
         <result property="bhType" column="BH_TYPE" />
         <result property="bhrqType" column="BHRQ_TYPE" />
+        <result property="currentXh" column="CURRENT_XH" />
     </resultMap>
 
     <select id="selectOne" resultType="com.star.starboot.system.entity.SystemBh">
