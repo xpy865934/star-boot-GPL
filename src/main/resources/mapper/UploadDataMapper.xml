@@ -3,7 +3,9 @@
 <mapper namespace="com.star.starboot.uploaddata.dao.UploadDataMapper">
 
     <resultMap id="resultMap" type="com.star.starboot.uploaddata.entity.UploadData">
-
+        <result property="userId" column="USER_ID" />
+        <result property="uploadDataId" column="UPLOAD_DATA_ID" />
+        <result property="icuZkys" column="ICU_ZKYS" />
     </resultMap>
 
     <sql id="base_query">
