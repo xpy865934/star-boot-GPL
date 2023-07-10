@@ -6,6 +6,8 @@
         <result property="userId" column="USER_ID" />
         <result property="uploadDataId" column="UPLOAD_DATA_ID" />
         <result property="icuZkys" column="ICU_ZKYS" />
+        <result property="icuCws" column="ICU_CWS" />
+        <result property="icuHszs" column="ICU_HSZS" />
     </resultMap>
 
     <sql id="base_query">
