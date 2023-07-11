@@ -8,6 +8,9 @@
         <result property="icuZkys" column="ICU_ZKYS" />
         <result property="icuCws" column="ICU_CWS" />
         <result property="icuHszs" column="ICU_HSZS" />
+        <result property="yyzcws" column="YYZCWS" />
+        <result property="icuCwl" column="ICU_CWL" />
+        <result property="icuYscwb" column="ICU_YSCWB" />
     </resultMap>
 
     <sql id="base_query">
