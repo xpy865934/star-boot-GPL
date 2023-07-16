@@ -3,6 +3,8 @@
 <mapper namespace="com.star.starboot.person.dao.UserBasicInfoMapper">
 
     <resultMap id="resultMap" type="com.star.starboot.person.entity.UserBasicInfo">
-
+        <result property="userBasicInfoId" column="USER_BASIC_INFO_ID" />
+        <result property="userId" column="USER_ID" />
+        <result property="province" column="PROVINCE" />
     </resultMap>
 </mapper>
