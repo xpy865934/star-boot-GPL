@@ -6,5 +6,8 @@
         <result property="userBasicInfoId" column="USER_BASIC_INFO_ID" />
         <result property="userId" column="USER_ID" />
         <result property="province" column="PROVINCE" />
+        <result property="city" column="CITY" />
+        <result property="cityCode" column="CITY_CODE" />
+        <result property="area" column="AREA" />
     </resultMap>
 </mapper>
