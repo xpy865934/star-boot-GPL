@@ -9,5 +9,9 @@
         <result property="city" column="CITY" />
         <result property="cityCode" column="CITY_CODE" />
         <result property="area" column="AREA" />
+        <result property="areaCode" column="AREA_CODE" />
+        <result property="address" column="ADDRESS" />
+        <result property="postalCode" column="POSTAL_CODE" />
+        <result property="level" column="LEVEL" />
     </resultMap>
 </mapper>
