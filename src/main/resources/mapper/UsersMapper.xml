@@ -3,7 +3,9 @@
 <mapper namespace="com.star.starboot.system.dao.UsersMapper">
 
     <resultMap id="resultMap" type="com.star.starboot.system.entity.Users">
-
+        <result property="userId" column="USER_ID" />
+        <result property="userCode" column="USER_CODE" />
+        <result property="userName" column="USER_NAME" />
     </resultMap>
 
     <sql id="base_query">
