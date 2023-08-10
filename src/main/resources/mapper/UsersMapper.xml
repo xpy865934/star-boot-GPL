@@ -6,6 +6,10 @@
         <result property="userId" column="USER_ID" />
         <result property="userCode" column="USER_CODE" />
         <result property="userName" column="USER_NAME" />
+        <result property="userSex" column="USER_SEX" />
+        <result property="departmentId" column="DEPARTMENT_ID" />
+        <result property="companyPosition" column="COMPANY_POSITION" />
+        <result property="birthday" column="BIRTHDAY" />
     </resultMap>
 
     <sql id="base_query">
