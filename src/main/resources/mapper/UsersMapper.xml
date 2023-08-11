@@ -10,6 +10,9 @@
         <result property="departmentId" column="DEPARTMENT_ID" />
         <result property="companyPosition" column="COMPANY_POSITION" />
         <result property="birthday" column="BIRTHDAY" />
+        <result property="credentials" column="CREDENTIALS" />
+        <result property="credentialsCode" column="CREDENTIALS_CODE" />
+        <result property="email" column="EMAIL" />
     </resultMap>
 
     <sql id="base_query">
