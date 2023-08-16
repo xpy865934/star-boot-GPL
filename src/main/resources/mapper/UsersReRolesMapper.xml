@@ -3,7 +3,9 @@
 <mapper namespace="com.star.starboot.system.dao.UsersReRolesMapper">
 
     <resultMap id="resultMap" type="com.star.starboot.system.entity.UsersReRoles">
-
+        <result property="usersReRolesId" column="USERS_RE_ROLES_ID" />
+        <result property="userId" column="USER_ID" />
+        <result property="roleId" column="ROLE_ID" />
     </resultMap>
 
 </mapper>
