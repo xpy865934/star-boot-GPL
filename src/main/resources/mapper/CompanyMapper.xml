@@ -3,6 +3,7 @@
 <mapper namespace="com.star.starboot.system.dao.CompanyMapper">
 
     <resultMap id="resultMap" type="com.star.starboot.system.entity.Company">
+        <result property="companyId" column="COMPANY_ID" />
         <result property="companyName" column="COMPANY_NAME" />
         <result property="companyCode" column="COMPANY_CODE" />
     </resultMap>
