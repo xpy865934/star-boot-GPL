@@ -7,4 +7,16 @@
         <result property="companyName" column="COMPANY_NAME" />
         <result property="companyCode" column="COMPANY_CODE" />
     </resultMap>
+
+    <sql id="base_query">
+        <if test='companyDto.companyId != null and companyDto.companyId != ""'>
+            and company.COMPANY_ID = #{companyDto.companyId}
+        </if>
+        <if test='companyDto.companyName != null and companyDto.companyName != ""'>
+            and company.COMPANY_NAME LIKE concat('%',#{companyDto.companyName},'%')
+        </if>
+        <if test='companyDto.companyCode != null and companyDto.companyCode != ""'>
+            and company.COMPANY_CODE LIKE concat('%',#{usersDto.companyCode},'%')
+        </if>
+    </sql>
 </mapper>
