@@ -7,6 +7,15 @@
         <result property="departmentName" column="DEPARTMENT_NAME" />
     </resultMap>
 
+    <sql id="base_query">
+        <if test='departmentDto.departmentCode != null and departmentDto.departmentCode != ""'>
+            and department.DEPARTMENT_CODE = #{companyDto.departmentCode}
+        </if>
+        <if test='departmentDto.departmentName != null and departmentDto.departmentName != ""'>
+            and department.DEPARTMENT_NAME LIKE concat('%',#{companyDto.departmentName},'%')
+        </if>
+    </sql>
+
     <select id="getByCodeAndCompanyCode" resultType="com.star.starboot.system.entity.Department">
        select dept.* from t_department dept left join t_company company on dept.COMPANY_ID = dept.COMPANY_ID
         where dept.DELETED_CODE = 0 and company.DELETED_CODE = 0 and dept.DEPARTMENT_CODE = #{departmentCode}
