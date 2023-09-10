@@ -7,6 +7,15 @@
         <result property="dictDs" column="DICT_DS" />
     </resultMap>
 
+    <sql id="base_query">
+        <if test="dictionaryDto.dictCode != null and dictionaryDto.dictCode != ''">
+            and  dict.DICT_CODE like concat('%', #{dictionaryDto.dictCode}, '%')
+        </if>
+        <if test="dictionaryDto.dictName != null and dictionaryDto.dictName != ''">
+            and  dict.DICT_NAME like concat('%', #{dictionaryDto.dictName}, '%')
+        </if>
+    </sql>
+
     <select id="queryPage" resultType="com.star.starboot.system.dto.DictionaryDto">
         select dict.* from t_dictionary dict where dict.DELETED_CODE = 0
         <if test="dictionaryDto.dictCode != null and dictionaryDto.dictCode != ''">
