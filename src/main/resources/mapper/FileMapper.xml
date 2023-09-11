@@ -3,6 +3,7 @@
 <mapper namespace="com.star.starboot.system.dao.FileMapper">
 
     <resultMap id="resultMap" type="com.star.starboot.system.entity.File">
-
+        <result property="fileId" column="FILE_ID" />
+        <result property="absolutePath" column="ABSOLUTE_PATH" />
     </resultMap>
 </mapper>
