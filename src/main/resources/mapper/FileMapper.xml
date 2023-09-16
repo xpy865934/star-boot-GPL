@@ -5,5 +5,8 @@
     <resultMap id="resultMap" type="com.star.starboot.system.entity.File">
         <result property="fileId" column="FILE_ID" />
         <result property="absolutePath" column="ABSOLUTE_PATH" />
+        <result property="fileType" column="FILE_TYPE" />
+        <result property="oldName" column="OLD_NAME" />
+        <result property="realName" column="REAL_NAME" />
     </resultMap>
 </mapper>
