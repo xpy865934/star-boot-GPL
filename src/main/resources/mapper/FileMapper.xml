@@ -8,5 +8,8 @@
         <result property="fileType" column="FILE_TYPE" />
         <result property="oldName" column="OLD_NAME" />
         <result property="realName" column="REAL_NAME" />
+        <result property="relativePath" column="RELATIVE_PATH" />
+        <result property="thumb" column="THUMB" />
+        <result property="saveType" column="SAVE_TYPE" />
     </resultMap>
 </mapper>
