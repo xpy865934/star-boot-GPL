@@ -12,4 +12,13 @@
         <result property="thumb" column="THUMB" />
         <result property="saveType" column="SAVE_TYPE" />
     </resultMap>
+
+    <sql id="base_query">
+        <if test="fileDto.fileId != null and fileDto.fileId != ''">
+            and  file.FILE_ID like concat('%', #{fileDto.fileId}, '%')
+        </if>
+        <if test="fileDto.absolutePath != null and fileDto.absolutePath != ''">
+            and  file.ABSOLUTE_PATH like concat('%', #{fileDto.absolutePath}, '%')
+        </if>
+    </sql>
 </mapper>
