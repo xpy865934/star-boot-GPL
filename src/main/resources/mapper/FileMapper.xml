@@ -20,5 +20,11 @@
         <if test="fileDto.absolutePath != null and fileDto.absolutePath != ''">
             and  file.ABSOLUTE_PATH like concat('%', #{fileDto.absolutePath}, '%')
         </if>
+        <if test="fileDto.fileType != null and fileDto.fileType != ''">
+            and  file.FILE_TYPE like concat('%', #{fileDto.fileType}, '%')
+        </if>
+        <if test="fileDto.realName != null and fileDto.realName != ''">
+            and  file.REAL_NAME like concat('%', #{fileDto.realName}, '%')
+        </if>
     </sql>
 </mapper>
