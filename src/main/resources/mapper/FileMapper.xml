@@ -26,5 +26,14 @@
         <if test="fileDto.realName != null and fileDto.realName != ''">
             and  file.REAL_NAME like concat('%', #{fileDto.realName}, '%')
         </if>
+        <if test="fileDto.relativePath != null and fileDto.relativePath != ''">
+            and  file.RELATIVE_PATH like concat('%', #{fileDto.relativePath}, '%')
+        </if>
+        <if test="fileDto.thumb != null and fileDto.thumb != ''">
+            and  file.THUMB like concat('%', #{fileDto.thumb}, '%')
+        </if>
+        <if test="fileDto.saveType != null and fileDto.saveType != ''">
+            and  file.SAVE_TYPE like concat('%', #{fileDto.saveType}, '%')
+        </if>
     </sql>
 </mapper>
