@@ -3,7 +3,10 @@
 <mapper namespace="com.star.starboot.system.dao.FlowMapper">
 
     <resultMap id="resultMap" type="com.star.starboot.system.entity.Flow">
-
+        <result property="processInstanceId" column="PROCESS_INSTANCE_ID" />
+        <result property="processDefinitionId" column="PROCESS_DEFINITION_ID" />
+        <result property="businessKey" column="BUSINESS_KEY" />
+        <result property="approvalComments" column="APPROVAL_COMMENTS" />
     </resultMap>
 
     <update id="updateBusinessData" statementType="PREPARED">
