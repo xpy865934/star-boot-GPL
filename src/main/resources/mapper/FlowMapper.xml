@@ -7,6 +7,8 @@
         <result property="processDefinitionId" column="PROCESS_DEFINITION_ID" />
         <result property="businessKey" column="BUSINESS_KEY" />
         <result property="approvalComments" column="APPROVAL_COMMENTS" />
+        <result property="nodeName" column="NODE_NAME" />
+        <result property="nodeId" column="NODE_ID" />
     </resultMap>
 
     <update id="updateBusinessData" statementType="PREPARED">
