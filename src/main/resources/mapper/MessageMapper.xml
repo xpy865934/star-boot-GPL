@@ -20,6 +20,18 @@
         <result property="processKey" column="PROCESS_KEY" />
     </resultMap>
 
+    <sql id="base_query">
+        <if test="message.messageRead!=null">
+            and msg.MESSAGE_READ = #{message.messageRead}
+        </if>
+        <if test="message.title!=null and message.title !=''">
+            and msg.title like concat('%',#{message.title},'%')
+        </if>
+        <if test="message.sysMessage!=null and message.sysMessage !=''">
+            and msg.SYS_MESSAGE like concat('%',#{message.sysMessage},'%')
+        </if>
+    </sql>
+
     <select id="getUserMessagePager" resultType="com.star.starboot.system.entity.Message">
         select msg.*,user.USER_NAME as fromName from t_message msg
         left join t_users user on msg.FROM_ID = user.USER_ID
