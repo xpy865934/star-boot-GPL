@@ -10,6 +10,12 @@
         <result property="key" column="KEY" />
     </resultMap>
 
+    <sql id="base_query">
+        <if test="messageSetting.name!=null and messageSetting.name !=''">
+            and setting.name like concat('%',#{messageSetting.name},'%')
+        </if>
+    </sql>
+
     <select id="queryPage" resultType="com.star.starboot.system.entity.MessageSetting">
         select setting.* from t_message_setting setting
         where setting.DELETED_CODE = 0
