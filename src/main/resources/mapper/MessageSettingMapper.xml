@@ -14,6 +14,12 @@
         <if test="messageSetting.name!=null and messageSetting.name !=''">
             and setting.name like concat('%',#{messageSetting.name},'%')
         </if>
+        <if test="messageSetting.memberId!=null and messageSetting.memberId !=''">
+            and setting.MEMBER_ID = #{messageSetting.memberId}
+        </if>
+        <if test="messageSetting.memberName!=null and messageSetting.memberName !=''">
+            and setting.MEMBER_NAME like concat('%',#{messageSetting.memberName},'%')
+        </if>
     </sql>
 
     <select id="queryPage" resultType="com.star.starboot.system.entity.MessageSetting">
