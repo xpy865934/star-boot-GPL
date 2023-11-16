@@ -17,6 +17,15 @@
         <result property="used" column="USED" />
     </resultMap>
 
+    <sql id="base_query">
+        <if test="res.resourcesNum!=null and res.resourcesNum !=''">
+            and res.RESOURCES_NUM like concat('%',#{res.resourcesNum},'%')
+        </if>
+        <if test="res.resourcesId!=null and res.resourcesId !=''">
+            and res.RESOURCES_ID = #{res.resourcesId}
+        </if>
+    </sql>
+
     <select id="queryList" resultType="com.star.starboot.system.dto.ResourcesDto">
         SELECT * FROM t_resources res where res.DELETED_CODE = 0 and res.COMPANY_ID = #{companyId} order by pxh asc
     </select>
