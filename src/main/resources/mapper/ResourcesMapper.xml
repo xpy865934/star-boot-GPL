@@ -24,6 +24,12 @@
         <if test="res.resourcesId!=null and res.resourcesId !=''">
             and res.RESOURCES_ID = #{res.resourcesId}
         </if>
+        <if test="res.resourcesName!=null and res.resourcesName !=''">
+            and res.RESOURCES_NAME like concat('%',#{res.resourcesName},'%')
+        </if>
+        <if test="res.resourcesType!=null and res.resourcesType !=''">
+            and res.RESOURCES_TYPE like concat('%',#{res.resourcesType},'%')
+        </if>
     </sql>
 
     <select id="queryList" resultType="com.star.starboot.system.dto.ResourcesDto">
