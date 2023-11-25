@@ -9,6 +9,21 @@
         <result property="companyId" column="COMPANY_ID" />
     </resultMap>
 
+    <sql id="base_query">
+        <if test="rolesDto.roleId!=null and rolesDto.roleId !=''">
+            and roles.ROLE_ID = #{rolesDto.roleId}
+        </if>
+        <if test="rolesDto.roleCode!=null and rolesDto.roleCode !=''">
+            and roles.ROLE_CODE like concat('%',#{rolesDto.roleCode},'%')
+        </if>
+        <if test="rolesDto.roleName!=null and rolesDto.roleName !=''">
+            and roles.ROLE_NAME like concat('%',#{rolesDto.roleName},'%')
+        </if>
+        <if test="rolesDto.companyId!=null and rolesDto.companyId !=''">
+            and roles.COMPANY_ID = #{rolesDto.companyId}
+        </if>
+    </sql>
+
     <select id="findByUserIdAndCompany" resultType="com.star.starboot.system.entity.Roles">
         select re.ROLE_ID,re.ROLE_CODE,re.ROLE_NAME,re.COMPANY_ID from users_roles_department_company re where re.USER_ID = #{userId} and re.COMPANY_ID = #{companyId}
     </select>
