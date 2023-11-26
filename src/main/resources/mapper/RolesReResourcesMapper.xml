@@ -8,6 +8,18 @@
         <result property="roleId" column="ROLE_ID" />
     </resultMap>
 
+    <sql id="base_query">
+        <if test="re.rolesReResourcesId!=null and re.rolesReResourcesId !=''">
+            and re.ROLE_ID = #{re.rolesReResourcesId}
+        </if>
+        <if test="re.resourcesId!=null and re.resourcesId !=''">
+            and re.ROLE_CODE = #{re.resourcesId}
+        </if>
+        <if test="re.roleId!=null and re.roleId !=''">
+            and re.ROLE_NAME = #{re.roleId}
+        </if>
+    </sql>
+
     <delete id="deleteByRoleId">
         update t_roles_re_resources re set re.DELETED_CODE = 1,re.DELETED_AT = NOW(),re.DELETED_BY = #{userId} where re.ROLE_ID = #{roleId}
     </delete>
