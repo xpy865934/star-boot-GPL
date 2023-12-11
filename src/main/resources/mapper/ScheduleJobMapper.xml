@@ -7,4 +7,16 @@
         <result property="name" column="NAME" />
         <result property="params" column="PARAMS" />
     </resultMap>
+
+    <sql id="base_query">
+        <if test="vo.scheduleJobLogId!=null and vo.scheduleJobLogId !=''">
+            and sch.SCHEDULE_JOB_LOG_ID = #{vo.scheduleJobLogId}
+        </if>
+        <if test="vo.name!=null and vo.name !=''">
+            and sch.NAME like concat('%',#{vo.name},'%')
+        </if>
+        <if test="vo.params!=null and vo.params !=''">
+            and sch.PARAMS like concat('%',#{vo.params},'%')
+        </if>
+    </sql>
 </mapper>
