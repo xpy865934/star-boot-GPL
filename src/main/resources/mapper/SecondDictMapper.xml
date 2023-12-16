@@ -10,4 +10,16 @@
         <result property="secondName" column="SECOND_NAME" />
         <result property="secondDs" column="SECOND_DS" />
     </resultMap>
+
+    <sql id="base_query">
+        <if test="vo.secondDictId!=null and vo.secondDictId !=''">
+            and sch.SECOND_DICT_ID = #{vo.secondDictId}
+        </if>
+        <if test="vo.dictId!=null and vo.dictId !=''">
+            and sch.DICT_ID = #{vo.dictId}
+        </if>
+        <if test="vo.firstDictId!=null and vo.firstDictId !=''">
+            and sch.FIRST_DICT_ID = #{vo.firstDictId}
+        </if>
+    </sql>
 </mapper>
