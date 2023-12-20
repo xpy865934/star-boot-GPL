@@ -21,5 +21,14 @@
         <if test="vo.firstDictId!=null and vo.firstDictId !=''">
             and sch.FIRST_DICT_ID = #{vo.firstDictId}
         </if>
+        <if test="vo.secondCode!=null and vo.secondCode !=''">
+            and sch.SECOND_CODE like concat('%',#{vo.secondCode},'%')
+        </if>
+        <if test="vo.secondName!=null and vo.secondName !=''">
+            and sch.SECOND_NAME like concat('%',#{vo.secondName},'%')
+        </if>
+        <if test="vo.secondDs!=null and vo.secondDs !=''">
+            and sch.SECOND_DS like concat('%',#{vo.secondDs},'%')
+        </if>
     </sql>
 </mapper>
