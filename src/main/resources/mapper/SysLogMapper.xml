@@ -11,6 +11,30 @@
         <result property="os" column="OS" />
     </resultMap>
 
+    <sql id="base_query">
+        <if test="vo.logId!=null and vo.logId !=''">
+            and log.LOG_ID = #{vo.logId}
+        </if>
+        <if test="vo.requireMethod!=null and vo.requireMethod !=''">
+            and log.REQUIRE_METHOD = #{vo.requireMethod}
+        </if>
+        <if test="vo.firstDictId!=null and vo.firstDictId !=''">
+            and log.FIRST_DICT_ID = #{vo.firstDictId}
+        </if>
+        <if test="vo.methodDesc!=null and vo.methodDesc !=''">
+            and log.METHOD_DESC like concat('%',#{vo.methodDesc},'%')
+        </if>
+        <if test="vo.ip!=null and vo.ip !=''">
+            and log.IP = #{vo.ip}
+        </if>
+        <if test="vo.client!=null and vo.client !=''">
+            and log.CLIENT = #{vo.client}
+        </if>
+        <if test="vo.os!=null and vo.os !=''">
+            and log.OS = #{vo.os}
+        </if>
+    </sql>
+
     <select id="queryPage" resultType="com.star.starboot.system.entity.SysLog">
         select log.* from t_sys_log log where log.DELETED_CODE = 0
         <if test="sysLog.userCode != null and sysLog.userCode != ''">
