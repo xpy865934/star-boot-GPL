@@ -9,6 +9,21 @@
         <result property="currentXh" column="CURRENT_XH" />
     </resultMap>
 
+    <sql id="base_query">
+        <if test="vo.systemBhId!=null and vo.systemBhId !=''">
+            and bh.SYSTEM_BH_ID = #{vo.systemBhId}
+        </if>
+        <if test="vo.bhType!=null and vo.bhType !=''">
+            and bh.BH_TYPE = #{vo.bhType}
+        </if>
+        <if test="vo.bhrqType!=null and vo.bhrqType !=''">
+            and bh.BHRQ_TYPE = #{vo.bhrqType}
+        </if>
+        <if test="vo.currentXh!=null and vo.currentXh !=''">
+            and bh.CURRENT_XH = #{vo.currentXh}
+        </if>
+    </sql>
+
     <select id="selectOne" resultType="com.star.starboot.system.entity.SystemBh">
         select * from t_system_bh
         <where>
