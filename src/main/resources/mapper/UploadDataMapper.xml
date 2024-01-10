@@ -17,6 +17,27 @@
         <if test='uploadDataDto.userId != null and uploadDataDto.userId != ""'>
             and uploadData.USER_ID = #{uploadDataDto.userId}
         </if>
+        <if test='uploadDataDto.uploadDataId != null and uploadDataDto.uploadDataId != ""'>
+            and uploadData.UPLOAD_DATA_ID = #{uploadDataDto.uploadDataId}
+        </if>
+        <if test='uploadDataDto.icuZkys != null and uploadDataDto.icuZkys != ""'>
+            and uploadData.ICU_ZKYS like concat('%',#{uploadDataDto.icuZkys},'%')
+        </if>
+        <if test='uploadDataDto.icuCws != null and uploadDataDto.icuCws != ""'>
+            and uploadData.ICU_CWS like concat('%',#{uploadDataDto.icuCws},'%')
+        </if>
+        <if test='uploadDataDto.icuHszs != null and uploadDataDto.icuHszs != ""'>
+            and uploadData.ICU_HSZS like concat('%',#{uploadDataDto.icuHszs},'%')
+        </if>
+        <if test='uploadDataDto.yyzcws != null and uploadDataDto.yyzcws != ""'>
+            and uploadData.YYZCWS like concat('%',#{uploadDataDto.yyzcws},'%')
+        </if>
+        <if test='uploadDataDto.icuCwl != null and uploadDataDto.icuCwl != ""'>
+            and uploadData.ICU_CWL like concat('%',#{uploadDataDto.icuCwl},'%')
+        </if>
+        <if test='uploadDataDto.icuYscwb != null and uploadDataDto.icuYscwb != ""'>
+            and uploadData.ICU_YSCWB like concat('%',#{uploadDataDto.icuYscwb},'%')
+        </if>
         <if test='uploadDataDto.sbsj != null'>
             and date_format(uploadData.SBSJ,'%Y-%m') = date_format(#{uploadDataDto.sbsj},'%Y-%m')
         </if>
