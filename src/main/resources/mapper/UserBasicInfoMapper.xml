@@ -14,4 +14,16 @@
         <result property="postalCode" column="POSTAL_CODE" />
         <result property="level" column="LEVEL" />
     </resultMap>
+
+    <sql id="base_query">
+        <if test='vo.userBasicInfoId != null and vo.userBasicInfoId != ""'>
+            and ubi.USER_BASIC_INFO_ID = #{vo.userBasicInfoId}
+        </if>
+        <if test='vo.userId != null and vo.userId != ""'>
+            and ubi.USER_ID = #{vo.userId}
+        </if>
+        <if test='vo.province != null and vo.province != ""'>
+            and ubi.PROVINCE like concat('%',#{vo.province},'%')
+        </if>
+    </sql>
 </mapper>
