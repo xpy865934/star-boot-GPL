@@ -25,5 +25,17 @@
         <if test='vo.province != null and vo.province != ""'>
             and ubi.PROVINCE like concat('%',#{vo.province},'%')
         </if>
+        <if test='vo.city != null and vo.city != ""'>
+            and ubi.CITY like concat('%',#{vo.city},'%')
+        </if>
+        <if test='vo.cityCode != null and vo.cityCode != ""'>
+            and ubi.CITY_CODE = #{vo.cityCode}
+        </if>
+        <if test='vo.area != null and vo.area != ""'>
+            and ubi.AREA like concat('%',#{vo.area},'%')
+        </if>
+        <if test='vo.areaCode != null and vo.areaCode != ""'>
+            and ubi.AREA_CODE = #{vo.areaCode}
+        </if>
     </sql>
 </mapper>
