@@ -37,5 +37,14 @@
         <if test='vo.areaCode != null and vo.areaCode != ""'>
             and ubi.AREA_CODE = #{vo.areaCode}
         </if>
+        <if test='vo.address != null and vo.address != ""'>
+            and ubi.ADDRESS like concat('%',#{vo.address},'%')
+        </if>
+        <if test='vo.postalCode != null and vo.postalCode != ""'>
+            and ubi.POSTAL_CODE = #{vo.postalCode}
+        </if>
+        <if test='vo.level != null and vo.level != ""'>
+            and ubi.LEVEL = #{vo.level}
+        </if>
     </sql>
 </mapper>
