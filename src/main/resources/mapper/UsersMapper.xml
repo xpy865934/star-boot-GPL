@@ -16,11 +16,20 @@
     </resultMap>
 
     <sql id="base_query">
+        <if test='usersDto.userId != null and usersDto.userId != ""'>
+            and users.USER_ID = #{usersDto.userId}
+        </if>
         <if test='usersDto.userCode != null and usersDto.userCode != ""'>
             and users.USER_CODE LIKE concat('%',#{usersDto.userCode},'%')
         </if>
         <if test='usersDto.userName != null and usersDto.userName != ""'>
             and users.USER_NAME LIKE concat('%',#{usersDto.userName},'%')
+        </if>
+        <if test='usersDto.userSex != null and usersDto.userSex != ""'>
+            and users.USER_SEX = #{usersDto.userSex}
+        </if>
+        <if test='usersDto.departmentId != null and usersDto.departmentId != ""'>
+            and users.DEPARTMENT_ID = #{usersDto.departmentId}
         </if>
         <if test='usersDto.tel != null and usersDto.tel != ""'>
             and users.TEL LIKE concat('%',#{usersDto.tel},'%')
