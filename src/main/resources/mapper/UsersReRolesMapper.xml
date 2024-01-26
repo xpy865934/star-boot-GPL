@@ -8,4 +8,15 @@
         <result property="roleId" column="ROLE_ID" />
     </resultMap>
 
+    <sql id="base_query">
+        <if test='vo.usersReRolesId != null and vo.usersReRolesId != ""'>
+            and urr.USERS_RE_ROLES_ID = #{vo.usersReRolesId}
+        </if>
+        <if test='vo.userId != null and vo.userId != ""'>
+            and urr.USER_ID = #{vo.userId}
+        </if>
+        <if test='vo.roleId != null and vo.roleId != ""'>
+            and urr.ROLE_ID = #{vo.roleId}
+        </if>
+    </sql>
 </mapper>
