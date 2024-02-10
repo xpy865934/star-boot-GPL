@@ -1,6 +1,7 @@
 package com.star.starboot.system.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.star.starboot.system.dto.CompanyDto;
 import com.star.starboot.system.entity.Company;
 
 /**
@@ -13,4 +14,10 @@ import com.star.starboot.system.entity.Company;
  */
 public interface CompanyMapper extends BaseMapper<Company> {
 
+    /**
+     * 查询公司列表
+     * @param dto
+     * @return
+     */
+    List<CompanyDto> queryList(@Param("dto") CompanyDto dto);
 }
