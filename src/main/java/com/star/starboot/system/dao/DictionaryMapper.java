@@ -24,4 +24,11 @@ public interface DictionaryMapper extends BaseMapper<Dictionary> {
      * @return
      */
     IPage<DictionaryDto> queryPage(@Param("page") Page page, @Param("dictionaryDto") DictionaryDto dictionaryDto);
+
+    /**
+     * 查字典列表
+     * @param dto
+     * @return
+     */
+    List<DictionaryDto> queryList(@Param("dto") DictionaryDto dto);
 }

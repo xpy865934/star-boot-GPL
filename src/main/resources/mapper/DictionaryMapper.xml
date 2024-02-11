@@ -26,4 +26,7 @@
         </if>
     </select>
 
+    <select id="queryList" resultType="com.star.starboot.system.dto.DictionaryDto">
+        select dict.* from t_dictionary dict where dict.DELETED_CODE = 0
+    </select>
 </mapper>
