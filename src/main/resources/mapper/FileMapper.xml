@@ -36,4 +36,8 @@
             and  file.SAVE_TYPE like concat('%', #{fileDto.saveType}, '%')
         </if>
     </sql>
+
+    <select id="queryList" resultType="com.star.starboot.system.entity.File">
+        select file.* from t_file file where file.DELETED_CODE = 0
+    </select>
 </mapper>

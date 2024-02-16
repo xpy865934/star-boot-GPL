@@ -14,4 +14,10 @@ import com.star.starboot.system.entity.File;
  */
 public interface FileMapper extends BaseMapper<File> {
 
+    /**
+     * 查文件列表
+     * @param dto
+     * @return
+     */
+    List<File> queryList(@Param("dto") File dto);
 }
