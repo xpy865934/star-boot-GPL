@@ -65,4 +65,8 @@
         select IFNULL(max(msg.NOTIFY_ID),0) + 1 as notifyId from t_message msg
         where msg.DELETED_CODE = 0
     </select>
+    <select id="queryList" resultType="com.star.starboot.system.entity.Message">
+        select msg.* from t_message msg
+        where msg.DELETED_CODE = 0
+    </select>
 </mapper>

@@ -55,4 +55,11 @@ public interface MessageMapper extends BaseMapper<Message> {
      * @return
      */
     Integer getMaxNotifyId();
+
+    /**
+     * 查通知任务列表
+     * @param dto
+     * @return
+     */
+    List<Message> queryList(@Param("dto") Message dto);
 }
