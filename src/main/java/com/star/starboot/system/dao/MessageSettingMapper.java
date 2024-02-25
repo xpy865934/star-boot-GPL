@@ -24,4 +24,11 @@ public interface MessageSettingMapper extends BaseMapper<MessageSetting> {
      * @return
      */
     IPage<MessageSetting> queryPage(@Param("page") Page page, @Param("messageSetting") MessageSetting messageSetting);
+
+    /**
+     * 查消息列表
+     * @param dto
+     * @return
+     */
+    List<MessageSetting> queryList(@Param("dto") MessageSetting dto);
 }

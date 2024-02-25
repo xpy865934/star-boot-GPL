@@ -35,4 +35,8 @@
             and setting.name like concat('%',#{messageSetting.name},'%')
         </if>
     </select>
+    <select id="queryList" resultType="com.star.starboot.system.entity.MessageSetting">
+        select setting.* from t_message_setting setting
+        where setting.DELETED_CODE = 0
+    </select>
 </mapper>
