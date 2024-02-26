@@ -48,4 +48,11 @@ public interface RolesMapper extends BaseMapper<Roles> {
      * @return
      */
     List<RolesDto> getListByCompantId(@Param("companyId") String companyId);
+
+    /**
+     * 查角色列表
+     * @param dto
+     * @return
+     */
+    List<RolesDto> queryList(@Param("dto") RolesDto dto);
 }

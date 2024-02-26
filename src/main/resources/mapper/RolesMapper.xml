@@ -49,5 +49,9 @@
     <select id="getListByCompantId" resultType="com.star.starboot.system.dto.RolesDto">
         select roles.* from t_roles roles where roles.DELETED_CODE = 0 and roles.COMPANY_ID = #{companyId}
     </select>
+    <select id="queryList" resultType="com.star.starboot.system.dto.RolesDto">
+        select roles.* from t_roles roles
+        where roles.DELETED_CODE = 0
+    </select>
 
 </mapper>
