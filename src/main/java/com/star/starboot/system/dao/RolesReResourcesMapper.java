@@ -30,4 +30,12 @@ public interface RolesReResourcesMapper extends BaseMapper<RolesReResources> {
      * @param userId
      */
     void deleteByRoleId(@Param("roleId") String roleId, @Param("userId") String userId);
+
+
+    /**
+     * 查询列表
+     * @param dto
+     * @return
+     */
+    List<RolesReResources> queryList(@Param("dto") RolesReResources dto);
 }
