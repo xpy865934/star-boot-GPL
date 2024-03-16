@@ -19,4 +19,9 @@
             and sch.PARAMS like concat('%',#{vo.params},'%')
         </if>
     </sql>
+
+    <select id="queryList" resultType="com.star.starboot.quartz.entity.ScheduleJob">
+        select sch.* from t_schedule_job sch
+        where sch.DELETED_CODE = 0
+    </select>
 </mapper>
