@@ -31,4 +31,9 @@
             and sch.SECOND_DS like concat('%',#{vo.secondDs},'%')
         </if>
     </sql>
+
+    <select id="queryList" resultType="com.star.starboot.system.entity.SecondDict">
+        select sch.* from t_second_dict sch
+        where sch.DELETED_CODE = 0
+    </select>
 </mapper>
