@@ -36,4 +36,9 @@
             </if>
         </where>
     </select>
+
+    <select id="queryList" resultType="com.star.starboot.system.entity.SystemBh">
+        select bh.* from t_system_bh bh
+        where bh.DELETED_CODE = 0
+    </select>
 </mapper>
