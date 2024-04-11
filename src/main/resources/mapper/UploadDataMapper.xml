@@ -59,4 +59,8 @@
         Order by uploadData.SBSJ desc
     </select>
 
+    <select id="queryList" resultType="com.star.starboot.uploaddata.dto.UploadDataDto">
+        select uploadData.* from t_upload_data uploadData
+        where uploadData.DELETED_CODE = 0
+    </select>
 </mapper>
