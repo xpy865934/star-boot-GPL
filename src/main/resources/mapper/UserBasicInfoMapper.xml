@@ -47,4 +47,9 @@
             and ubi.LEVEL = #{vo.level}
         </if>
     </sql>
+
+    <select id="queryList" resultType="com.star.starboot.person.dto.UserBasicInfoDto">
+        select baseInfo.* from t_user_basic_info baseInfo
+        where baseInfo.DELETED_CODE = 0
+    </select>
 </mapper>
