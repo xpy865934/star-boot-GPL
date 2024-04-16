@@ -19,4 +19,8 @@
             and urr.ROLE_ID = #{vo.roleId}
         </if>
     </sql>
+    <select id="queryList" resultType="com.star.starboot.system.dto.UsersReRolesDto">
+        select reRoles.* from t_users_re_roles reRoles
+        where reRoles.DELETED_CODE = 0
+    </select>
 </mapper>
