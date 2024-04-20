@@ -1,7 +1,11 @@
 package com.star.starboot.system.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.star.starboot.system.dto.UsersReRolesDto;
 import com.star.starboot.system.entity.UsersReRoles;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +17,10 @@ import com.star.starboot.system.entity.UsersReRoles;
  */
 public interface UsersReRolesMapper extends BaseMapper<UsersReRoles> {
 
+    /**
+     * 查用户和角色关联关系列表
+     * @param dto
+     * @return
+     */
+    List<UsersReRolesDto> queryList(@Param("dto") UsersReRolesDto dto);
 }
