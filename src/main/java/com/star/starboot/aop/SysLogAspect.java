@@ -40,7 +40,6 @@ import java.util.stream.Collectors;
 @Aspect
 @Component
 @Slf4j
-@SuppressWarnings("all")
 public class SysLogAspect {
     @Autowired
     private SysLogService sysLogService;
