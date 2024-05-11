@@ -31,4 +31,10 @@ public interface DepartmentMapper extends BaseMapper<Department> {
      * @return
      */
     List<DepartmentDto> queryList(@Param("dto") DepartmentDto dto);
+    /**
+     * 根据id查询部门
+     * @param id
+     * @return
+     */
+    List<DepartmentDto> queryById(@Param("id") String id);
 }

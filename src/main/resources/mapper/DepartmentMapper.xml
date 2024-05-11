@@ -27,5 +27,9 @@
             and dept.COMPANY_ID = #{dto.companyId}
         </if>
     </select>
+    <select id="queryById" resultType="com.star.starboot.system.dto.DepartmentDto">
+        select dept.* from t_department dept where dept.DELETED_CODE = 0
+        and dept.DEPARTMENT_ID = #{id}
+    </select>
 
 </mapper>
