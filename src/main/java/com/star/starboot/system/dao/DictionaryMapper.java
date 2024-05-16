@@ -7,6 +7,8 @@ import com.star.starboot.system.dto.DictionaryDto;
 import com.star.starboot.system.entity.Dictionary;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * <p>
  * 系统字典表 Mapper 接口
@@ -31,4 +33,10 @@ public interface DictionaryMapper extends BaseMapper<Dictionary> {
      * @return
      */
     List<DictionaryDto> queryList(@Param("dto") DictionaryDto dto);
+    /**
+     * 根据id查询字典
+     * @param id
+     * @return
+     */
+    DictionaryDto queryById(@Param("id") String id);
 }
