@@ -3,6 +3,9 @@ package com.star.starboot.system.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.star.starboot.system.entity.File;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -20,4 +23,11 @@ public interface FileMapper extends BaseMapper<File> {
      * @return
      */
     List<File> queryList(@Param("dto") File dto);
+
+    /**
+     * 根据id查询文件
+     * @param id
+     * @return
+     */
+    List<File> queryById(@Param("id") String id);
 }
