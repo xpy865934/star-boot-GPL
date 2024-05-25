@@ -39,4 +39,10 @@ public interface FirstDictMapper extends BaseMapper<FirstDict> {
      * @return
      */
     List<FirstDictDto> getFirstDictAll();
+    /**
+     * 根据id查询一级代码
+     * @param id
+     * @return
+     */
+    FirstDictDto queryById(@Param("id") String id);
 }

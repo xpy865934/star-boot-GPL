@@ -47,5 +47,8 @@
         left join t_dictionary dict on firstDict.DICT_ID = dict.DICT_ID
         where firstDict.DELETED_CODE = 0 ORDER BY dict.dict_code desc,firstDict.FIRST_DICT_CODE asc
     </select>
+    <select id="queryById" resultType="com.star.starboot.system.dto.FirstDictDto">
+        select firstDict.* from t_first_dict firstDict where firstDict.DELETED_CODE = 0 and firstDict.FIRST_DICT_ID = #{id}
+    </select>
 
 </mapper>
