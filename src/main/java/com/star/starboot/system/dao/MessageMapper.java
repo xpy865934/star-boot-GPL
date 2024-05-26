@@ -62,4 +62,10 @@ public interface MessageMapper extends BaseMapper<Message> {
      * @return
      */
     List<Message> queryList(@Param("dto") Message dto);
+    /**
+     * 根据id查询任务
+     * @param id
+     * @return
+     */
+    Message queryById(@Param("id") String id);
 }
