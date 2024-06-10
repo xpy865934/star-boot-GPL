@@ -39,4 +39,8 @@
         select setting.* from t_message_setting setting
         where setting.DELETED_CODE = 0
     </select>
+    <select id="queryById" resultType="com.star.starboot.system.entity.MessageSetting">
+        select setting.* from t_message_setting setting
+        where setting.DELETED_CODE = 0 and setting.MESSAGE_ID = #{id}
+    </select>
 </mapper>

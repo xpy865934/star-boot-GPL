@@ -31,4 +31,10 @@ public interface MessageSettingMapper extends BaseMapper<MessageSetting> {
      * @return
      */
     List<MessageSetting> queryList(@Param("dto") MessageSetting dto);
+    /**
+     * 根据id查询
+     * @param id
+     * @return
+     */
+    MessageSetting queryById(@Param("id") String id);
 }
