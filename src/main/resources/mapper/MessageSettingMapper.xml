@@ -41,6 +41,6 @@
     </select>
     <select id="queryById" resultType="com.star.starboot.system.entity.MessageSetting">
         select setting.* from t_message_setting setting
-        where setting.DELETED_CODE = 0 and setting.MESSAGE_ID = #{id}
+        where setting.DELETED_CODE = 0 and setting.MESSAGE_SETTING_ID = #{id}
     </select>
 </mapper>
