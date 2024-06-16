@@ -35,5 +35,9 @@
     <select id="queryList" resultType="com.star.starboot.system.dto.ResourcesDto">
         SELECT * FROM t_resources res where res.DELETED_CODE = 0 and res.COMPANY_ID = #{companyId} order by pxh asc
     </select>
+    <select id="queryById" resultType="com.star.starboot.system.dto.ResourcesDto">
+        select res.* from t_resources res
+        where res.DELETED_CODE = 0 and res.RESOURCES_ID = #{id}
+    </select>
 
 </mapper>
