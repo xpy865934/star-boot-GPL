@@ -53,5 +53,9 @@
         select roles.* from t_roles roles
         where roles.DELETED_CODE = 0
     </select>
+    <select id="queryById" resultType="com.star.starboot.system.dto.RolesDto">
+        select roles.* from t_roles roles
+        where roles.DELETED_CODE = 0 and roles.ROLE_ID = #{id}
+    </select>
 
 </mapper>
