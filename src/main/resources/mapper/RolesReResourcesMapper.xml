@@ -42,4 +42,8 @@
         select re.* from roles_resources re
         where re.DELETED_CODE = 0
     </select>
+    <select id="queryById" resultType="com.star.starboot.system.entity.RolesReResources">
+        select re.* from roles_resources re
+        where re.DELETED_CODE = 0 and re.ROLES_RE_RESOURCES_ID = #{id}
+    </select>
 </mapper>

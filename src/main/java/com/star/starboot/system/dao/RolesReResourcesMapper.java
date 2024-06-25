@@ -38,4 +38,11 @@ public interface RolesReResourcesMapper extends BaseMapper<RolesReResources> {
      * @return
      */
     List<RolesReResources> queryList(@Param("dto") RolesReResources dto);
+
+    /**
+     * 根据id查询
+     * @param id
+     * @return
+     */
+    RolesReResources queryById(@Param("id") String id);
 }
