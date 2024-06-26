@@ -2,8 +2,8 @@ package com.star.starboot.quartz.dao;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.star.starboot.quartz.entity.ScheduleJob;
 import com.star.starboot.quartz.entity.ScheduleJobLog;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -15,4 +15,10 @@ import com.star.starboot.quartz.entity.ScheduleJobLog;
  */
 public interface ScheduleJobLogMapper extends BaseMapper<ScheduleJobLog> {
 
+    /**
+     * 根据id查询
+     * @param id
+     * @return
+     */
+    ScheduleJobLog queryById(@Param("id") String id);
 }

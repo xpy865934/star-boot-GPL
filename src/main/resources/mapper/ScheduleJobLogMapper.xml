@@ -24,4 +24,8 @@
         select sch.* from t_schedule_job_log sch
         where sch.DELETED_CODE = 0
     </select>
+    <select id="queryById" resultType="com.star.starboot.quartz.entity.ScheduleJobLog">
+        select sch.* from t_schedule_job_log sch
+        where sch.DELETED_CODE = 0 and sch.SCHEDULE_JOB_LOG_ID = #{id}
+    </select>
 </mapper>
