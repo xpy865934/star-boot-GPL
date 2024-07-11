@@ -2,6 +2,7 @@ package com.star.starboot.system.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.star.starboot.system.entity.SecondDict;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -13,4 +14,10 @@ import com.star.starboot.system.entity.SecondDict;
  */
 public interface SecondDictMapper extends BaseMapper<SecondDict> {
 
+    /**
+     * 根据id查询
+     * @param id
+     * @return
+     */
+    SecondDict queryById(@Param("id") String id);
 }
