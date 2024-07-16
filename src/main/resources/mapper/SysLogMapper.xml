@@ -50,4 +50,8 @@
         select log.* from t_sys_log log
         where log.DELETED_CODE = 0
     </select>
+    <select id="queryById" resultType="com.star.starboot.system.entity.SysLog">
+        select log.* from t_sys_log log
+        where log.DELETED_CODE = 0 and log.LOG_ID = #{id}
+    </select>
 </mapper>

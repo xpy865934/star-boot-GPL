@@ -23,4 +23,11 @@ public interface SysLogMapper extends BaseMapper<SysLog> {
      * @return
      */
     IPage<SysLog> queryPage(@Param("page") Page page, @Param("sysLog") SysLog sysLog);
+
+    /**
+     * 根据id查询
+     * @param id
+     * @return
+     */
+    SysLog queryById(@Param("id") String id);
 }
