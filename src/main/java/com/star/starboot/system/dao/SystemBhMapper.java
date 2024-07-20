@@ -22,4 +22,11 @@ public interface SystemBhMapper extends BaseMapper<SystemBh> {
      * @return
      */
     SystemBh selectOne(@Param("bhType") String bhType, @Param("dateTy") String dateTy);
+
+    /**
+     * 根据id查询
+     * @param id
+     * @return
+     */
+    SystemBh queryById(@Param("id") String id);
 }

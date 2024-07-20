@@ -41,4 +41,8 @@
         select bh.* from t_system_bh bh
         where bh.DELETED_CODE = 0
     </select>
+    <select id="queryById" resultType="com.star.starboot.system.entity.SystemBh">
+        select bh.* from t_system_bh bh
+        where bh.DELETED_CODE = 0 and bh.SYSTEM_BH_ID = #{id}
+    </select>
 </mapper>
