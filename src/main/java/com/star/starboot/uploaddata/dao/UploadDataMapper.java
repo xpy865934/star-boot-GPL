@@ -8,8 +8,6 @@ import com.star.starboot.uploaddata.dto.UploadDataDto;
 import com.star.starboot.uploaddata.entity.UploadData;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.Date;
-
 /**
  * <p>
  * 上报的数据 Mapper 接口
@@ -34,4 +32,11 @@ public interface UploadDataMapper extends BaseMapper<UploadData> {
      * @return
      */
     IPage<UploadDataDto> queryPage(Page page, @Param("uploadDataDto") UploadDataDto uploadDataDto);
+
+    /**
+     * 根据id查询
+     * @param id
+     * @return
+     */
+    UploadDataDto queryById(@Param("id") String id);
 }

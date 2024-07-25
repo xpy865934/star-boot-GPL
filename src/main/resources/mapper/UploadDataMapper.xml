@@ -63,4 +63,8 @@
         select uploadData.* from t_upload_data uploadData
         where uploadData.DELETED_CODE = 0
     </select>
+    <select id="queryById" resultType="com.star.starboot.uploaddata.dto.UploadDataDto">
+        select uploadData.* from t_upload_data uploadData
+        where uploadData.DELETED_CODE = 0 and uploadData.UPLOAD_DATA_ID = #{id}
+    </select>
 </mapper>
