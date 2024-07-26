@@ -52,4 +52,8 @@
         select baseInfo.* from t_user_basic_info baseInfo
         where baseInfo.DELETED_CODE = 0
     </select>
+    <select id="queryById" resultType="com.star.starboot.person.dto.UserBasicInfoDto">
+        select baseInfo.* from t_user_basic_info baseInfo
+        where baseInfo.DELETED_CODE = 0 and baseInfo.USER_BASIC_INFO_ID = #{id}
+    </select>
 </mapper>

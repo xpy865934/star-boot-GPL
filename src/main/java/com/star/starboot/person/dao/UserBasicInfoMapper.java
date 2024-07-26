@@ -3,6 +3,7 @@ package com.star.starboot.person.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.star.starboot.person.entity.UserBasicInfo;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -14,4 +15,10 @@ import com.star.starboot.person.entity.UserBasicInfo;
  */
 public interface UserBasicInfoMapper extends BaseMapper<UserBasicInfo> {
 
+    /**
+     * 根据id查询
+     * @param id
+     * @return
+     */
+    UserBasicInfo queryById(@Param("id") String id);
 }
