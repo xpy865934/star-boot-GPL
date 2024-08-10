@@ -23,4 +23,11 @@ public interface UsersReRolesMapper extends BaseMapper<UsersReRoles> {
      * @return
      */
     List<UsersReRolesDto> queryList(@Param("dto") UsersReRolesDto dto);
+
+    /**
+     * 根据id查询
+     * @param id
+     * @return
+     */
+    UsersReRolesDto queryById(@Param("id") String id);
 }

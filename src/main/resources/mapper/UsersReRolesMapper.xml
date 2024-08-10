@@ -23,4 +23,8 @@
         select reRoles.* from t_users_re_roles reRoles
         where reRoles.DELETED_CODE = 0
     </select>
+    <select id="queryById" resultType="com.star.starboot.system.dto.UsersReRolesDto">
+        select reRoles.* from t_users_re_roles reRoles
+        where reRoles.DELETED_CODE = 0 and reRoles.USERS_RE_ROLES_ID = #{id}
+    </select>
 </mapper>
