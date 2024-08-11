@@ -23,4 +23,8 @@
     <select id="queryList" resultType="com.star.starboot.system.dto.CompanyDto">
         select company.* from t_company company where company.DELETED_CODE = 0
     </select>
+    <select id="queryById" resultType="com.star.starboot.system.dto.CompanyDto">
+        select company.* from t_company company
+        where company.DELETED_CODE = 0 and company.COMPANY_ID = #{id}
+    </select>
 </mapper>

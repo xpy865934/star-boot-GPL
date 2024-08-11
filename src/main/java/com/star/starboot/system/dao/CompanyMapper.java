@@ -3,6 +3,9 @@ package com.star.starboot.system.dao;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.star.starboot.system.dto.CompanyDto;
 import com.star.starboot.system.entity.Company;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -20,4 +23,11 @@ public interface CompanyMapper extends BaseMapper<Company> {
      * @return
      */
     List<CompanyDto> queryList(@Param("dto") CompanyDto dto);
+
+    /**
+     * 根据id查询
+     * @param id
+     * @return
+     */
+    CompanyDto queryById(@Param("id") String id);
 }
