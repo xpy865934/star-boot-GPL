@@ -39,4 +39,11 @@ public interface DictionaryMapper extends BaseMapper<Dictionary> {
      * @return
      */
     DictionaryDto queryById(@Param("id") String id);
+
+    /**
+     * 根据ids查询
+     * @param ids
+     * @return
+     */
+    List<DictionaryDto> listByIds(@Param("ids") List<String> ids);
 }

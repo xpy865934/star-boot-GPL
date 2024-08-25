@@ -34,4 +34,11 @@
         select dict.* from t_dictionary dict where dict.DELETED_CODE = 0
                                                and dict.DICT_ID = #{id}
     </select>
+    <select id="listByIds" resultType="com.star.starboot.system.dto.DictionaryDto">
+        select dict.* from t_dictionary dict where dict.DELETED_CODE = 0
+        and
+        <foreach collection='ids' item="item" separator="or" open="(" close=")">
+            find_in_set(dict.DICT_ID, #{item})
+        </foreach>
+    </select>
 </mapper>
