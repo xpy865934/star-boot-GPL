@@ -30,4 +30,11 @@ public interface FileMapper extends BaseMapper<File> {
      * @return
      */
     List<File> queryById(@Param("id") String id);
+
+    /**
+     * 根据ids查询
+     * @param ids
+     * @return
+     */
+    List<File> listByIds(@Param("ids") List<String> ids);
 }

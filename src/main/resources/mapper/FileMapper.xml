@@ -43,4 +43,11 @@
     <select id="queryById" resultType="com.star.starboot.system.entity.File">
         select file.* from t_file file where file.DELETED_CODE = 0 and file.FILE_ID = #{id}
     </select>
+    <select id="listByIds" resultType="com.star.starboot.system.entity.File">
+        select file.* from t_file file where file.DELETED_CODE = 0
+        and
+        <foreach collection='ids' item="item" separator="or" open="(" close=")">
+            find_in_set(file.FILE_ID, #{item})
+        </foreach>
+    </select>
 </mapper>
