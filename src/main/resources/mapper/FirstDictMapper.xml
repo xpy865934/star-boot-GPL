@@ -50,5 +50,12 @@
     <select id="queryById" resultType="com.star.starboot.system.dto.FirstDictDto">
         select firstDict.* from t_first_dict firstDict where firstDict.DELETED_CODE = 0 and firstDict.FIRST_DICT_ID = #{id}
     </select>
+    <select id="listByIds" resultType="com.star.starboot.system.dto.FirstDictDto">
+        select firstDict.* from t_first_dict firstDict where firstDict.DELETED_CODE = 0
+        and
+        <foreach collection='ids' item="item" separator="or" open="(" close=")">
+            find_in_set(firstDict.FIRST_DICT_ID, #{item})
+        </foreach>
+    </select>
 
 </mapper>
