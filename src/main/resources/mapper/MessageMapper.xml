@@ -73,4 +73,11 @@
         select msg.* from t_message msg
         where msg.DELETED_CODE = 0 and msg.MESSAGE_ID = #{id}
     </select>
+    <select id="listByIds" resultType="com.star.starboot.system.entity.Message">
+        select msg.* from t_message msg where msg.DELETED_CODE = 0
+        and
+        <foreach collection='ids' item="item" separator="or" open="(" close=")">
+            find_in_set(msg.MESSAGE_ID, #{item})
+        </foreach>
+    </select>
 </mapper>
