@@ -43,4 +43,11 @@
         select setting.* from t_message_setting setting
         where setting.DELETED_CODE = 0 and setting.MESSAGE_SETTING_ID = #{id}
     </select>
+    <select id="listByIds" resultType="com.star.starboot.system.entity.MessageSetting">
+        select setting.* from t_message_setting setting where setting.DELETED_CODE = 0
+        and
+        <foreach collection='ids' item="item" separator="or" open="(" close=")">
+            find_in_set(setting.MESSAGE_SETTING_ID, #{item})
+        </foreach>
+    </select>
 </mapper>

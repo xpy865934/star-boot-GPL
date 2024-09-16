@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.star.starboot.system.entity.MessageSetting;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * <p>
  * 消息配置 Mapper 接口
@@ -37,4 +39,11 @@ public interface MessageSettingMapper extends BaseMapper<MessageSetting> {
      * @return
      */
     MessageSetting queryById(@Param("id") String id);
+
+    /**
+     * 根据ids查询
+     * @param ids
+     * @return
+     */
+    List<MessageSetting> listByIds(@Param("ids") List<String> ids);
 }
