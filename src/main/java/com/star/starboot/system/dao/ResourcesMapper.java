@@ -30,4 +30,11 @@ public interface ResourcesMapper extends BaseMapper<Resources> {
      * @return
      */
     ResourcesDto queryById(@Param("id") String id);
+
+    /**
+     * 根据ids查询
+     * @param ids
+     * @return
+     */
+    List<ResourcesDto> listByIds(@Param("ids") List<String> ids);
 }

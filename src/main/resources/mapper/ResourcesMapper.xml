@@ -39,5 +39,12 @@
         select res.* from t_resources res
         where res.DELETED_CODE = 0 and res.RESOURCES_ID = #{id}
     </select>
+    <select id="listByIds" resultType="com.star.starboot.system.dto.ResourcesDto">
+        select res.* from t_resources res where res.DELETED_CODE = 0
+        and
+        <foreach collection='ids' item="item" separator="or" open="(" close=")">
+            find_in_set(res.RESOURCES_ID, #{item})
+        </foreach>
+    </select>
 
 </mapper>
