@@ -57,5 +57,12 @@
         select roles.* from t_roles roles
         where roles.DELETED_CODE = 0 and roles.ROLE_ID = #{id}
     </select>
+    <select id="listByIds" resultType="com.star.starboot.system.dto.RolesDto">
+        select roles.* from t_roles roles where roles.DELETED_CODE = 0
+        and
+        <foreach collection='ids' item="item" separator="or" open="(" close=")">
+            find_in_set(roles.ROLE_ID, #{item})
+        </foreach>
+    </select>
 
 </mapper>
