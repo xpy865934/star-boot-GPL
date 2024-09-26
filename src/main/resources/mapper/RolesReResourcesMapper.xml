@@ -46,4 +46,11 @@
         select re.* from roles_resources re
         where re.DELETED_CODE = 0 and re.ROLES_RE_RESOURCES_ID = #{id}
     </select>
+    <select id="listByIds" resultType="com.star.starboot.system.entity.RolesReResources">
+        select re.* from roles_resources re where re.DELETED_CODE = 0
+        and
+        <foreach collection='ids' item="item" separator="or" open="(" close=")">
+            find_in_set(re.ROLES_RE_RESOURCES_ID, #{item})
+        </foreach>
+    </select>
 </mapper>
