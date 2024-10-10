@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.star.starboot.system.entity.SecondDict;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * <p>
  * 二级字典 Mapper 接口
@@ -20,4 +22,11 @@ public interface SecondDictMapper extends BaseMapper<SecondDict> {
      * @return
      */
     SecondDict queryById(@Param("id") String id);
+
+    /**
+     * 根据ids查询
+     * @param ids
+     * @return
+     */
+    List<SecondDict> listByIds(@Param("ids") List<String> ids);
 }

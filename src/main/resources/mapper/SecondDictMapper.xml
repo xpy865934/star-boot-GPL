@@ -40,4 +40,11 @@
         select sch.* from t_second_dict sch
         where sch.DELETED_CODE = 0 and sch.SECOND_DICT_ID = #{id}
     </select>
+    <select id="listByIds" resultType="com.star.starboot.system.entity.SecondDict">
+        select sch.* from t_second_dict sch where sch.DELETED_CODE = 0
+        and
+        <foreach collection='ids' item="item" separator="or" open="(" close=")">
+            find_in_set(sch.SECOND_DICT_ID, #{item})
+        </foreach>
+    </select>
 </mapper>
