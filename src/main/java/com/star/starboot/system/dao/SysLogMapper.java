@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.star.starboot.system.entity.SysLog;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * <p>
  * 系统日志 Mapper 接口
@@ -30,4 +32,11 @@ public interface SysLogMapper extends BaseMapper<SysLog> {
      * @return
      */
     SysLog queryById(@Param("id") String id);
+
+    /**
+     * 根据ids查询
+     * @param ids
+     * @return
+     */
+    List<SysLog> listByIds(@Param("ids") List<String> ids);
 }

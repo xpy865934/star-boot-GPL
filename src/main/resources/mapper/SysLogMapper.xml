@@ -54,4 +54,11 @@
         select log.* from t_sys_log log
         where log.DELETED_CODE = 0 and log.LOG_ID = #{id}
     </select>
+    <select id="listByIds" resultType="com.star.starboot.system.entity.SysLog">
+        select log.* from t_sys_log log where log.DELETED_CODE = 0
+        and
+        <foreach collection='ids' item="item" separator="or" open="(" close=")">
+            find_in_set(log.LOG_ID, #{item})
+        </foreach>
+    </select>
 </mapper>
