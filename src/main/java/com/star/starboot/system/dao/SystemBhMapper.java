@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.star.starboot.system.entity.SystemBh;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * <p>
  * 系统编号 Mapper 接口
@@ -29,4 +31,11 @@ public interface SystemBhMapper extends BaseMapper<SystemBh> {
      * @return
      */
     SystemBh queryById(@Param("id") String id);
+
+    /**
+     * 根据ids查询
+     * @param ids
+     * @return
+     */
+    List<SystemBh> listByIds(@Param("ids") List<String> ids);
 }
