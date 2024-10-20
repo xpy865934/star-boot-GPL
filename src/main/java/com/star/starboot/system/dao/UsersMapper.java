@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.star.starboot.system.dto.UsersDto;
 import com.star.starboot.system.entity.Users;
 import org.apache.ibatis.annotations.Param;
-import org.flowable.spring.security.UserDto;
 
 import java.util.List;
 
@@ -63,4 +62,11 @@ public interface UsersMapper extends BaseMapper<Users> {
      * @return
      */
     UsersDto queryById(@Param("userId") String userId);
+
+    /**
+     * 根据ids查询
+     * @param ids
+     * @return
+     */
+    List<UsersDto> listByIds(@Param("ids") List<String> ids);
 }
