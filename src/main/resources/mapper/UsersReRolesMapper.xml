@@ -27,4 +27,11 @@
         select reRoles.* from t_users_re_roles reRoles
         where reRoles.DELETED_CODE = 0 and reRoles.USERS_RE_ROLES_ID = #{id}
     </select>
+    <select id="listByIds" resultType="com.star.starboot.system.dto.UsersReRolesDto">
+        select reRoles.* from t_users_re_roles reRoles where reRoles.DELETED_CODE = 0
+        and
+        <foreach collection='ids' item="item" separator="or" open="(" close=")">
+            find_in_set(reRoles.USERS_RE_ROLES_ID, #{item})
+        </foreach>
+    </select>
 </mapper>
