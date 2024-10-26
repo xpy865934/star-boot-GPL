@@ -37,4 +37,11 @@ public interface CompanyMapper extends BaseMapper<Company> {
      * @return
      */
     List<CompanyDto> listByIds(@Param("ids") List<String> ids);
+
+    /**
+     * 根据id删除
+     * @param id
+     * @return
+     */
+    void deleteById(@Param("id") String id);
 }

@@ -35,4 +35,7 @@
             find_in_set(company.COMPANY_ID, #{item})
         </foreach>
     </select>
+    <delete id="deleteById">
+        update t_company set DELETED_CODE = 1 where COMPANY_ID = #{id}
+    </delete>
 </mapper>
