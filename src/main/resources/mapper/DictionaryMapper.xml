@@ -41,4 +41,7 @@
             find_in_set(dict.DICT_ID, #{item})
         </foreach>
     </select>
+    <delete id="deleteById">
+        update t_dictionary set DELETED_CODE = 1 where DICT_ID = #{id}
+    </delete>
 </mapper>
