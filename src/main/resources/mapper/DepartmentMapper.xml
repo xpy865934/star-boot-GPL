@@ -38,5 +38,8 @@
             find_in_set(dept.DEPARTMENT_ID, #{item})
         </foreach>
     </select>
+    <delete id="deleteById">
+        update t_department set DELETED_CODE = 1 where DEPARTMENT_ID = #{id}
+    </delete>
 
 </mapper>

@@ -44,4 +44,11 @@ public interface DepartmentMapper extends BaseMapper<Department> {
      * @return
      */
     List<DepartmentDto> listByIds(@Param("ids") List<String> ids);
+
+    /**
+     * 根据id删除
+     * @param id
+     * @return
+     */
+    void deleteById(@Param("id") String id);
 }
