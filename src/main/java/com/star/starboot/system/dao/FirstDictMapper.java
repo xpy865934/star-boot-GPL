@@ -52,4 +52,11 @@ public interface FirstDictMapper extends BaseMapper<FirstDict> {
      * @return
      */
     List<FirstDictDto> listByIds(@Param("ids") List<String> ids);
+
+    /**
+     * 根据id删除
+     * @param id
+     * @return
+     */
+    void deleteById(@Param("id") String id);
 }

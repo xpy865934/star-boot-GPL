@@ -20,6 +20,9 @@
             and  firstDict.DICT_ID = #{firstDictDto.dictId}
         </if>
     </sql>
+    <delete id="deleteById">
+        delete from t_first_dict where DELETED_CODE = 0 and FIRST_DICT_ID = #{id}
+    </delete>
 
     <select id="queryPage" resultType="com.star.starboot.system.dto.FirstDictDto">
         select firstDict.* from t_first_dict firstDict where firstDict.DELETED_CODE = 0
