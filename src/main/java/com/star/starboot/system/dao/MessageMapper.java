@@ -75,4 +75,11 @@ public interface MessageMapper extends BaseMapper<Message> {
      * @return
      */
     List<Message> listByIds(@Param("ids") List<String> ids);
+
+    /**
+     * 根据id删除
+     * @param id
+     * @return
+     */
+    void deleteById(@Param("id") String id);
 }

@@ -31,6 +31,9 @@
             and msg.SYS_MESSAGE like concat('%',#{message.sysMessage},'%')
         </if>
     </sql>
+    <delete id="deleteById">
+        delete from t_message msg where msg.DELETED_CODE = 0 and msg.MEMBER_ID = #{id}
+    </delete>
 
     <select id="getUserMessagePager" resultType="com.star.starboot.system.entity.Message">
         select msg.*,user.USER_NAME as fromName from t_message msg
