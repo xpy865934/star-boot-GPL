@@ -46,4 +46,11 @@ public interface MessageSettingMapper extends BaseMapper<MessageSetting> {
      * @return
      */
     List<MessageSetting> listByIds(@Param("ids") List<String> ids);
+
+    /**
+     * 根据id删除
+     * @param id
+     * @return
+     */
+    void deleteById(@Param("id") String id);
 }

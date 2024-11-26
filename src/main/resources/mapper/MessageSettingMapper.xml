@@ -27,6 +27,9 @@
             and setting.key like concat('%',#{messageSetting.key},'%')
         </if>
     </sql>
+    <delete id="deleteById">
+        delete from t_message_setting where MESSAGE_SETTING_ID = #{id}
+    </delete>
 
     <select id="queryPage" resultType="com.star.starboot.system.entity.MessageSetting">
         select setting.* from t_message_setting setting
